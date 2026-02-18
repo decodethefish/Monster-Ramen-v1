@@ -60,3 +60,16 @@ Temporary Items
 
 # GMRT build directory
 Build
+
+# GameMaker
+*.yyz
+*.zip
+*.exe
+*.dll
+*.log
+*.cache
+*.tmp
+
+# Build folders
+build/
+output/
