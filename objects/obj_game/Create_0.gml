@@ -49,8 +49,7 @@ time_scale_global = 1;
 current_station = noone;
 current_ui = noone;
 
-// Preview del ojo
-eye_preview_active = false;
+
 
 // variables provicionales de ordenes
 current_order = {
@@ -100,7 +99,6 @@ for (var i = 0; i < array_length(pots); i++) {
 		state: POT_STATE.EMPTY
 	};
 }
-active_pot = 0;
 
 // posiciones de ollas
 pot_positions = [];
@@ -141,6 +139,11 @@ function get_pot_at_position(_x, _y) {
 	
 	return -1;
 }
+	
+	
+// --------- BOWLS ---------
+
+bowls = new BowlSystem(3);
 
 
 // ---------- ESTACIÓN DE NOODLES ------------
@@ -270,5 +273,3 @@ function noodle_finish_sheet() {
 	show_debug_message("Noodle sheet complete! - Overall quality: " + string(quality));
 		
 }
-	
-bowls = new BowlSystem(3);

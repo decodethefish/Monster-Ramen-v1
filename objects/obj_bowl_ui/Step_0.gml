@@ -7,8 +7,8 @@ else if (data.broth_state == POT_STATE.BURNED) image_index = 2;
 
 var left = x - sprite_width * 0.5
 var right = x + sprite_width * 0.5
-var top = y - sprite_width * 0.5
-var bottom = y + sprite_width * 0.5
+var top = y - sprite_height * 0.5
+var bottom = y + sprite_height * 0.5
 
 var mouse_over = 
 	mouse_x >= left && mouse_x <= right &&
