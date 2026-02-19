@@ -36,17 +36,20 @@ function BrothSystem() constructor {
 	var center_y = 360 * 0.5;
 	var spacing = 100;
 
+	var sw = sprite_get_width(spr_pot) * 1.1;
+	var sh = sprite_get_height(spr_pot) * 1.1;
+
 	pot_positions[0] = { 
 		x: center_x - spacing, 
 		y: center_y, 
-		w: 64, 
-		h: 64 
+		w: sw, 
+		h: sh 
 	};
 	pot_positions[1] = { 
 		x: center_x + spacing, 
 		y: center_y, 
-		w: 64, 
-		h: 64 
+		w: sw, 
+		h: sh 
 	};
 	}
 	
@@ -76,13 +79,18 @@ function BrothSystem() constructor {
 			
 			var pot = pots[i];
 			
+			
 			if (pot.is_on && pot.broth_id != BROTH_ID.NONE) {
 				
 				var data = broth_data[pot.broth_id];
 				
 				pot.progress += delta_time / 1000000;
 				
-				if (pot.state == POT_STATE.COOKING && pot.progress >= data.ready_time) {
+				if (pot.progress >= data.ready_time && pot.progress < data.burn_time) {
+					pot.state = POT_STATE.READY
+				}
+				
+				if (pot.progress >= data.burn_time) {
 					pot.state = POT_STATE.BURNED;
 				}
 			}

@@ -31,8 +31,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_bowl",
-    "path":"sprites/spr_bowl/spr_bowl.yy",
+    "name":"spr_bowl_base",
+    "path":"sprites/spr_bowl_base/spr_bowl_base.yy",
   },
   "spriteMaskId":null,
   "visible":true,

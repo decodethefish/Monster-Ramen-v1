@@ -44,4 +44,53 @@ function BowlSystem(_count) constructor {
 
 		_pots[_pot_index] = pot;
 	}
+	
+	function draw_layers(_data, _x, _y) {
+		
+		// broth
+		if (_data.has_soup) {
+			
+			var frame = _data.broth_id -1;
+			
+			draw_sprite(
+				spr_bowl_broth,
+				frame,
+				_x,
+				_y
+				);
+				
+			if (_data.broth_state == POT_STATE.BURNED) {
+				draw_sprite(
+				spr_bowl_brothburnoverlay,
+				0,
+				_x,
+				_y
+				);
+				
+			}
+		}
+		
+		
+		// noodles
+		if (_data.has_noodles) {
+			
+			draw_sprite(
+				spr_bowl_noodles,
+				_data.noodle_id,
+				_x,
+				_y
+				);	
+		}		
+	}
+	
+	function draw(_index, _x, _y) {
+		
+		var data = bowls[_index];
+		
+		draw_sprite(spr_bowl_base, 0, _x, _y);
+		
+		draw_layers(data, _x, _y);
+	}
+		
+		
 }

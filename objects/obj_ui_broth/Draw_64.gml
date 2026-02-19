@@ -80,15 +80,6 @@ for (var i = 0; i < array_length(bowls); i++) {
 	
 	if (!instance_exists(bw)) continue;
 	
-	var data = obj_game.bowls.bowls[bw.bowl_index];
-	
-	var frame = 0;
-	
-	if (data.has_soup) {
-		if (data.broth_state == POT_STATE.READY) frame = 1;
-		else if (data.broth_state == POT_STATE.BURNED) frame = 2;
-	}
-	
-	draw_sprite(bw.sprite_index, frame, bw.x, bw.y);
+	obj_game.bowls.draw(bw.bowl_index, bw.x, bw.y);
 			
 }
