@@ -34,9 +34,11 @@ for (var i = 0; i < array_length(dough); i++) {
 		
 		d.dragging = false;
 		
-		if (mx >= board_x && mx <= board_x + board_w &&
-			my >= board_y && my <= board_y + board_h) {
-			
+		if (mx >= board_x - board_w * 0.5 &&
+		    mx <= board_x + board_w * 0.5 &&
+		    my >= board_y - board_h * 0.5 &&
+		    my <= board_y + board_h * 0.5) {
+	
 			obj_game.noodles.start_sheet(d.recipe_id, obj_game.current_order.noodle_target_cm);
 		}
 		
@@ -61,28 +63,20 @@ if (mouse_check_button_pressed(mb_left)) {
 	}
 	if (dragging_any) exit;
 	
-	if (mx >= sheet_x && mx <= sheet_x + sheet_w &&
-		my >= sheet_y && my <= sheet_y + sheet_h) {
+	var station = obj_game.noodles.noodle_station;
 
-		var raw_cm = (mx - sheet_x) / 40;
-		var cm = round(raw_cm * 10) / 10;
-		
-		if (cm <= 0 || cm >= 10) return;
-		
-		var min_distance = 0.1;
-		
-		var cuts = obj_game.noodles.noodle_station.cuts;
-		for (var i = 0; i < array_length(cuts); i++) {
-			if (abs(cuts[i] - cm) < min_distance) {
-				return;
-			}
-		}
-		
-		obj_game.noodles.add_cut(cm);
+	var half_w = sprite_get_width(spr_dough_sheet) * 0.5;
+	var half_h = sprite_get_height(spr_dough_sheet) * 0.5;
+
+	if (mx >= station.sheet_x - half_w &&
+	    mx <= station.sheet_x + half_w &&
+	    my >= station.sheet_y - half_h &&
+	    my <= station.sheet_y + half_h) {
+			
+	    var left_edge = station.sheet_x - half_w;
+	    var raw_cm = (mx - left_edge) / 40;
+	    var cm = round(raw_cm * 10) / 10;
+
+	    obj_game.noodles.add_cut(cm);
 	}
 }
-
-if (keyboard_check_pressed(ord("F"))) {
-	obj_game.noodles.finish_sheet();
-}
-

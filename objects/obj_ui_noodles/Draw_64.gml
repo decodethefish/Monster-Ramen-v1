@@ -5,9 +5,13 @@ draw_set_colour(c_white);
 draw_rectangle(0, 0, display_get_gui_width(), display_get_gui_height(), false);
 
 // Tabla
-draw_set_colour(#CCA57A);
-draw_rectangle(board_x, board_y, board_x + board_w, board_y + board_h, false);
+draw_sprite(spr_noodle_board, 0, board_x, board_y);
 
+// Masas
+for (var i = 0; i < array_length(dough); i++) {
+	var d = dough[i];
+	draw_sprite(d.sprite, 0, d.x, d.y);
+}
 
 // Sheet de masas
 if (obj_game.noodles.noodle_station.has_sheet) {
@@ -16,13 +20,18 @@ if (obj_game.noodles.noodle_station.has_sheet) {
 	
 	var sw = sprite_get_width(spr);
 	var sh = sprite_get_height(spr);
-	
-	var scale_x = sheet_w / sw;
-	var scale_y = sheet_h / sh;
+
 	
 	var type = obj_game.noodles.noodle_station.type;
 	
-	draw_sprite(spr_dough_sheet, type, sheet_x, sheet_y);
+	var station = obj_game.noodles.noodle_station;
+
+	draw_sprite(
+	    spr_dough_sheet,
+	    station.type,
+	    station.sheet_x,
+	    station.sheet_y
+	);
 	
 	
 	var cuts = obj_game.noodles.noodle_station.cuts;
@@ -37,7 +46,12 @@ if (obj_game.noodles.noodle_station.has_sheet) {
 	}
 }
 
-for (var i = 0; i < array_length(dough); i++) {
-	var d = dough[i];
-	draw_sprite(d.sprite, 0, d.x, d.y);
+// Bowls
+for (var i = 0; i < array_length(bowls); i++) {
+	var bw = bowls[i];
+	
+	if (!instance_exists(bw)) continue;
+	
+	obj_game.bowls.draw(bw.bowl_index, bw.x, bw.y);
+			
 }

@@ -61,6 +61,7 @@
     {"id":{"name":"spr_dough_mucus","path":"sprites/spr_dough_mucus/spr_dough_mucus.yy",},},
     {"id":{"name":"spr_dough_sheet","path":"sprites/spr_dough_sheet/spr_dough_sheet.yy",},},
     {"id":{"name":"spr_dough","path":"sprites/spr_dough/spr_dough.yy",},},
+    {"id":{"name":"spr_noodle_board","path":"sprites/spr_noodle_board/spr_noodle_board.yy",},},
     {"id":{"name":"spr_player","path":"sprites/spr_player/spr_player.yy",},},
     {"id":{"name":"spr_pot_br_ch","path":"sprites/spr_pot_br_ch/spr_pot_br_ch.yy",},},
     {"id":{"name":"spr_pot_br_rt","path":"sprites/spr_pot_br_rt/spr_pot_br_rt.yy",},},

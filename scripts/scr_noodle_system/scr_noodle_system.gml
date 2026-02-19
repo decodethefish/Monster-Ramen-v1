@@ -3,6 +3,10 @@ function NoodleSystem() constructor {
 	noodle_data = [];
 	noodle_station = [];
 	
+	move_timer = 0;
+	move_count = 0;
+	max_moves = 2;
+	
 	function init() {
 		
 		noodle_data[NOODLE_ID.NONE] = {
@@ -38,92 +42,92 @@ function NoodleSystem() constructor {
 			target_cm: 5,
 			cuts: [],
 			quality: 0,
-			state: NOODLE_STATE.NO_SHEET
+			state: NOODLE_STATE.NO_SHEET,
+			
+			sheet_x: 0,
+			sheet_y: 0,
+			
+			board_x: 0,
+			board_y: 0,
+			board_w: 0,
+			board_h: 0
+			
 		};
 	}
 		
 	function start_sheet(_type, _target_cm) {
 		if (_type == NOODLE_ID.NONE) return;
 		if (_target_cm <= 0) return;
-	
+		
+		noodle_station.sheet_x = noodle_station.board_x;
+		noodle_station.sheet_y = noodle_station.board_y;
 		noodle_station.has_sheet = true;
 		noodle_station.type = _type;
 		noodle_station.target_cm = _target_cm;
 		noodle_station.cuts = [];
-		noodle_station.state = NOODLE_STATE.READY;
+		noodle_station.state = NOODLE_STATE.ACTIVE;
 	}
 	
 	function add_cut(_cm) {
 		if (!noodle_station.has_sheet) return;
-		if (noodle_station.state != NOODLE_STATE.READY &&
-			noodle_station.state != NOODLE_STATE.CUTTING) return;
+		if (noodle_station.state != NOODLE_STATE.ACTIVE) return;
 	
 		array_push(noodle_station.cuts, _cm);
 	
-		if (noodle_station.state == NOODLE_STATE.READY) {
-			noodle_station.state = NOODLE_STATE.CUTTING;
-		}
 	}
 	
-	function finish_sheet() {
-	
-		if (!noodle_station.has_sheet) return;
-	
-		// ordenar cortes
-		array_sort(noodle_station.cuts, true);
-	
+	function calculate_quality() {
+		
+		if (!noodle_station.has_sheet) return 0;
+		
+		var cut_count = array_length(noodle_station.cuts);
+		if (cut_count == 0) return 0;
+		
 		var target = noodle_station.target_cm;
-		var sheet_length = 10;
-	
-		// -- validar if cantidad correcta de cortes ---
-		var expected_segments = sheet_length / noodle_station.target_cm;
-		var expected_cuts = expected_segments - 1;
-	
-		// debug
-		show_debug_message("Target actual: " + string(noodle_station.target_cm));
-		show_debug_message("Cortes hechos: " + string(array_length(noodle_station.cuts)));
-		show_debug_message("Cortes esperados: " + string(expected_cuts));
-	
-	
-		if (array_length(noodle_station.cuts) != expected_cuts) {
-			show_debug_message("Incorrect number of cuts. Try again, kid!");
-			return;
-		}
-	
-		// ------ calcular calidad -------
-	
+		var sheet_lenght = 10;
+		
 		var prev = 0;
 		var total_error = 0;
-	
-		for (var i = 0; i < array_length(noodle_station.cuts); i++) {
+		
+		for (var i = 0; i < cut_count; i++) {
 		
 			var current = noodle_station.cuts[i];
 			var segment = current - prev;
-		
 			total_error += abs(segment - target);
-		
 			prev = current;
 		}
-	
-	
+		
 		// ultimo segmento
-		var last_segment = 10 - prev;
+		var last_segment = sheet_lenght - prev;
 		total_error += abs(last_segment - target);
 	
 		// normalizar error - calidad
-		var segments = expected_segments;
+		var segments = sheet_lenght / target;
 		var max_error_per_segment = 1;
 		var max_error = segments * max_error_per_segment;
 	
 		var quality = 1 - (total_error / max_error);
 		quality = clamp(quality,0,1);
-	
-	
-		// guardar resultado
-		noodle_station.quality = quality;
-		noodle_station.state = NOODLE_STATE.DONE;
-	
-		show_debug_message("Noodle sheet complete! - Overall quality: " + string(quality));
 		
 	}
+		
+	function can_serve() {
+		
+		return noodle_station.has_sheet && array_length(noodle_station.cuts) >= 1;
+	}
+	
+	function get_result() {
+		
+	    return { 
+			noodle_id: noodle_station.type,
+	        quality: calculate_quality()
+	    };
+	}
+
+	function reset() {
+		
+	    noodle_station.has_sheet = false;
+	    noodle_station.cuts = [];
+	    noodle_station.type = NOODLE_ID.NONE;
+	}		
 }
