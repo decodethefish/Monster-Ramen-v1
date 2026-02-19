@@ -24,7 +24,6 @@ function BowlSystem(_count) constructor {
 
 		var pot = _pots[_pot_index];
 
-
 		if (pot.broth_id == BROTH_ID.NONE) return;
 		if (pot.state != POT_STATE.READY && pot.state != POT_STATE.BURNED) return;
 

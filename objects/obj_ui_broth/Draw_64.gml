@@ -5,10 +5,10 @@ draw_set_colour(c_white);
 draw_rectangle(0, 0, display_get_gui_width(), display_get_gui_height(), false);
 
 // Ollas y Timers
-for (var i = 0; i < array_length(obj_game.pot_positions); i++) {
+for (var i = 0; i < array_length(obj_game.broth.pot_positions); i++) {
 	
-	var p_ui = obj_game.pot_positions[i];
-	var pot = obj_game.pots[i];
+	var p_ui = obj_game.broth.pot_positions[i];
+	var pot = obj_game.broth.pots[i];
 	
 	// ---- OLLA ----
 	if (pot.broth_id == BROTH_ID.CHICKEN) {
@@ -31,7 +31,7 @@ for (var i = 0; i < array_length(obj_game.pot_positions); i++) {
 	    var bar_x = p_ui.x - bar_w * 0.5;
 	    var bar_y = p_ui.y - 120;
 
-	    var data = obj_game.broth_data[pot.broth_id];
+	    var data = obj_game.broth.broth_data[pot.broth_id];
 
 	    var ready_p = data.ready_time / data.burn_time;
 	    var p = clamp(pot.progress / data.burn_time, 0, 1);
@@ -66,7 +66,7 @@ for (var i = 0; i < array_length(broths); i++) {
 for (var i = 0; i < array_length(switches); i++) {
 	
 	var swi = switches[i];
-	var pot = obj_game.pots[swi.pot_index];
+	var pot = obj_game.broth.pots[swi.pot_index];
 	
 	draw_set_colour(pot.is_on ? c_lime : c_grey);
 	

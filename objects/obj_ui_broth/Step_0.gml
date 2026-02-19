@@ -1,11 +1,11 @@
 var mx = device_mouse_x_to_gui(0);
 var my = device_mouse_y_to_gui(0);
 
-var hovered_pot = obj_game.get_pot_at_position(mx, my);
+var hovered_pot = obj_game.broth.get_pot_at_position(mx, my);
 
 // hover olla
-for (var i = 0; i < array_length(obj_game.pot_positions); i++) {
-	var ui = obj_game.pot_positions[i];
+for (var i = 0; i < array_length(obj_game.broth.pot_positions); i++) {
+	var ui = obj_game.broth.pot_positions[i];
 	
 	var left = ui.x - potw * 0.5;
 	var right = ui.x + potw * 0.5;
@@ -51,14 +51,14 @@ for (var i = 0; i < array_length(broths); i++) {
 		br.dragging = false; 
 		
 		if (hovered_pot != -1) {
-			var pot = obj_game.pots[hovered_pot];
+			var pot = obj_game.broth.pots[hovered_pot];
 			
 			pot.broth_id = br.recipe_id;
 			pot.progress = 0;
 			pot.is_on = false;
 			pot.state = POT_STATE.EMPTY;
 			
-			obj_game.pots[hovered_pot] = pot;
+			obj_game.broth.pots[hovered_pot] = pot;
 
 		}
 		
@@ -79,7 +79,7 @@ if (mouse_check_button_pressed(mb_left)) {
 		
 		if (point_distance(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), swi.x, swi.y) <= swi.r) {
 			
-			var pot = obj_game.pots[swi.pot_index];
+			var pot = obj_game.broth.pots[swi.pot_index];
 
 			if (!pot.is_on && pot.broth_id != BROTH_ID.NONE) {
 				pot.is_on = true;
@@ -89,7 +89,7 @@ if (mouse_check_button_pressed(mb_left)) {
 			else if (pot.is_on) {
 				pot.is_on = false;
 			}
-			obj_game.pots[swi.pot_index] = pot;
+			obj_game.broth.pots[swi.pot_index] = pot;
 			}
 	}
 }

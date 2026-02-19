@@ -35,12 +35,12 @@ array_push(broths, b);
 
 switches = [];
 
-for (var i = 0; i < array_length(obj_game.pots); i++) {
+for (var i = 0; i < array_length(obj_game.broth.pots); i++) {
 	switches[i] = {
 		pot_index: i,
 		r: 15,
-		x: obj_game.pot_positions[i].x,
-		y: obj_game.pot_positions[i].y + 100
+		x: obj_game.broth.pot_positions[i].x,
+		y: obj_game.broth.pot_positions[i].y + 100
 	};
 }
 

@@ -31,12 +31,12 @@ if (dragging && mouse_check_button_released(mb_left)) {
 	
 	dragging = false;
 	
-	var pot_index = obj_game.get_pot_at_position(x, y);
+	var pot_index = obj_game.broth.get_pot_at_position(x, y);
 	
 	obj_game.bowls.add_broth(
 		bowl_index,
 		pot_index,
-		obj_game.pots
+		obj_game.broth.pots
 	);
 	
 	x = x_start;

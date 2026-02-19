@@ -37,9 +37,7 @@ for (var i = 0; i < array_length(dough); i++) {
 		if (mx >= board_x && mx <= board_x + board_w &&
 			my >= board_y && my <= board_y + board_h) {
 			
-			with (obj_game) {
-				noodle_start_sheet(d.recipe_id, current_order.noodle_target_cm);
-			}
+			obj_game.noodles.start_sheet(d.recipe_id, obj_game.current_order.noodle_target_cm);
 		}
 		
 		d.x = d.x_start;
@@ -49,7 +47,7 @@ for (var i = 0; i < array_length(dough); i++) {
 	dough[i] = d;
 }
 	
-if (!obj_game.noodle_station.has_sheet) exit;
+if (!obj_game.noodles.noodle_station.has_sheet) exit;
 
 // Cortar masa
 if (mouse_check_button_pressed(mb_left)) {
@@ -73,22 +71,18 @@ if (mouse_check_button_pressed(mb_left)) {
 		
 		var min_distance = 0.1;
 		
-		var cuts = obj_game.noodle_station.cuts;
+		var cuts = obj_game.noodles.noodle_station.cuts;
 		for (var i = 0; i < array_length(cuts); i++) {
 			if (abs(cuts[i] - cm) < min_distance) {
 				return;
 			}
 		}
 		
-		with (obj_game) {
-			noodle_add_cut(cm)
-		}
+		obj_game.noodles.add_cut(cm);
 	}
 }
 
 if (keyboard_check_pressed(ord("F"))) {
-	with (obj_game) {
-		noodle_finish_sheet();
-	}
+	obj_game.noodles.finish_sheet();
 }
 

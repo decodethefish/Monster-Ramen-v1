@@ -2,36 +2,8 @@
 var dt = delta_time / 1000000;
 dt *= time_scale_global;
 
-
-// Cocinando Sopa
-for (var i = 0; i < array_length(pots); i++) {
-	
-	var pot = pots[i];
-		
-	if (pot.is_on == true && pot.broth_id != BROTH_ID.NONE) {
-		
-		pot.progress += dt;
-		
-		var data = broth_data[pot.broth_id];
-		
-		if (pot.progress >= data.burn_time) {
-		if (pot.state != POT_STATE.BURNED) {
-				pot.state = POT_STATE.BURNED;
-				pot.is_on = false;
-				show_debug_message("the broth is now BURNED");
-			}
-		}
-		else if (pot.progress >= data.ready_time) {
-			if (pot.state != POT_STATE.READY) {
-				pot.state = POT_STATE.READY;
-				show_debug_message("the broth is now READY");
-				}
-			}
-		}
-	
-	pots[i] = pot;
-}
-
+// Cocción broth
+broth.update();
 
 // Controles UI
 if (game_mode == GAME_MODE.COOKING) {
@@ -60,7 +32,6 @@ if (game_mode == GAME_MODE.COOKING) {
 	}
 }
 	
-
 
 // Regresar a World
 if (game_mode == GAME_MODE.WORLD) {
