@@ -36,8 +36,8 @@ function BrothSystem() constructor {
 	var center_y = 360 * 0.5;
 	var spacing = 100;
 
-	var sw = sprite_get_width(spr_pot) * 1.1;
-	var sh = sprite_get_height(spr_pot) * 1.1;
+	var sw = sprite_get_width(spr_br_pot) * 1.1;
+	var sh = sprite_get_height(spr_br_pot) * 1.1;
 
 	pot_positions[0] = { 
 		x: center_x - spacing, 

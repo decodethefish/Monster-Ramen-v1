@@ -1,6 +1,6 @@
 
-potw = sprite_get_width(spr_pot);
-poth = sprite_get_height(spr_pot);
+potw = sprite_get_width(spr_br_pot);
+poth = sprite_get_height(spr_br_pot);
 
 
 // caldos
@@ -12,7 +12,7 @@ b = {
 	y_start: 260,
 	x: 60,
 	y: 260,
-	sprite: spr_broth,
+	sprite: spr_br_chicken,
 	recipe_id: BROTH_ID.CHICKEN,
 	dragging: false
 };
@@ -23,7 +23,7 @@ b = {
 	y_start: 100,
 	x: 60,
 	y: 100,
-	sprite: spr_broth_rotten,
+	sprite: spr_br_rotten,
 	recipe_id: BROTH_ID.ROTTEN,
 	dragging: false
 };

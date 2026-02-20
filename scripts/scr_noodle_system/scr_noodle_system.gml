@@ -3,6 +3,23 @@ function NoodleSystem() constructor {
 	noodle_data = [];
 	noodle_station = [];
 	
+<<<<<<< Updated upstream
+=======
+	move_timer = 0;
+	move_count = 0;
+	max_moves = 2;
+	
+	function set_board_geometry(_gui_w, _gui_h) {
+		
+		noodle_station.board_w = sprite_get_width(spr_nd_board);
+		noodle_station.board_h = sprite_get_height(spr_nd_board);
+		
+		noodle_station.board_x = round(_gui_w * 0.07 + noodle_station.board_w * 0.5);
+		noodle_station.board_y = round(_gui_h * 0.25 + noodle_station.board_h * 0.5);
+
+	}
+	
+>>>>>>> Stashed changes
 	function init() {
 		
 		noodle_data[NOODLE_ID.NONE] = {
@@ -126,4 +143,17 @@ function NoodleSystem() constructor {
 		show_debug_message("Noodle sheet complete! - Overall quality: " + string(quality));
 		
 	}
+<<<<<<< Updated upstream
 }
+=======
+
+	function reset() {
+		
+	    noodle_station.has_sheet = false;
+	    noodle_station.cuts = [];
+	    noodle_station.type = NOODLE_ID.NONE;
+	}		
+		
+	
+}
+>>>>>>> Stashed changes

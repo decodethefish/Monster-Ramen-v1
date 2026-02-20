@@ -12,13 +12,13 @@ for (var i = 0; i < array_length(obj_game.broth.pot_positions); i++) {
 	
 	// ---- OLLA ----
 	if (pot.broth_id == BROTH_ID.CHICKEN) {
-		draw_sprite(spr_pot_br_ch, 0, p_ui.x, p_ui.y);
+		draw_sprite(spr_br_pot_ch, 0, p_ui.x, p_ui.y);
 	}
 	else if (pot.broth_id == BROTH_ID.ROTTEN) {
-		draw_sprite(spr_pot_br_rt, 0, p_ui.x, p_ui.y);
+		draw_sprite(spr_br_pot_rt, 0, p_ui.x, p_ui.y);
 	}
 	else {
-		draw_sprite(spr_pot, 0, p_ui.x, p_ui.y);
+		draw_sprite(spr_br_pot, 0, p_ui.x, p_ui.y);
 	}
 
 

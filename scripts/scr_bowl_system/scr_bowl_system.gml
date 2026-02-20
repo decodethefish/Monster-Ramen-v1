@@ -45,6 +45,21 @@ function BowlSystem(_count) constructor {
 		_pots[_pot_index] = pot;
 	}
 	
+	function add_noodles(_bowl_index, _result) {
+		
+		if (_bowl_index < 0) return;
+		if (_bowl_index >= array_length(bowls)) return;
+		
+		var bowl = bowls[_bowl_index]
+		
+		if (bowl.has_noodles) return;
+		
+		bowl.has_noodles = true;
+		bowl.noodle_id = _result.noodle_id;
+		bowl.noodle_quality = _result.quality;
+
+	}
+	
 	function draw_layers(_data, _x, _y) {
 		
 		// broth
@@ -92,5 +107,8 @@ function BowlSystem(_count) constructor {
 		draw_layers(data, _x, _y);
 	}
 		
+<<<<<<< Updated upstream
 		
+=======
+>>>>>>> Stashed changes
 }
