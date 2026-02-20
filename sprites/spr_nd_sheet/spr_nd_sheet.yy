@@ -2,13 +2,9 @@
   "$GMSprite":"v2",
   "%Name":"spr_nd_sheet",
   "bboxMode":0,
-  "bbox_bottom":221,
+  "bbox_bottom":207,
   "bbox_left":0,
-<<<<<<< Updated upstream:sprites/spr_dough_sheet/spr_dough_sheet.yy
-  "bbox_right":398,
-=======
   "bbox_right":311,
->>>>>>> Stashed changes:sprites/spr_nd_sheet/spr_nd_sheet.yy
   "bbox_top":0,
   "collisionKind":1,
   "collisionTolerance":0,
@@ -22,14 +18,14 @@
   ],
   "gridX":0,
   "gridY":0,
-  "height":222,
+  "height":208,
   "HTile":false,
   "layers":[
     {"$GMImageLayer":"","%Name":"e2352f3d-b027-423a-8d37-1f2abb60b873","blendMode":0,"displayName":"default","isLocked":false,"name":"e2352f3d-b027-423a-8d37-1f2abb60b873","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,},
   ],
   "name":"spr_nd_sheet",
   "nineSlice":null,
-  "origin":0,
+  "origin":4,
   "parent":{
     "name":"noodles",
     "path":"folders/sprites/noodles.yy",
@@ -87,13 +83,8 @@
     ],
     "visibleRange":null,
     "volume":1.0,
-<<<<<<< Updated upstream:sprites/spr_dough_sheet/spr_dough_sheet.yy
-    "xorigin":0,
-    "yorigin":0,
-=======
     "xorigin":156,
     "yorigin":104,
->>>>>>> Stashed changes:sprites/spr_nd_sheet/spr_nd_sheet.yy
   },
   "swatchColours":null,
   "swfPrecision":0.5,
@@ -103,9 +94,5 @@
   },
   "type":0,
   "VTile":false,
-<<<<<<< Updated upstream:sprites/spr_dough_sheet/spr_dough_sheet.yy
-  "width":399,
-=======
   "width":312,
->>>>>>> Stashed changes:sprites/spr_nd_sheet/spr_nd_sheet.yy
 }

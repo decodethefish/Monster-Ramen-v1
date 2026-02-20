@@ -35,9 +35,7 @@ enum NOODLE_ID {
 }
 enum NOODLE_STATE {
 	NO_SHEET,
-	READY,
-	CUTTING,
-	DONE
+	ACTIVE
 }
 	
 

@@ -3,18 +3,11 @@ c_brown = #CCA57A
 
 // Crear tabla
 
-<<<<<<< Updated upstream
-board_x = gui_w * 0.07;
-board_y = gui_h * 0.25;
-board_w = gui_w * 0.70;
-board_h = gui_h - board_y;
-=======
 var gui_w = display_get_gui_width();
 var gui_h = display_get_gui_height();
 
 obj_game.noodles.set_board_geometry(gui_w, gui_h);
 
->>>>>>> Stashed changes
 
 
 // Masas
@@ -45,13 +38,20 @@ d = {
 array_push(dough, d);	
 
 
-// Sheet de masa
+// Bowls
 
-gap = 24;
+bowls = [];
 
-sheet_w = 400;
-sheet_h = board_h - gap * 2;
+for (var i = 0; i < 3; i++) {
+    var bx = 570;
+    var by = 120 + i * 60;
 
-sheet_x = board_x + gap;
-sheet_y = board_y + gap;
+    var bw = instance_create_layer(bx, by, "UI", obj_bowl_ui);
 
+    bowls[i] = bw;
+
+    bw.x_start = bx;
+    bw.y_start = by;
+	
+	bw.bowl_index = i;
+}
