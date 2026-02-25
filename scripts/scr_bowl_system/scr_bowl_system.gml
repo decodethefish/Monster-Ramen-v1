@@ -65,6 +65,8 @@ function BowlSystem(_count) constructor {
 		bowl.has_noodles = true;
 		bowl.noodle_id = _result.noodle_id;
 		bowl.noodle_quality = _result.quality;
+		
+		bowls[_bowl_index] = bowl;
 
 	}
 	

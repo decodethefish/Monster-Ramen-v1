@@ -2,6 +2,7 @@ function NoodleSystem() constructor {
 	
 	noodle_data = [];
 	noodle_station = [];
+	move_profiles = [];
 	
 	move_timer = 0;
 	move_count = 0;
@@ -45,6 +46,7 @@ function NoodleSystem() constructor {
 			regen: true
 		};
 		
+		
 		noodle_station = {
 			
 			has_sheet: false,
@@ -60,9 +62,43 @@ function NoodleSystem() constructor {
 			board_x: 0,
 			board_y: 0,
 			board_w: 0,
-			board_h: 0
+			board_h: 0,
 			
+			move_profile_id : 0,
+			move_state : NOODLE_MOVE_STATE.IDLE,
+			move_timer : 0,
+			move_cooldown : 0,
+			move_count : 0,
+			max_moves : 0,
+			is_fake : false
 		};
+		
+		
+
+		move_profiles[0] = {
+			mspeed : 0,
+			distance : 0,
+			frequecy : 0,
+			can_fake : false
+		};
+		move_profiles[1] = {
+			mspeed : 40,
+			distance : 6,
+			frequecy : 0.4,
+			can_fake : true
+		};		
+		move_profiles[2] = {
+			mspeed : 60,
+			distance : 10,
+			frequecy : 0.6,
+			can_fake : true
+		};	
+		move_profiles[3] = {
+			mspeed : 80,
+			distance : 12,
+			frequecy : 0.7,
+			can_fake : true
+		};	
 	}
 		
 	function start_sheet(_type, _target_cm) {
@@ -76,6 +112,14 @@ function NoodleSystem() constructor {
 		noodle_station.target_cm = _target_cm;
 		noodle_station.cuts = [];
 		noodle_station.state = NOODLE_STATE.ACTIVE;
+		noodle_station.move_state = NOODLE_MOVE_STATE.IDLE;
+		noodle_station.move_timer = 0;
+		noodle_station.move_cooldown = 0;
+		noodle_station.move_count = 0;
+		noodle_station.is_fake = false;
+		
+		
+		
 	}
 	
 	function add_cut(_cm) {
@@ -119,6 +163,7 @@ function NoodleSystem() constructor {
 		var quality = 1 - (total_error / max_error);
 		quality = clamp(quality,0,1);
 		
+		return quality;
 	}
 		
 	function can_serve() {

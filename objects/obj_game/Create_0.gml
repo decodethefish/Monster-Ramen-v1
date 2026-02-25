@@ -37,6 +37,12 @@ enum NOODLE_STATE {
 	NO_SHEET,
 	ACTIVE
 }
+enum NOODLE_MOVE_STATE {
+	IDLE,
+	WARNING,
+	MOVING
+}
+
 	
 
 game_mode = GAME_MODE.WORLD;
