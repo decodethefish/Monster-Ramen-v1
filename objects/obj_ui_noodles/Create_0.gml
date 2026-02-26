@@ -37,6 +37,29 @@ d = {
 };
 array_push(dough, d);	
 
+d = {
+	x_start: 303,
+	y_start: 45,
+	x: 303,
+	y: 45,
+	sprite: spr_nd_dough_ley,
+	recipe_id: NOODLE_ID.LEY,
+	dragging: false
+};
+array_push(dough, d);	
+
+d = {
+	x_start: 416,
+	y_start: 45,
+	x: 416,
+	y: 45,
+	sprite: spr_nd_dough_cursed,
+	recipe_id: NOODLE_ID.CURSED,
+	dragging: false
+};
+array_push(dough, d);	
+
+
 
 // Bowls
 

@@ -18,13 +18,31 @@ if (obj_game.noodles.noodle_station.has_sheet) {
 
 	
 	var type = obj_game.noodles.noodle_station.type;
-
+	
+	var draw_x = station.sheet_x + station.warning_offset_x;
+	
+	// sprite sheet
 	draw_sprite(
 	    spr_nd_sheet,
 	    station.type,
-	    station.sheet_x,
+	    draw_x,
 	    station.sheet_y
 	);
+	
+	// brillo de warning
+	if (station.warning_glow > 0)  {
+		draw_sprite_ext(
+		    spr_nd_sheet_glow,
+			0,
+		    draw_x,
+		    station.sheet_y,
+			1, 1,
+			0,
+			c_white,
+			station.warning_glow
+		);
+	}
+
 	
 	
 	var cuts = obj_game.noodles.noodle_station.cuts;
@@ -33,7 +51,7 @@ if (obj_game.noodles.noodle_station.has_sheet) {
 	var half_w = sw * 0.5;
 	var half_h = sh * 0.5;
 	
-	var left_edge = station.sheet_x - half_w;
+	var left_edge = draw_x - half_w;
 	var px_per_cm = sw / 10;
 	
 	for (var i = 0; i < array_length(cuts); i++) {

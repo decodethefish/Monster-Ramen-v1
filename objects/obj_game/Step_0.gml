@@ -2,8 +2,9 @@
 var dt = delta_time / 1000000;
 dt *= time_scale_global;
 
-// Cocción broth
+// updates de sistemas
 broth.update();
+noodles.update(dt)
 
 // Controles UI
 if (game_mode == GAME_MODE.COOKING) {
