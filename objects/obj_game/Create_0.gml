@@ -43,15 +43,13 @@ enum NOODLE_MOVE_STATE {
 	MOVING
 }
 
-	
-
 game_mode = GAME_MODE.WORLD;
 
 // Tiempo
 time_scale_global = 1;
 
 // Estaciones de cocina
-current_station = noone;
+current_station = undefined;
 current_ui = noone;
 
 
@@ -61,20 +59,24 @@ current_order = {
 };
 
 // Funciones
-function request_open_station(_station_type, _station_id) {
+function request_open_station(_station_id) {
 	
-	if (game_mode != GAME_MODE.WORLD) {
-		return;
-	}
-	
+	if (game_mode != GAME_MODE.WORLD) return;
+
 	current_station = _station_id;
 	game_mode = GAME_MODE.COOKING;
-	show_debug_message("game mode is now set to COOKING");
-}
-function close_current_ui() {
-	// ...nada aún
 }
 
+function close_station() {
+
+    if (instance_exists(current_ui)) {
+        instance_destroy(current_ui);
+        current_ui = noone;
+    }
+
+    current_station = undefined;
+    game_mode = GAME_MODE.WORLD;
+}
 
 // --------- ESTACIONES y BOWLS ---------
 

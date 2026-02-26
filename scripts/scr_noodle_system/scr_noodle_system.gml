@@ -188,7 +188,6 @@ function NoodleSystem() constructor {
 	}
 		
 	function can_serve() {
-		
 		return noodle_station.has_sheet && array_length(noodle_station.cuts) >= 1;
 	}
 	
