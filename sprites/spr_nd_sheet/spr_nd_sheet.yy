@@ -4,7 +4,7 @@
   "bboxMode":0,
   "bbox_bottom":207,
   "bbox_left":0,
-  "bbox_right":311,
+  "bbox_right":299,
   "bbox_top":0,
   "collisionKind":1,
   "collisionTolerance":0,
@@ -27,7 +27,7 @@
   ],
   "name":"spr_nd_sheet",
   "nineSlice":null,
-  "origin":4,
+  "origin":9,
   "parent":{
     "name":"noodles",
     "path":"folders/sprites/noodles.yy",
@@ -91,7 +91,7 @@
     ],
     "visibleRange":null,
     "volume":1.0,
-    "xorigin":156,
+    "xorigin":150,
     "yorigin":104,
   },
   "swatchColours":null,
@@ -102,5 +102,5 @@
   },
   "type":0,
   "VTile":false,
-  "width":312,
+  "width":300,
 }

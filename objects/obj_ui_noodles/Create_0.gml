@@ -9,7 +9,6 @@ var gui_h = display_get_gui_height();
 obj_game.noodles.set_board_geometry(gui_w, gui_h);
 
 
-
 // Masas
 
 dough = []
@@ -64,7 +63,6 @@ array_push(dough, d);
 // Bowls
 
 bowls = [];
-
 for (var i = 0; i < 3; i++) {
     var bx = 570;
     var by = 120 + i * 60;

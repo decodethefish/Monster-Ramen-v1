@@ -63,9 +63,6 @@ function NoodleSystem() constructor {
 			move_timer : 0,
 			move_cooldown : 0,
 			move_count : 0,
-			drift_dir : 1,
-			drift_speed : 0,
-			drift_pause_timer : 0,
 			
 			warning_glow : 0,
 			warning_offset_x : 0,
@@ -87,25 +84,25 @@ function NoodleSystem() constructor {
 		};
 		move_profile[1] = {
 			mspeed : 220,
-			distance : 25,
-			frequecy : 0.7,
+			distance : 30,
+			frequecy : 0.4,
 			max_moves : 15,
 			can_fake : true,
 			cooldown_min : 0.5,
-			cooldown_max : 2.0
+			cooldown_max : 2.5
 		};		
 		move_profile[2] = {
-			mspeed : 240,
-			distance : 25,
-			frequecy : 0.5,
-			max_moves : 10,
+			mspeed : 220,
+			distance : 15,
+			frequecy : 0.3,
+			max_moves : 15,
 			can_fake : true,
 			cooldown_min : 0.5,
 			cooldown_max : 2.5
 		};	
 		move_profile[3] = {
 			mspeed : 280,
-			distance : 25,
+			distance : 30,
 			frequecy : 0.8,
 			max_moves : 666,
 			can_fake : false,
@@ -136,10 +133,6 @@ function NoodleSystem() constructor {
 		noodle_station.fake_count = 0;
 		noodle_station.is_fake = false;
 		noodle_station.move_lock_timer = 0.5;
-		if (_type == NOODLE_ID.LEY) {
-			noodle_station.drift_dir = choose(-1, 1);
-			noodle_station.drift_speed = random_range(8, 10);
-		}
 		
 	}
 	
@@ -201,41 +194,6 @@ function NoodleSystem() constructor {
 
 	function update(_dt) {
 		update_movement(_dt);
-		update_drift(_dt);
-	}
-		
-	function update_drift(_dt) {
-		
-		var ns = noodle_station;
-		
-		if (!ns.has_sheet) return;
-		if (ns.type != NOODLE_ID.LEY) return;
-		
-		var half_w = ns.board_w * 0.5;
-		var sheet_half = sprite_get_width(spr_nd_sheet) * 0.5;
-		var min_x = ns.board_x - half_w + sheet_half;
-		var max_x = ns.board_x + half_w - sheet_half;
-		var drift_speed = ns.drift_speed;
-		
-		if (ns.drift_pause_timer > 0) {
-			ns.drift_pause_timer -= _dt;
-			return;
-		}
-			
-		ns.sheet_x += ns.drift_dir * drift_speed * _dt;
-			
-		if (ns.sheet_x <= min_x) {
-			ns.sheet_x = min_x;
-			ns.drift_dir = 1;
-			ns.drift_pause_timer = random_range(0.2, 0.6);
-		    ns.drift_speed = random_range(10, 15);
-		}
-		if (ns.sheet_x >= max_x) {
-			ns.sheet_x = max_x;
-			ns.drift_dir = -1;
-			ns.drift_pause_timer = random_range(0.2, 0.6);
-		    ns.drift_speed = random_range(10, 15);
-		}
 	}
 				
 	function update_movement(_dt) {
@@ -278,7 +236,7 @@ function NoodleSystem() constructor {
 			
 				ns.move_timer -= _dt;
 				ns.warning_offset_x = random_range(-1, 1);
-				ns.warning_glow = 0.50;
+				ns.warning_glow = 0.40;
 				
 				if (ns.move_timer <= 0) {
 					if (ns.is_fake) {
