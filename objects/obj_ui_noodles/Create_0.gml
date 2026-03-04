@@ -8,6 +8,10 @@ var gui_h = display_get_gui_height();
 
 obj_game.noodles.set_board_geometry(gui_w, gui_h);
 
+// Guías
+
+guide_active = false;
+guide_x = 0;
 
 // Masas
 

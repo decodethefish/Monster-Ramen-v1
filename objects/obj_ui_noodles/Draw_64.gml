@@ -42,8 +42,6 @@ if (obj_game.noodles.noodle_station.has_sheet) {
 			station.warning_glow
 		);
 	}
-
-	
 	
 	var cuts = obj_game.noodles.noodle_station.cuts;
 	draw_set_colour(c_black);
@@ -54,6 +52,7 @@ if (obj_game.noodles.noodle_station.has_sheet) {
 	var left_edge = draw_x - half_w;
 	var px_per_cm = sw / 10;
 	
+		// cortes
 	for (var i = 0; i < array_length(cuts); i++) {
 		
 		var cm = cuts[i];
@@ -61,6 +60,34 @@ if (obj_game.noodles.noodle_station.has_sheet) {
 		var cut_x = left_edge + cm * px_per_cm;
 		
 		draw_sprite(spr_nd_cut, 0, cut_x, station.sheet_y);
+	}
+	
+	
+	var mx = device_mouse_x_to_gui(0);
+	var my = device_mouse_y_to_gui(0);
+	
+	var mouse_over_sheet = 
+		mx >= draw_x - half_w &&
+		mx <= draw_x + half_w &&
+		my >= station.sheet_y - half_h &&
+		my <= station.sheet_y + half_h;
+		
+	// lineas
+	if (mouse_over_sheet) {
+			
+		var board_h = sprite_get_height(spr_nd_board);
+		var top = station.board_y - station.board_h * 0.5;
+		var bottom = station.board_y + station.board_h * 0.5;
+		var raw_cm = (mx - left_edge) / px_per_cm;
+		var cm = round(raw_cm * 10) / 10;
+		var line_x = left_edge + cm * px_per_cm;	
+		
+		draw_set_colour(c_black);
+		
+		var segment = 6;
+		for (var i = top; i < bottom; i += segment * 2) {
+			draw_line(line_x, i, line_x, i + segment);
+		}
 	}
 }
 	

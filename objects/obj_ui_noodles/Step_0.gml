@@ -3,6 +3,8 @@ if (obj_game.game_mode != GAME_MODE.COOKING) exit;
 var mx = device_mouse_x_to_gui(0);
 var my = device_mouse_y_to_gui(0);
 
+
+
 // Masas drag & drop
 for (var i = 0; i < array_length(dough); i++) {
 	var d = dough[i]
@@ -18,6 +20,7 @@ for (var i = 0; i < array_length(dough); i++) {
 	var mouse_over = 
 		mx >= left && mx <= right &&
 		my >= top && my <= bottom;
+	
 	
 	// drag
 	if (mouse_over && mouse_check_button_pressed(mb_left)) {
