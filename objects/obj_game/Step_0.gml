@@ -4,7 +4,8 @@ dt *= time_scale_global;
 
 // updates de sistemas
 broth.update();
-noodles.update(dt)
+noodles.update(dt);
+eggs.update();
 
 // Controles UI
 if (game_mode == GAME_MODE.COOKING) {
@@ -18,7 +19,12 @@ if (game_mode == GAME_MODE.COOKING) {
 			
 			case STATION.NOODLES:
 				current_ui = instance_create_layer(0,0,"UI",obj_ui_noodles);
-			break;	
+			break;
+			
+			case STATION.EGGS:
+				current_ui = instance_create_layer(0,0,"UI",obj_ui_eggs);
+			break;			
+			
 		}
 	}
 		

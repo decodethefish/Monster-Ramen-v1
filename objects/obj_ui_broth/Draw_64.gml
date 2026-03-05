@@ -54,13 +54,11 @@ for (var i = 0; i < array_length(obj_game.broth.pot_positions); i++) {
 	}
 }
 
-
 // Caldos
 for (var i = 0; i < array_length(broths); i++) {
 		var br = broths[i]
 		draw_sprite(br.sprite, 0, br.x, br.y);
 	}
-
 
 // Switches
 for (var i = 0; i < array_length(switches); i++) {

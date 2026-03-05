@@ -42,6 +42,23 @@ enum NOODLE_MOVE_STATE {
 	WARNING,
 	MOVING
 }
+	
+enum CHICKEN_TYPE {
+	NORMAL,
+	FIRE,
+	WATER,
+	GOLD,
+	SHADOW
+}
+enum EGG_TYPE {
+	NORMAL,
+	ROTTEN,
+	FIRE,
+	WATER,
+	GOLD,
+	SHADOW
+}
+
 
 game_mode = GAME_MODE.WORLD;
 
@@ -87,3 +104,6 @@ broth.init();
 
 noodles = new NoodleSystem();
 noodles.init();
+
+eggs = new EggSystem();
+eggs.init();
