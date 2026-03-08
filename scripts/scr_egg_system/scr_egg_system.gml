@@ -1,5 +1,7 @@
 function EggSystem() constructor {
 	
+	station_state = EGG_STATION_STATE.CATCHING;
+	
 	max_chickens = 5;
 	active_chickens = 5;
 	chickens = [];
@@ -13,6 +15,7 @@ function EggSystem() constructor {
 	eggs = [];
 	egg_data = [];
 	caught_eggs = [];
+	
 	
 	basket_x = 0;
 	basket_y = 0;
@@ -112,9 +115,11 @@ function EggSystem() constructor {
 						ch.state = CHICKEN_STATE.IDLE;
 						ch.state_timer = irandom_range(0.5, 2);
 						
-						var egg_origin = ch.y + ch_half; 
-						var egg_type = get_egg_type(ch.type);
-						spawn_egg(ch.x, egg_origin, egg_type);
+						if (station_state == EGG_STATION_STATE.CATCHING) {
+							var egg_origin = ch.y + ch_half; 
+							var egg_type = get_egg_type(ch.type);
+							spawn_egg(ch.x, egg_origin, egg_type);
+						}
 						
 					}
 					
@@ -144,6 +149,7 @@ function EggSystem() constructor {
 		}
 			
 		// Huevos
+		
 		for (var i = array_length(eggs) - 1; i >= 0; i--) {
 			
 			var basket_top = basket_y - 16;
@@ -153,16 +159,24 @@ function EggSystem() constructor {
 			egg.y += egg.speed;
 			
 			// captura
-			if (egg.y >= basket_top && egg.y <= catch_zone) {
+			if (station_state == EGG_STATION_STATE.CATCHING) {
 				
-				if (egg.x > basket_x - 32 && egg.x < basket_x + 32) {
+				if (egg.y >= basket_top && egg.y <= catch_zone) {
+				
+					if (egg.x > basket_x - 32 && egg.x < basket_x + 32) {
 					
-					if (array_length(caught_eggs) < basket_capacity) {
+						if (array_length(caught_eggs) < basket_capacity) {
 						
-						array_push(caught_eggs, egg);
-						array_delete(eggs, i, 1);
-						continue;
+							var basket_egg = {
+								type: egg.type,
+								sprite_frame: egg.sprite_frame
+							};
 						
+							array_push(caught_eggs, basket_egg);
+							array_delete(eggs, i, 1);
+							continue;
+						
+						}
 					}
 				}
 			}
@@ -174,12 +188,16 @@ function EggSystem() constructor {
 		}
 			
 		// Canasta	
-		var move = keyboard_check(ord("D")) - keyboard_check(ord("A"));
-		basket_x += move * basket_speed;
+		if (station_state == EGG_STATION_STATE.CATCHING) {
+			
+			var move = keyboard_check(ord("D")) - keyboard_check(ord("A"));
+			basket_x += move * basket_speed;
 		
-		var basket_half = sprite_get_width(spr_egg_basket) * 0.5;
+			var basket_half = sprite_get_width(spr_egg_basket) * 0.5;
 		
-		basket_x = clamp(basket_x, basket_half, display_get_gui_width() - basket_half);
+			basket_x = clamp(basket_x, basket_half, display_get_gui_width() - basket_half);
+			
+		}
 		
     }
 		
@@ -223,4 +241,5 @@ function EggSystem() constructor {
 		
 		array_push(eggs, egg);
 	}
+		
 }

@@ -62,7 +62,10 @@ enum CHICKEN_STATE {
 	IDLE,
 	WALK
 }
-	
+enum EGG_STATION_STATE {
+	CATCHING,
+	SERVING
+}
 
 
 game_mode = GAME_MODE.WORLD;

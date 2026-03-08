@@ -4,13 +4,17 @@ function BowlSystem(_count) constructor {
 
 	for (var i = 0; i < _count; i++) {
 		bowls[i] = {
+			
 			has_broth: false,
 			broth_id: BROTH_ID.NONE,
 			broth_state: POT_STATE.EMPTY,
 
 			has_noodles: false,
 			noodle_id: NOODLE_ID.NONE,
-			noodle_quality: 0
+			noodle_quality: 0,
+			
+			egg_type: -1
+			
 		};
 	}
 	
@@ -20,6 +24,10 @@ function BowlSystem(_count) constructor {
 	
 	function can_receive_noodles(_index) {
 		return !bowls[_index].has_noodles;
+	}
+	
+	function can_receive_egg(_index) {
+		return !bowls[_index].egg_type == -1;
 	}
 	
 	function add_broth(_bowl_index, _pot_index, _pots) {
@@ -68,6 +76,20 @@ function BowlSystem(_count) constructor {
 		
 		bowls[_bowl_index] = bowl;
 
+	}
+	
+	function add_egg(_bowl_index, _egg_type) {
+		
+		if (_bowl_index < 0) return;
+		if (_bowl_index >= array_length(bowls)) return;
+		
+		var bowl = bowls[_bowl_index];
+		
+		if (bowl.egg_type != -1) return;
+		
+		bowl.egg_type = _egg_type;
+		bowls[_bowl_index] = bowl;
+		
 	}
 	
 	function draw_layers(_data, _x, _y) {
