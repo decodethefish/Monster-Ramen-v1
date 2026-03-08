@@ -32,6 +32,7 @@ if (station.station_state == EGG_STATION_STATE.CATCHING) {
 }
 
 // Huevos Drag 
+
 if (station.station_state == EGG_STATION_STATE.SERVING) {
 
 	var eggs_c = station.caught_eggs;
@@ -79,11 +80,11 @@ if (station.station_state == EGG_STATION_STATE.SERVING) {
 	if (dragging_egg && mouse_check_button_released(mb_left)) {
 		
 		var dropped = false;
-		var bowls = obj_game.bowls.bowls;
 		
 		for (var i = 0; i < array_length(bowls); i++) {
 			
 			var bw = bowls[i]
+			
 			var bw_w = sprite_get_width(spr_bowl_base);
 			var bw_h = sprite_get_height(spr_bowl_base);
 			

@@ -48,5 +48,5 @@ dragging_egg = false;
 drag_egg_index = -1;
 drag_egg_type = -1;
 drag_egg_frame = -1;
-egg_c_w = sprite_get_width(spr_egg);
-egg_c_h = sprite_get_height(spr_egg);
+egg_c_w = sprite_get_width(spr_egg) * 2;
+egg_c_h = sprite_get_height(spr_egg) * 2;
