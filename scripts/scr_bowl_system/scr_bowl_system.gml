@@ -13,6 +13,7 @@ function BowlSystem(_count) constructor {
 			noodle_id: NOODLE_ID.NONE,
 			noodle_quality: 0,
 			
+			has_egg: false,
 			egg_type: -1
 			
 		};
@@ -27,7 +28,7 @@ function BowlSystem(_count) constructor {
 	}
 	
 	function can_receive_egg(_index) {
-		return !bowls[_index].egg_type == -1;
+		return !bowls[_index].has_egg;
 	}
 	
 	function add_broth(_bowl_index, _pot_index, _pots) {
@@ -85,9 +86,11 @@ function BowlSystem(_count) constructor {
 		
 		var bowl = bowls[_bowl_index];
 		
-		if (bowl.egg_type != -1) return;
+		if (bowl.has_egg) return;
 		
+		bowl.has_egg = true;
 		bowl.egg_type = _egg_type;
+		
 		bowls[_bowl_index] = bowl;
 		
 	}
@@ -128,6 +131,18 @@ function BowlSystem(_count) constructor {
 				_y
 				);	
 		}		
+		
+		// eggs
+		if (!_data.has_egg) {
+			
+			draw_sprite(
+				spr_bowl_egg,
+				_data.egg_type,
+				_x,
+				_y
+				);
+		}
+		
 	}
 	
 	function draw(_index, _x, _y) {

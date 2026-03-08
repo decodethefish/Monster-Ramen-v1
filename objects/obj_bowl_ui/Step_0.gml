@@ -1,8 +1,3 @@
-var data = obj_game.bowls.bowls[bowl_index];
-
-
-obj_game.bowls.draw(bowl_index, x, y);
-
 var left = x - sprite_width * 0.5
 var right = x + sprite_width * 0.5
 var top = y - sprite_height * 0.5
@@ -13,6 +8,9 @@ var mouse_over =
 	mouse_y >= top && mouse_y <= bottom;
 	
 // drag & drop
+if (obj_game.current_station == STATION.EGGS) {
+	return;
+}
 
 if (mouse_over && mouse_check_button_pressed(mb_left) && !global.bowl_drag_active) {
 	dragging = true;
@@ -22,6 +20,7 @@ if (dragging) {
 	x = mouse_x;
 	y = mouse_y;
 }
+	
 // drop en estaciones
 if (dragging && mouse_check_button_released(mb_left)) {
 	
@@ -74,5 +73,3 @@ if (dragging && mouse_check_button_released(mb_left)) {
 	y = y_start;
 	
 }
-	
-	
