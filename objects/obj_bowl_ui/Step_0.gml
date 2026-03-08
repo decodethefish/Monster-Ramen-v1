@@ -1,8 +1,3 @@
-var data = obj_game.bowls.bowls[bowl_index];
-
-
-obj_game.bowls.draw(bowl_index, x, y);
-
 var left = x - sprite_width * 0.5
 var right = x + sprite_width * 0.5
 var top = y - sprite_height * 0.5
