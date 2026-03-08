@@ -45,7 +45,6 @@ for (var i = 0; i < array_length(obj_game.broth.pots); i++) {
 }
 
 
-
 // Tazones
 
 bowls = [];

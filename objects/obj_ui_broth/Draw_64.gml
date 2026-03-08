@@ -71,7 +71,6 @@ for (var i = 0; i < array_length(switches); i++) {
 	draw_circle(swi.x,swi.y,swi.r,false);
 }
 
-
 // Bowls
 for (var i = 0; i < array_length(bowls); i++) {
 	var bw = bowls[i];

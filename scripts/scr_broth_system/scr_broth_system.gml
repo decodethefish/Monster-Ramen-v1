@@ -73,7 +73,7 @@ function BrothSystem() constructor {
 		return -1;
 	}
 		
-	function update() {
+	function update(_dt) {
 		
 		for (var i = 0; i < array_length(pots); i++) {
 			
@@ -84,7 +84,7 @@ function BrothSystem() constructor {
 				
 				var data = broth_data[pot.broth_id];
 				
-				pot.progress += delta_time / 1000000;
+				pot.progress += _dt;
 				
 				if (pot.progress >= data.ready_time && pot.progress < data.burn_time) {
 					pot.state = POT_STATE.READY

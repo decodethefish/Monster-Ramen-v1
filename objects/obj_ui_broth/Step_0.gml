@@ -69,7 +69,6 @@ for (var i = 0; i < array_length(broths); i++) {
 	broths[i] = br;
 }
 
-
 // Switches
 if (mouse_check_button_pressed(mb_left)) {
 	

@@ -3,8 +3,6 @@ if (obj_game.game_mode != GAME_MODE.COOKING) exit;
 var mx = device_mouse_x_to_gui(0);
 var my = device_mouse_y_to_gui(0);
 
-
-
 // Masas drag & drop
 for (var i = 0; i < array_length(dough); i++) {
 	var d = dough[i]
