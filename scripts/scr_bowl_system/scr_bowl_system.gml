@@ -133,7 +133,7 @@ function BowlSystem(_count) constructor {
 		}		
 		
 		// eggs
-		if (_data.has_egg) {W
+		if (_data.has_egg) {
 			
 			draw_sprite(
 				spr_bowl_egg,

@@ -31,6 +31,11 @@ if (station.station_state == EGG_STATION_STATE.CATCHING) {
 		station.station_state = EGG_STATION_STATE.SERVING;
 	}
 }
+if (station.station_state == EGG_STATION_STATE.SERVING) {
+	if (mouse_over_clear && mouse_check_button_pressed(mb_left)) {
+		station.station_state = EGG_STATION_STATE.CATCHING;
+	}
+}
 
 if (station.station_state != EGG_STATION_STATE.SERVING) exit;
 

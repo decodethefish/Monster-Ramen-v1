@@ -19,7 +19,11 @@ function EggSystem() constructor {
 	
 	basket_x = 0;
 	basket_y = 0;
-	basket_speed = 2;
+	
+	basket_speed_base = 2;
+	basket_speed_min = 1;
+	basket_speed_penalty = 0.4;
+	
 	basket_capacity = 3;
 	
 	function init () {
@@ -189,6 +193,10 @@ function EggSystem() constructor {
 			
 		// Canasta	
 		if (station_state == EGG_STATION_STATE.CATCHING) {
+			
+			var egg_count = array_length(caught_eggs)
+			var basket_speed = basket_speed_base - (egg_count * basket_speed_penalty);
+			basket_speed = max(basket_speed_min, basket_speed);
 			
 			var move = keyboard_check(ord("D")) - keyboard_check(ord("A"));
 			basket_x += move * basket_speed;

@@ -98,6 +98,6 @@ if (station.station_state == EGG_STATION_STATE.SERVING) {
 
 // Botones
 if (station.station_state == EGG_STATION_STATE.CATCHING) {
-	draw_sprite(spr_egg_clear_button, 0, cl_button_x, cl_button_y);
 	draw_sprite(spr_egg_serve_button, 0, srv_button_x, srv_button_y);
 }
+draw_sprite(spr_egg_clear_button, 0, cl_button_x, cl_button_y);
