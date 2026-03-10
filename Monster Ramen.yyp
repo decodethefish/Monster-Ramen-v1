@@ -86,7 +86,6 @@
     {"id":{"name":"spr_nd_dough_ley","path":"sprites/spr_nd_dough_ley/spr_nd_dough_ley.yy",},},
     {"id":{"name":"spr_nd_dough_mucus","path":"sprites/spr_nd_dough_mucus/spr_nd_dough_mucus.yy",},},
     {"id":{"name":"spr_nd_dough","path":"sprites/spr_nd_dough/spr_nd_dough.yy",},},
-    {"id":{"name":"spr_nd_sheet_glow","path":"sprites/spr_nd_sheet_glow/spr_nd_sheet_glow.yy",},},
     {"id":{"name":"spr_nd_sheet","path":"sprites/spr_nd_sheet/spr_nd_sheet.yy",},},
     {"id":{"name":"spr_player","path":"sprites/spr_player/spr_player.yy",},},
     {"id":{"name":"spr_st_broth","path":"sprites/spr_st_broth/spr_st_broth.yy",},},

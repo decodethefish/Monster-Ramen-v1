@@ -42,7 +42,7 @@ for (var i = 0; i < array_length(dough); i++) {
 		    my >= station.board_y - station.board_h * 0.5 &&
 		    my <= station.board_y + station.board_h * 0.5) {
 	
-			obj_game.noodles.start_sheet(d.recipe_id, obj_game.current_order.noodle_target_cm);
+			obj_game.noodles.start_sheet(obj_game.current_order.noodle_target_cm);
 		}
 		
 		d.x = d.x_start;
@@ -104,4 +104,3 @@ if (mouse_check_button_pressed(mb_left)) {
 		}
 	}
 }
-	

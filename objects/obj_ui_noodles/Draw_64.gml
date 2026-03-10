@@ -8,7 +8,7 @@ draw_rectangle(0, 0, display_get_gui_width(), display_get_gui_height(), false);
 var station = obj_game.noodles.noodle_station;
 draw_sprite(spr_nd_board, 0, station.board_x, station.board_y);
 
-// Sheet de masas
+// Sheet de masa
 if (obj_game.noodles.noodle_station.has_sheet) {
 	
 	var spr = spr_nd_sheet; 
@@ -17,31 +17,10 @@ if (obj_game.noodles.noodle_station.has_sheet) {
 	var sh = sprite_get_height(spr);
 
 	
-	var type = obj_game.noodles.noodle_station.type;
+	var draw_x = station.sheet_x;
 	
-	var draw_x = station.sheet_x + station.warning_offset_x;
-	
-	// sprite sheet
-	draw_sprite(
-	    spr_nd_sheet,
-	    station.type,
-	    draw_x,
-	    station.sheet_y
-	);
-	
-	// brillo de warning
-	if (station.warning_glow > 0)  {
-		draw_sprite_ext(
-		    spr_nd_sheet_glow,
-			0,
-		    draw_x,
-		    station.sheet_y,
-			1, 1,
-			0,
-			c_white,
-			station.warning_glow
-		);
-	}
+	// sprite sheet fijo
+	draw_sprite(spr_nd_sheet, 0, draw_x, station.sheet_y);
 	
 	var cuts = obj_game.noodles.noodle_station.cuts;
 	draw_set_colour(c_black);
@@ -91,7 +70,7 @@ if (obj_game.noodles.noodle_station.has_sheet) {
 	}
 }
 	
-// Masas
+// Masa
 for (var i = 0; i < array_length(dough); i++) {
 	var d = dough[i];
 	draw_sprite(d.sprite, 0, d.x, d.y);
