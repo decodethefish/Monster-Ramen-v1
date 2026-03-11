@@ -31,6 +31,11 @@ if (game_mode == GAME_MODE.COOKING) {
 	
 	// salir de la UI.
 	if keyboard_check_pressed(vk_escape) {
+		
+		if (instance_exists(current_ui)) {
+			if (current_ui.block_exit) return;
+		}
+		
 		close_station();
 	}
 }

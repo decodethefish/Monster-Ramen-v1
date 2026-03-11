@@ -52,7 +52,7 @@ if (obj_game.noodles.noodle_station.has_sheet) {
 		my <= station.sheet_y + half_h;
 		
 	// lineas
-	if (mouse_over_sheet) {
+	if (mouse_over_sheet && !station.ritual_active) {
 			
 		var board_h = sprite_get_height(spr_nd_board);
 		var top = station.board_y - station.board_h * 0.5;
@@ -85,3 +85,61 @@ for (var i = 0; i < array_length(bowls); i++) {
 	obj_game.bowls.draw(bw.bowl_index, bw.x, bw.y);
 			
 }
+
+// Botón ritual
+if (station.ritual_available && !station.ritual_complete) { 
+
+	draw_sprite(spr_nd_choose_ritual, 0, rbutton_x, rbutton_y);
+}
+
+// UI selección de ritual
+if (station.state == NOODLE_STATE.RITUAL_SELECT) {
+	
+	var gw = display_get_gui_width();
+	var gh = display_get_gui_height();
+	
+	// oscurecer fondo
+	draw_set_alpha(0.5);
+	draw_set_color(c_black);
+	draw_rectangle(0, 0, gw, gh, false);
+	draw_set_alpha(1);
+	
+	// ventana
+	
+	var win_w = 496;
+	var win_h = 140;
+	var win_x = gw * 0.5 - win_w * 0.5;
+	var win_y = gh * 0.5 - win_h * 0.5;
+	
+	draw_set_color(c_black);
+	draw_rectangle(
+		win_x, win_y,
+		win_x + win_w,
+		win_y + win_h,
+		false
+		);
+	
+	draw_set_color(c_white);
+	draw_text(gw * 0.5 - 70, win_y + 10, "Choose Noodle Type");
+	
+	// symbols
+	var symbols = ritual_symbols;
+	var spr = spr_nd_ritual_symbols;
+	var count = array_length(symbols);
+	
+	var spacing = 96;
+	var start_x = gw * 0.5 - ((count - 1) * spacing) * 0.5;
+	var sym_y = win_y + 80;
+	
+	for (var i = 0; i < count; i++) {
+		
+		var sym_x = start_x + i * spacing;
+		
+		ritual_symbol_x[i] = sym_x;
+		ritual_symbol_y[i] = sym_y;
+		
+		draw_sprite(spr, i, sym_x, sym_y);
+	}
+}
+
+	

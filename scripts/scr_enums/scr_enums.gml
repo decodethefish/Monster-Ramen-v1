@@ -32,6 +32,7 @@ function scr_enums(){
 		NONE,
 		WHEAT,
 		MUCUS,
+		STONE,
 		LEY,
 		CURSED
 	}

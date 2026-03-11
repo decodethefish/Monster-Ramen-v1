@@ -2,6 +2,14 @@ if (obj_game.game_mode != GAME_MODE.COOKING) exit;
 
 var mx = device_mouse_x_to_gui(0);
 var my = device_mouse_y_to_gui(0);
+var station = obj_game.noodles.noodle_station;
+block_exit = station.ritual_active;
+
+if (station.state == NOODLE_STATE.RITUAL_SELECT) {
+	update_ritual_select(mx, my);
+	exit;
+}
+if (station.ritual_active) exit;
 
 // Masas drag & drop
 for (var i = 0; i < array_length(dough); i++) {
@@ -30,7 +38,6 @@ for (var i = 0; i < array_length(dough); i++) {
 		d.y = my;
 	}
 	
-	var station = obj_game.noodles.noodle_station;
 	
 	// soltar
 	if (d.dragging && mouse_check_button_released(mb_left)) {
@@ -52,7 +59,7 @@ for (var i = 0; i < array_length(dough); i++) {
 	dough[i] = d;
 }
 	
-if (!obj_game.noodles.noodle_station.has_sheet) exit;
+if (!station.has_sheet) exit;
 
 // Cortar sheet
 if (mouse_check_button_pressed(mb_left)) {
@@ -66,7 +73,6 @@ if (mouse_check_button_pressed(mb_left)) {
 	}
 	if (dragging_any) exit;
 	
-	var station = obj_game.noodles.noodle_station;
 	var sheet_width = sprite_get_width(spr_nd_sheet);
 	var sheet_height = sprite_get_height(spr_nd_sheet);
 	var half_w = sheet_width * 0.5;
@@ -102,5 +108,20 @@ if (mouse_check_button_pressed(mb_left)) {
 		if (!too_close && cm > 0 && cm < 10) {
 			obj_game.noodles.add_cut(cm);
 		}
+	}
+}
+
+// Botón ritual
+if (station.ritual_available && !station.ritual_complete) {
+	
+	var mouse_over_ritual = 
+	mx >= rbutton_x - rbutton_w * 0.5 &&
+	mx <= rbutton_x + rbutton_w * 0.5 &&
+	my >= rbutton_y - rbutton_h * 0.5 &&
+	my <= rbutton_y + rbutton_h * 0.5;
+
+	if (mouse_over_ritual && mouse_check_button_pressed(mb_left)) {
+		obj_game.noodles.start_ritual();
+		
 	}
 }
