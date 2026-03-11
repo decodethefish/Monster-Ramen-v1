@@ -45,6 +45,7 @@
     {"id":{"name":"scr_bowl_system","path":"scripts/scr_bowl_system/scr_bowl_system.yy",},},
     {"id":{"name":"scr_broth_system","path":"scripts/scr_broth_system/scr_broth_system.yy",},},
     {"id":{"name":"scr_egg_system","path":"scripts/scr_egg_system/scr_egg_system.yy",},},
+    {"id":{"name":"scr_enums","path":"scripts/scr_enums/scr_enums.yy",},},
     {"id":{"name":"scr_noodle_system","path":"scripts/scr_noodle_system/scr_noodle_system.yy",},},
     {"id":{"name":"utils_CommunityToolboxArray","path":"scripts/utils_CommunityToolboxArray/utils_CommunityToolboxArray.yy",},},
     {"id":{"name":"utils_CommunityToolboxCollision","path":"scripts/utils_CommunityToolboxCollision/utils_CommunityToolboxCollision.yy",},},
