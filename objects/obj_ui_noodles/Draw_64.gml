@@ -15,16 +15,20 @@ var is_transformed =
 	station.state == NOODLE_STATE.RITUAL_FAIL;
 
 
-if (station.state == NOODLE_STATE.RITUAL_TRANSFORM) {
+if (is_transformed) {
 	
 	var cx = station.sheet_x;
 	var cy = station.sheet_y;
 	
-	var progress = 1 - (station.ritual_timer / 120);
+	var progress = 1
+	if (station.state == NOODLE_STATE.RITUAL_TRANSFORM) {
+		progress = (120 - station.ritual_timer) / 120;
+	}
+	
 	var alpha = clamp(progress, 0, 1);
 	
 	draw_set_alpha(alpha);
-	draw_sprite(spr_nd_ritual_circle, 0, cx, cy);
+	draw_sprite(spr_nd_ritual_circle, station.ritual_type, cx, cy);
 	
 	draw_set_alpha(1);
 	
@@ -32,21 +36,20 @@ if (station.state == NOODLE_STATE.RITUAL_TRANSFORM) {
 	draw_set_alpha(rune_progress);
 	
 	var rune_count = 6;
-	var radius = 60;
-	var step = 360 / rune_count;
 	
-	for (var i = 0; i < rune_count; i++) {
-		
-		var ang = -90 + i * step;
-		
-		var runex = cx + lengthdir_x(radius, ang);
-		var runey = cy + lengthdir_y(radius, ang);
-		
-		draw_sprite(spr_nd_ritual_runes, 0, runex, runey);
+	// runas
+	if (array_length(obj_game.noodles.ritual_rune_x) >= 6) {
+
+		for (var i = 0; i < 6; i++) {
+
+			var runex = obj_game.noodles.ritual_rune_x[i];
+			var runey = obj_game.noodles.ritual_rune_y[i];
+			var current = obj_game.noodles.get_current_rune();
+
+			draw_sprite(spr_nd_ritual_runes, i, runex, runey);
+		}
 	}
-	
 	draw_set_alpha(1);
-	
 }
 
 // Masa
@@ -186,6 +189,5 @@ if (station.state == NOODLE_STATE.RITUAL_SELECT) {
 	}
 }
 
-
-
-	
+draw_set_colour(c_black);
+draw_text(20, 60, "LAST: " + string(station.ritual_last_pressed));

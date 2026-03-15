@@ -5,6 +5,40 @@ var my = device_mouse_y_to_gui(0);
 var station = obj_game.noodles.noodle_station;
 block_exit = station.ritual_active;
 
+// Botones Runas
+if (station.state == NOODLE_STATE.RITUAL_INPUT) {
+	
+	if (mouse_check_button_pressed(mb_left)) {
+		
+		var rune_count = 6;
+		var rune_w = sprite_get_width(spr_nd_ritual_runes);
+		var rune_h = sprite_get_height(spr_nd_ritual_runes);
+		
+		for (var i = 0; i < rune_count; i++) {
+			
+			var rx = obj_game.noodles.ritual_rune_x[i];
+			var ry = obj_game.noodles.ritual_rune_y[i];
+			
+			var left = rx - rune_w * 0.5;
+			var right = rx + rune_w * 0.5;
+			var top = ry - rune_h * 0.5;
+			var bottom = ry + rune_h * 0.5;
+			
+			var mouse_over_rune =
+				mx >= left && mx <= right &&
+				my >= top && my <= bottom;
+			
+			if (mouse_over_rune) {
+				
+				obj_game.noodles.press_rune(i);
+				break;
+			}
+		}
+	}
+	
+	exit;
+}
+
 if (station.state == NOODLE_STATE.RITUAL_SELECT) {
 	update_ritual_select(mx, my);
 	exit;
@@ -125,3 +159,4 @@ if (station.ritual_available && !station.ritual_complete) {
 		
 	}
 }
+	

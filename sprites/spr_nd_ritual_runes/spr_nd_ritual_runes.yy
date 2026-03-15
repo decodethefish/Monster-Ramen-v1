@@ -13,11 +13,11 @@
   "For3D":false,
   "frames":[
     {"$GMSpriteFrame":"v1","%Name":"111af8a6-9ec2-4949-9cef-caae79fdf4b9","name":"111af8a6-9ec2-4949-9cef-caae79fdf4b9","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"bdaac29e-a151-407e-a203-0a7def21f42a","name":"bdaac29e-a151-407e-a203-0a7def21f42a","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
     {"$GMSpriteFrame":"v1","%Name":"68fca2d2-8368-4f37-a4ae-1d79a7a6c28a","name":"68fca2d2-8368-4f37-a4ae-1d79a7a6c28a","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
     {"$GMSpriteFrame":"v1","%Name":"568ed06e-b4ce-4b7f-9a19-cdbd66a4fa1e","name":"568ed06e-b4ce-4b7f-9a19-cdbd66a4fa1e","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
-    {"$GMSpriteFrame":"v1","%Name":"ec71aff1-b142-4423-abfd-bc8b23cd35cf","name":"ec71aff1-b142-4423-abfd-bc8b23cd35cf","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
     {"$GMSpriteFrame":"v1","%Name":"9fef6f2a-fe57-4b99-a56c-22aa4001ba6b","name":"9fef6f2a-fe57-4b99-a56c-22aa4001ba6b","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
-    {"$GMSpriteFrame":"v1","%Name":"bdaac29e-a151-407e-a203-0a7def21f42a","name":"bdaac29e-a151-407e-a203-0a7def21f42a","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"ec71aff1-b142-4423-abfd-bc8b23cd35cf","name":"ec71aff1-b142-4423-abfd-bc8b23cd35cf","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,
@@ -77,20 +77,20 @@
                 "0":{"$SpriteFrameKeyframe":"","Id":{"name":"111af8a6-9ec2-4949-9cef-caae79fdf4b9","path":"sprites/spr_nd_ritual_runes/spr_nd_ritual_runes.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
               },"Disabled":false,"id":"f9242e77-eea5-42d4-bd33-7dfd2542bf2a","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
             {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
+                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"bdaac29e-a151-407e-a203-0a7def21f42a","path":"sprites/spr_nd_ritual_runes/spr_nd_ritual_runes.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
+              },"Disabled":false,"id":"4a96cf4e-fe77-4aad-bbae-734e7a16f0d2","IsCreationKey":false,"Key":1.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
                 "0":{"$SpriteFrameKeyframe":"","Id":{"name":"68fca2d2-8368-4f37-a4ae-1d79a7a6c28a","path":"sprites/spr_nd_ritual_runes/spr_nd_ritual_runes.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"dd849143-8a69-42d0-b8b8-0ecee70dfc15","IsCreationKey":false,"Key":1.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+              },"Disabled":false,"id":"dd849143-8a69-42d0-b8b8-0ecee70dfc15","IsCreationKey":false,"Key":2.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
             {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
                 "0":{"$SpriteFrameKeyframe":"","Id":{"name":"568ed06e-b4ce-4b7f-9a19-cdbd66a4fa1e","path":"sprites/spr_nd_ritual_runes/spr_nd_ritual_runes.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"663745bd-d342-4408-be2f-e01015dfe821","IsCreationKey":false,"Key":2.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"ec71aff1-b142-4423-abfd-bc8b23cd35cf","path":"sprites/spr_nd_ritual_runes/spr_nd_ritual_runes.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"07b09e57-75ba-47dd-8018-2da9c4e8040f","IsCreationKey":false,"Key":3.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+              },"Disabled":false,"id":"663745bd-d342-4408-be2f-e01015dfe821","IsCreationKey":false,"Key":3.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
             {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
                 "0":{"$SpriteFrameKeyframe":"","Id":{"name":"9fef6f2a-fe57-4b99-a56c-22aa4001ba6b","path":"sprites/spr_nd_ritual_runes/spr_nd_ritual_runes.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
               },"Disabled":false,"id":"92edf8d9-9839-4e9f-b5b1-e9ffb77f8670","IsCreationKey":false,"Key":4.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
             {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"bdaac29e-a151-407e-a203-0a7def21f42a","path":"sprites/spr_nd_ritual_runes/spr_nd_ritual_runes.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"4a96cf4e-fe77-4aad-bbae-734e7a16f0d2","IsCreationKey":false,"Key":5.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"ec71aff1-b142-4423-abfd-bc8b23cd35cf","path":"sprites/spr_nd_ritual_runes/spr_nd_ritual_runes.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
+              },"Disabled":false,"id":"07b09e57-75ba-47dd-8018-2da9c4e8040f","IsCreationKey":false,"Key":5.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
           ],"resourceType":"KeyframeStore<SpriteFrameKeyframe>","resourceVersion":"2.0",},"modifiers":[],"name":"frames","resourceType":"GMSpriteFramesTrack","resourceVersion":"2.0","spriteId":null,"trackColour":0,"tracks":[],"traits":0,},
     ],
     "visibleRange":null,

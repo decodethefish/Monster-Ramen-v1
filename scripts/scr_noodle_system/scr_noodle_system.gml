@@ -22,6 +22,9 @@ function NoodleSystem() constructor {
 			name: "Wheat Noodles"
 		};
 		
+		ritual_rune_x = [];
+		ritual_rune_y = [];
+		
 		noodle_station = {
 			
 			has_sheet: false,
@@ -49,6 +52,8 @@ function NoodleSystem() constructor {
 			ritual_show_index: 0,
 			ritual_timer: 0,
 			ritual_show_on: true,
+			ritual_last_pressed: -1,
+			ritual_last_timer: 0,
 			
 			ritual_input_lock: 0
 			
@@ -139,6 +144,9 @@ function NoodleSystem() constructor {
 		if (station.ritual_input_lock > 0) {
 			station.ritual_input_lock--;
 		}
+		if (station.ritual_last_timer > 0) {
+			station.ritual_last_timer--;	
+		}
 		
 		switch (station.state) {
 			
@@ -154,6 +162,10 @@ function NoodleSystem() constructor {
 				update_ritual_fail();
 			break;
 			
+		}
+		
+		if (station.state >= NOODLE_STATE.RITUAL_TRANSFORM) {
+			update_rune_positions();
 		}
 	}
 	
@@ -210,6 +222,31 @@ function NoodleSystem() constructor {
 		start_ritual_pattern();
 		
 	}
+	
+	function update_rune_positions() {
+
+		var station = noodle_station;
+
+		var cx = station.sheet_x;
+		var cy = station.sheet_y;
+
+		var circle_w = sprite_get_width(spr_nd_ritual_circle);
+		var rune_w = sprite_get_width(spr_nd_ritual_runes);
+
+		var radius = (circle_w * 0.5) - (rune_w * 0.5);
+
+		var rune_count = 6;
+		var step = 360 / rune_count;
+	
+		
+		for (var i = 0; i < rune_count; i++) {
+
+			var ang = -90 + i * step;
+
+			ritual_rune_x[i] = cx + lengthdir_x(radius, ang);
+			ritual_rune_y[i] = cy + lengthdir_y(radius, ang);
+		}
+	}
 
 	function reset() {
 		
@@ -237,6 +274,7 @@ function NoodleSystem() constructor {
 		if (!noodle_station.ritual_active) return;
 		if (noodle_station.state != NOODLE_STATE.RITUAL_SELECT) return;
 		
+		noodle_station.ritual_type = _noodle_type;
 		noodle_station.state = NOODLE_STATE.RITUAL_TRANSFORM;
 		noodle_station.ritual_timer = 120;
 		
@@ -249,8 +287,6 @@ function NoodleSystem() constructor {
 			
 			return;
 		}
-		
-		start_ritual_pattern();
 	}
 	
 	function start_ritual_pattern() {
@@ -291,6 +327,9 @@ function NoodleSystem() constructor {
 		
 		if (station.state != NOODLE_STATE.RITUAL_INPUT) return;
 		if (station.ritual_input_lock > 0) return;
+		
+		station.ritual_last_pressed = _rune_index;
+		station.ritual_last_timer = 10;
 		
 		var expected = station.ritual_sequence[station.ritual_index];
 		
