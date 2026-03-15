@@ -142,6 +142,10 @@ function NoodleSystem() constructor {
 		
 		switch (station.state) {
 			
+			case NOODLE_STATE.RITUAL_TRANSFORM:
+				update_ritual_transform();
+			break;
+			
 			case NOODLE_STATE.RITUAL_PATTERN:
 				update_ritual_pattern();
 			break;
@@ -151,6 +155,18 @@ function NoodleSystem() constructor {
 			break;
 			
 		}
+	}
+	
+	function update_ritual_transform() {
+		
+		var station = noodle_station;
+		
+		station.ritual_timer --;
+		
+		if (station.ritual_timer > 0) return;
+		
+		start_ritual_pattern();
+		
 	}
 	
 	function update_ritual_pattern() {
@@ -221,7 +237,8 @@ function NoodleSystem() constructor {
 		if (!noodle_station.ritual_active) return;
 		if (noodle_station.state != NOODLE_STATE.RITUAL_SELECT) return;
 		
-		noodle_station.ritual_type = _noodle_type;
+		noodle_station.state = NOODLE_STATE.RITUAL_TRANSFORM;
+		noodle_station.ritual_timer = 120;
 		
 		if (_noodle_type == NOODLE_ID.WHEAT) {
 			

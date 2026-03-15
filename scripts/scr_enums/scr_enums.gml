@@ -39,11 +39,12 @@ function scr_enums(){
 	enum NOODLE_STATE {
 		NO_SHEET,
 	    ACTIVE,
-	    CUTTING, 
+	    CUTTING,
 	    RITUAL_SELECT,
+		RITUAL_TRANSFORM,
 	    RITUAL_PATTERN,
-	    RITUAL_INPUT,   
-	    RITUAL_FAIL,   
+	    RITUAL_INPUT,
+	    RITUAL_FAIL,
 	    COMPLETE        
 	}
 	

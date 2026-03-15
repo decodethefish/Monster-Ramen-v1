@@ -8,37 +8,81 @@ draw_rectangle(0, 0, display_get_gui_width(), display_get_gui_height(), false);
 var station = obj_game.noodles.noodle_station;
 draw_sprite(spr_nd_board, 0, station.board_x, station.board_y);
 
-// Sheet de masa
-if (obj_game.noodles.noodle_station.has_sheet) {
+var is_transformed =
+	station.state == NOODLE_STATE.RITUAL_TRANSFORM ||
+	station.state == NOODLE_STATE.RITUAL_PATTERN ||
+	station.state == NOODLE_STATE.RITUAL_INPUT ||
+	station.state == NOODLE_STATE.RITUAL_FAIL;
+
+
+if (station.state == NOODLE_STATE.RITUAL_TRANSFORM) {
+	
+	var cx = station.sheet_x;
+	var cy = station.sheet_y;
+	
+	var progress = 1 - (station.ritual_timer / 120);
+	var alpha = clamp(progress, 0, 1);
+	
+	draw_set_alpha(alpha);
+	draw_sprite(spr_nd_ritual_circle, 0, cx, cy);
+	
+	draw_set_alpha(1);
+	
+	var rune_progress = clamp((progress - 0.4) / 0.6, 0, 1);
+	draw_set_alpha(rune_progress);
+	
+	var rune_count = 6;
+	var radius = 60;
+	var step = 360 / rune_count;
+	
+	for (var i = 0; i < rune_count; i++) {
+		
+		var ang = -90 + i * step;
+		
+		var runex = cx + lengthdir_x(radius, ang);
+		var runey = cy + lengthdir_y(radius, ang);
+		
+		draw_sprite(spr_nd_ritual_runes, 0, runex, runey);
+	}
+	
+	draw_set_alpha(1);
+	
+}
+
+// Masa
+if (station.has_sheet) {
 	
 	var spr = spr_nd_sheet; 
 	
 	var sw = sprite_get_width(spr);
 	var sh = sprite_get_height(spr);
-
 	
 	var draw_x = station.sheet_x;
 	
-	// sprite sheet fijo
-	draw_sprite(spr_nd_sheet, 0, draw_x, station.sheet_y);
-	
-	var cuts = obj_game.noodles.noodle_station.cuts;
-	draw_set_colour(c_black);
-	
 	var half_w = sw * 0.5;
 	var half_h = sh * 0.5;
-	
 	var left_edge = draw_x - half_w;
 	var px_per_cm = sw / 10;
+
+	if (!is_transformed) {
+		
+		draw_sprite(spr_nd_sheet, 0, draw_x, station.sheet_y);
+		
+		var cuts = obj_game.noodles.noodle_station.cuts;
+		draw_set_colour(c_black);
 	
-		// cortes
-	for (var i = 0; i < array_length(cuts); i++) {
+			// cortes
+		for (var i = 0; i < array_length(cuts); i++) {
 		
-		var cm = cuts[i];
+			var cm = cuts[i];
+			var cut_x = left_edge + cm * px_per_cm;
+			draw_sprite(spr_nd_cut, 0, cut_x, station.sheet_y);
+			
+		}
 		
-		var cut_x = left_edge + cm * px_per_cm;
+	} else {
 		
-		draw_sprite(spr_nd_cut, 0, cut_x, station.sheet_y);
+		draw_sprite(spr_nd_ball, 0, draw_x, station.sheet_y);
 	}
 	
 	
@@ -70,7 +114,7 @@ if (obj_game.noodles.noodle_station.has_sheet) {
 	}
 }
 	
-// Masa
+// Masa arrastable
 for (var i = 0; i < array_length(dough); i++) {
 	var d = dough[i];
 	draw_sprite(d.sprite, 0, d.x, d.y);
@@ -141,5 +185,7 @@ if (station.state == NOODLE_STATE.RITUAL_SELECT) {
 		draw_sprite(spr, i, sym_x, sym_y);
 	}
 }
+
+
 
 	
