@@ -9,13 +9,15 @@ var station = obj_game.noodles.noodle_station;
 draw_sprite(spr_nd_board, 0, station.board_x, station.board_y);
 
 var is_transformed =
-	station.state == NOODLE_STATE.RITUAL_TRANSFORM ||
-	station.state == NOODLE_STATE.RITUAL_PATTERN ||
-	station.state == NOODLE_STATE.RITUAL_INPUT ||
-	station.state == NOODLE_STATE.RITUAL_FAIL;
+	station.state >= NOODLE_STATE.RITUAL_TRANSFORM &&
+	station.state <= NOODLE_STATE.COMPLETE;
+var show_ritual_visuals =
+	is_transformed &&
+	station.ritual_type != NOODLE_ID.NONE &&
+	station.ritual_type != NOODLE_ID.WHEAT;
 
-
-if (is_transformed) {
+// Ritual
+if (show_ritual_visuals) {
 	
 	var cx = station.sheet_x;
 	var cy = station.sheet_y;
@@ -25,7 +27,7 @@ if (is_transformed) {
 		progress = (120 - station.ritual_timer) / 120;
 	}
 	
-	var alpha = clamp(progress, 0, 1);
+	var alpha = clamp(progress, 0, 0.5);
 	
 	draw_set_alpha(alpha);
 	draw_sprite(spr_nd_ritual_circle, station.ritual_type, cx, cy);
@@ -39,14 +41,81 @@ if (is_transformed) {
 	
 	// runas
 	if (array_length(obj_game.noodles.ritual_rune_x) >= 6) {
-
-		for (var i = 0; i < 6; i++) {
+		
+		var current = obj_game.noodles.get_current_rune();
+		
+		for (var i = 0; i < rune_count; i++) {
 
 			var runex = obj_game.noodles.ritual_rune_x[i];
 			var runey = obj_game.noodles.ritual_rune_y[i];
-			var current = obj_game.noodles.get_current_rune();
-
-			draw_sprite(spr_nd_ritual_runes, i, runex, runey);
+			var alpha_rune = 0.3;
+			
+			if (station.state == NOODLE_STATE.RITUAL_PATTERN) {
+				
+				if (i == current) {
+					alpha_rune = 1;	
+				} else {
+					alpha_rune = 0.15;
+				}
+			}
+			
+			else if (station.state == NOODLE_STATE.RITUAL_INPUT) {
+				
+				alpha_rune = 0.5;
+				
+				if (i == station.ritual_last_pressed && station.ritual_last_timer > 0) {
+					alpha_rune = 1;
+				}
+			}
+			
+			else if (station.state == NOODLE_STATE.RITUAL_FAIL) {
+				
+				alpha_rune = 0.2;
+				
+				if (i == station.ritual_last_pressed && station.ritual_last_timer > 0) {
+					alpha_rune = 1;	
+				}
+			}
+			
+			// circulo base
+			draw_set_alpha(0.6);
+			draw_set_colour(c_black);
+			draw_circle(runex, runey, 24, false)
+			
+			var rune_color = c_white;
+			
+			if (station.state == NOODLE_STATE.RITUAL_PATTERN) {
+				if (i == current) {
+					rune_color = c_lime;	
+				}
+			}
+			
+			else if (station.state == NOODLE_STATE.RITUAL_INPUT || 
+					 station.state == NOODLE_STATE.RITUAL_FAIL) {
+				
+				if (i == station.ritual_last_pressed && station.ritual_last_timer > 0) {
+					
+					if (station.ritual_last_correct) {
+						rune_color = c_lime;
+					} else {
+						rune_color = c_red;
+					}
+				}
+			}
+			
+			// Dibujar runas
+			draw_set_alpha(alpha_rune);
+			draw_sprite_ext(
+				spr_nd_ritual_runes,
+				i,
+				runex,
+				runey,
+				1,
+				1,
+				0,
+				rune_color,
+				alpha_rune
+				);
 		}
 	}
 	draw_set_alpha(1);
@@ -85,7 +154,13 @@ if (station.has_sheet) {
 		
 	} else {
 		
-		draw_sprite(spr_nd_ball, 0, draw_x, station.sheet_y);
+		var ball_index = 1;
+		
+		if (station.state == NOODLE_STATE.COMPLETE) {
+			ball_index = station.type;
+		}
+		
+		draw_sprite(spr_nd_ball, ball_index, draw_x, station.sheet_y);
 	}
 	
 	
@@ -99,9 +174,10 @@ if (station.has_sheet) {
 		my <= station.sheet_y + half_h;
 		
 	// lineas
-	if (mouse_over_sheet && !station.ritual_active) {
+	if (mouse_over_sheet && 
+	   (station.state == NOODLE_STATE.ACTIVE ||
+	    station.state == NOODLE_STATE.CUTTING)) {
 			
-		var board_h = sprite_get_height(spr_nd_board);
 		var top = station.board_y - station.board_h * 0.5;
 		var bottom = station.board_y + station.board_h * 0.5;
 		var raw_cm = (mx - left_edge) / px_per_cm;
@@ -134,13 +210,18 @@ for (var i = 0; i < array_length(bowls); i++) {
 }
 
 // Botón ritual
-if (station.ritual_available && !station.ritual_complete) { 
-
+var can_reselect =
+    station.state >= NOODLE_STATE.RITUAL_TRANSFORM &&
+    station.state <= NOODLE_STATE.RITUAL_FAIL;
+if (station.state == NOODLE_STATE.CUTTING || 
+	can_reselect && station.ritual_available && !station.ritual_complete) {
+		
 	draw_sprite(spr_nd_choose_ritual, 0, rbutton_x, rbutton_y);
 }
 
-// UI selección de ritual
-if (station.state == NOODLE_STATE.RITUAL_SELECT) {
+// OVERLAY selección de ritual
+var in_select = (station.state == NOODLE_STATE.RITUAL_SELECT);
+if (in_select) {
 	
 	var gw = display_get_gui_width();
 	var gh = display_get_gui_height();
@@ -153,7 +234,7 @@ if (station.state == NOODLE_STATE.RITUAL_SELECT) {
 	
 	// ventana
 	
-	var win_w = 496;
+	var win_w = 460;
 	var win_h = 140;
 	var win_x = gw * 0.5 - win_w * 0.5;
 	var win_y = gh * 0.5 - win_h * 0.5;
@@ -188,6 +269,3 @@ if (station.state == NOODLE_STATE.RITUAL_SELECT) {
 		draw_sprite(spr, i, sym_x, sym_y);
 	}
 }
-
-draw_set_colour(c_black);
-draw_text(20, 60, "LAST: " + string(station.ritual_last_pressed));

@@ -16,7 +16,6 @@
     {"$GMSpriteFrame":"v1","%Name":"fc400c7a-4f8b-4469-90c3-5694222c781f","name":"fc400c7a-4f8b-4469-90c3-5694222c781f","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
     {"$GMSpriteFrame":"v1","%Name":"4578f715-77d4-434c-8999-164a72cdf66b","name":"4578f715-77d4-434c-8999-164a72cdf66b","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
     {"$GMSpriteFrame":"v1","%Name":"99cad23b-f8d3-4de3-8df7-b84d9ff89521","name":"99cad23b-f8d3-4de3-8df7-b84d9ff89521","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
-    {"$GMSpriteFrame":"v1","%Name":"6c99e092-7b7a-4d07-800f-4ae11548b942","name":"6c99e092-7b7a-4d07-800f-4ae11548b942","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
     {"$GMSpriteFrame":"v1","%Name":"b06b3e61-b5b5-4226-a968-80e96b457dfa","name":"b06b3e61-b5b5-4226-a968-80e96b457dfa","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
@@ -54,7 +53,7 @@
     },
     "eventStubScript":null,
     "eventToFunction":{},
-    "length":6.0,
+    "length":5.0,
     "lockOrigin":false,
     "moments":{
       "$KeyframeStore<MomentsEventKeyframe>":"",
@@ -86,11 +85,8 @@
                 "0":{"$SpriteFrameKeyframe":"","Id":{"name":"99cad23b-f8d3-4de3-8df7-b84d9ff89521","path":"sprites/spr_nd_ritual_circle/spr_nd_ritual_circle.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
               },"Disabled":false,"id":"f7bee7a1-3cc7-4bc2-98de-a74e436b3fab","IsCreationKey":false,"Key":3.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
             {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"6c99e092-7b7a-4d07-800f-4ae11548b942","path":"sprites/spr_nd_ritual_circle/spr_nd_ritual_circle.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"0ead7b35-dab7-424e-a512-857c8c4edce1","IsCreationKey":false,"Key":4.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
                 "0":{"$SpriteFrameKeyframe":"","Id":{"name":"b06b3e61-b5b5-4226-a968-80e96b457dfa","path":"sprites/spr_nd_ritual_circle/spr_nd_ritual_circle.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"28170796-48df-4f02-af6f-03efde49e8ec","IsCreationKey":false,"Key":5.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+              },"Disabled":false,"id":"28170796-48df-4f02-af6f-03efde49e8ec","IsCreationKey":false,"Key":4.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
           ],"resourceType":"KeyframeStore<SpriteFrameKeyframe>","resourceVersion":"2.0",},"modifiers":[],"name":"frames","resourceType":"GMSpriteFramesTrack","resourceVersion":"2.0","spriteId":null,"trackColour":0,"tracks":[],"traits":0,},
     ],
     "visibleRange":null,

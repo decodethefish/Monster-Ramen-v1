@@ -1,6 +1,8 @@
 function EggSystem() constructor {
 	
 	station_state = EGG_STATION_STATE.CATCHING;
+	is_passive = false;
+	my_station = STATION.EGGS;
 	
 	max_chickens = 5;
 	active_chickens = 5;
@@ -15,7 +17,6 @@ function EggSystem() constructor {
 	eggs = [];
 	egg_data = [];
 	caught_eggs = [];
-	
 	
 	basket_x = 0;
 	basket_y = 0;
@@ -89,6 +90,10 @@ function EggSystem() constructor {
 		};
 		
 		
+	}
+	
+	function should_update(_current_station) {
+		return is_passive || _current_station == my_station;	
 	}
 	
     function update(_dt) {

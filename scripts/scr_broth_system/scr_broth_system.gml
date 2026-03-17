@@ -3,7 +3,8 @@ function BrothSystem() constructor {
 	broth_data = [];
 	pots = [];
 	pot_positions = [];
-	
+	is_passive = true;
+	my_station = STATION.BROTH;
 	
 	function init() {
 		
@@ -72,9 +73,12 @@ function BrothSystem() constructor {
 	
 		return -1;
 	}
-		
-	function update(_dt) {
-		
+
+	function should_update(_current_station) {
+		return is_passive || _current_station == my_station;	
+	}
+
+	function update(_dt) {		
 		for (var i = 0; i < array_length(pots); i++) {
 			
 			var pot = pots[i];

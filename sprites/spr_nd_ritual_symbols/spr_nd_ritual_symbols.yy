@@ -12,18 +12,17 @@
   "edgeFiltering":false,
   "For3D":false,
   "frames":[
-    {"$GMSpriteFrame":"v1","%Name":"c94e16d9-0d94-434f-ba11-8939be61ed72","name":"c94e16d9-0d94-434f-ba11-8939be61ed72","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
-    {"$GMSpriteFrame":"v1","%Name":"4010d14e-b99c-42f4-96bf-27c965ef8a72","name":"4010d14e-b99c-42f4-96bf-27c965ef8a72","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
-    {"$GMSpriteFrame":"v1","%Name":"16f757b9-f5e9-42da-8758-f694d508e8ec","name":"16f757b9-f5e9-42da-8758-f694d508e8ec","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
-    {"$GMSpriteFrame":"v1","%Name":"4941ff2d-a120-4393-b0df-b02733cd1de2","name":"4941ff2d-a120-4393-b0df-b02733cd1de2","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
-    {"$GMSpriteFrame":"v1","%Name":"76a3a49b-7991-424d-8dcc-1f1162c3b082","name":"76a3a49b-7991-424d-8dcc-1f1162c3b082","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"0a799975-37cd-48dd-867b-50589c4e4363","name":"0a799975-37cd-48dd-867b-50589c4e4363","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"8a39107d-8080-4b38-abb4-923683373e62","name":"8a39107d-8080-4b38-abb4-923683373e62","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"e42479c7-e585-43ed-a4fb-cce59c1ce31a","name":"e42479c7-e585-43ed-a4fb-cce59c1ce31a","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"4e12b5b9-0aff-4565-8e00-6d6fe04732c8","name":"4e12b5b9-0aff-4565-8e00-6d6fe04732c8","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,
   "height":64,
   "HTile":false,
   "layers":[
-    {"$GMImageLayer":"","%Name":"4d6f2798-1cbd-4b3e-823c-bcd4dd1f0cea","blendMode":0,"displayName":"default","isLocked":false,"name":"4d6f2798-1cbd-4b3e-823c-bcd4dd1f0cea","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,},
+    {"$GMImageLayer":"","%Name":"f5ed043a-84f4-4fa1-9c29-3b701f289346","blendMode":0,"displayName":"default","isLocked":false,"name":"f5ed043a-84f4-4fa1-9c29-3b701f289346","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,},
   ],
   "name":"spr_nd_ritual_symbols",
   "nineSlice":null,
@@ -53,7 +52,7 @@
     },
     "eventStubScript":null,
     "eventToFunction":{},
-    "length":5.0,
+    "length":4.0,
     "lockOrigin":false,
     "moments":{
       "$KeyframeStore<MomentsEventKeyframe>":"",
@@ -73,20 +72,17 @@
     "tracks":[
       {"$GMSpriteFramesTrack":"","builtinName":0,"events":[],"inheritsTrackColour":true,"interpolation":1,"isCreationTrack":false,"keyframes":{"$KeyframeStore<SpriteFrameKeyframe>":"","Keyframes":[
             {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"c94e16d9-0d94-434f-ba11-8939be61ed72","path":"sprites/spr_nd_ritual_symbols/spr_nd_ritual_symbols.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"9b56c532-2c34-4935-a4a2-5d75ae999dcd","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"0a799975-37cd-48dd-867b-50589c4e4363","path":"sprites/spr_nd_ritual_symbols/spr_nd_ritual_symbols.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
+              },"Disabled":false,"id":"c50b1f96-20ee-4f18-8559-81a847ac8e77","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
             {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"4010d14e-b99c-42f4-96bf-27c965ef8a72","path":"sprites/spr_nd_ritual_symbols/spr_nd_ritual_symbols.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"54838e3d-210a-4c2c-a551-eebd2e2a73a0","IsCreationKey":false,"Key":1.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"8a39107d-8080-4b38-abb4-923683373e62","path":"sprites/spr_nd_ritual_symbols/spr_nd_ritual_symbols.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
+              },"Disabled":false,"id":"246cdb29-3e75-433f-a25d-9b7848539bb1","IsCreationKey":false,"Key":1.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
             {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"16f757b9-f5e9-42da-8758-f694d508e8ec","path":"sprites/spr_nd_ritual_symbols/spr_nd_ritual_symbols.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"25f82692-caa1-4084-8e5e-dd283abfcb30","IsCreationKey":false,"Key":2.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"e42479c7-e585-43ed-a4fb-cce59c1ce31a","path":"sprites/spr_nd_ritual_symbols/spr_nd_ritual_symbols.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
+              },"Disabled":false,"id":"a4185a7f-5786-4c42-81e2-a33f63f23545","IsCreationKey":false,"Key":2.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
             {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"4941ff2d-a120-4393-b0df-b02733cd1de2","path":"sprites/spr_nd_ritual_symbols/spr_nd_ritual_symbols.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"2bfa535e-b5e3-46d0-8e79-257faccff748","IsCreationKey":false,"Key":3.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"76a3a49b-7991-424d-8dcc-1f1162c3b082","path":"sprites/spr_nd_ritual_symbols/spr_nd_ritual_symbols.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"9b8e5331-93b0-40a1-9f54-db43d7b9a438","IsCreationKey":false,"Key":4.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"4e12b5b9-0aff-4565-8e00-6d6fe04732c8","path":"sprites/spr_nd_ritual_symbols/spr_nd_ritual_symbols.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
+              },"Disabled":false,"id":"404765c0-3f2a-4888-aea8-09a2c19bcc51","IsCreationKey":false,"Key":3.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
           ],"resourceType":"KeyframeStore<SpriteFrameKeyframe>","resourceVersion":"2.0",},"modifiers":[],"name":"frames","resourceType":"GMSpriteFramesTrack","resourceVersion":"2.0","spriteId":null,"trackColour":0,"tracks":[],"traits":0,},
     ],
     "visibleRange":null,

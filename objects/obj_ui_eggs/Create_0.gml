@@ -42,6 +42,7 @@ for (var i = 0; i < 3; i++) {
     bw.y_start = by;
     bw.bowl_index = i;
 }
+block_bowl_move = true;
 
 // Huevos
 dragging_egg = false;

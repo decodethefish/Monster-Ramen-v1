@@ -22,7 +22,6 @@ ritual_symbols = [
 	NOODLE_ID.WHEAT,
 	NOODLE_ID.MUCUS,
 	NOODLE_ID.STONE,
-	NOODLE_ID.LEY,
 	NOODLE_ID.CURSED
 ];
 
@@ -68,7 +67,7 @@ function update_ritual_select(_mx, _my) {
 guide_active = false;
 guide_x = 0;
 
-// Masa unica
+// Masa
 dough = [];
 var d = {
 	x_start: 77,

@@ -33,7 +33,6 @@ function scr_enums(){
 		WHEAT,
 		MUCUS,
 		STONE,
-		LEY,
 		CURSED
 	}
 	enum NOODLE_STATE {

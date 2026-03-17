@@ -2,28 +2,25 @@ function NoodleSystem() constructor {
 	
 	noodle_data = [];
 	noodle_station = [];
+	is_passive = false;
+	my_station = STATION.NOODLES;
 
 	function set_board_geometry(_gui_w, _gui_h) {
-		
 		noodle_station.board_w = sprite_get_width(spr_nd_board);
 		noodle_station.board_h = sprite_get_height(spr_nd_board);
 		
 		noodle_station.board_x = round(_gui_w * 0.07 + noodle_station.board_w * 0.5);
 		noodle_station.board_y = round(_gui_h * 0.25 + noodle_station.board_h * 0.5);
-
 	}
 	
 	function init() {
 		
-		noodle_data[NOODLE_ID.NONE] = {
-			name: "None"
-		};
-		noodle_data[NOODLE_ID.WHEAT] = {
-			name: "Wheat Noodles"
-		};
+		noodle_data[NOODLE_ID.NONE]  = { name: "None" };
+		noodle_data[NOODLE_ID.WHEAT] = { name: "Wheat Noodles" };
 		
 		ritual_rune_x = [];
 		ritual_rune_y = [];
+		ritual_seq_lenght = 5;
 		
 		noodle_station = {
 			
@@ -43,7 +40,6 @@ function NoodleSystem() constructor {
 			board_h: 0,
 			
 			ritual_available: false,
-			ritual_active: false,
 			ritual_complete: false,
 			ritual_prev_state: NOODLE_STATE.NO_SHEET,
 			ritual_type: NOODLE_ID.NONE,
@@ -54,75 +50,69 @@ function NoodleSystem() constructor {
 			ritual_show_on: true,
 			ritual_last_pressed: -1,
 			ritual_last_timer: 0,
+			ritual_last_correct: false,
 			
 			ritual_input_lock: 0
-			
-
 		};
 	}
 			
 	function start_sheet(_target_cm) {
 		if (_target_cm <= 0) return;
 		
-		noodle_station.sheet_x = noodle_station.board_x;
-		noodle_station.sheet_y = noodle_station.board_y;
-		noodle_station.has_sheet = true;
-		noodle_station.type = NOODLE_ID.WHEAT;
-		noodle_station.target_cm = _target_cm;
-		noodle_station.cuts = [];
-		noodle_station.state = NOODLE_STATE.ACTIVE;
-		noodle_station.ritual_available = false;
+		var s = noodle_station;
 		
-		
+		s.sheet_x = s.board_x;
+		s.sheet_y = s.board_y;
+		s.has_sheet = true;
+		s.type = NOODLE_ID.WHEAT;
+		s.target_cm = _target_cm;
+		s.cuts = [];
+		s.state = NOODLE_STATE.ACTIVE;
+		s.ritual_available = false;
 	}
 	
 	function add_cut(_cm) {
-		if (!noodle_station.has_sheet) return;
-		if (noodle_station.state != NOODLE_STATE.ACTIVE && 
-			noodle_station.state != NOODLE_STATE.CUTTING) return;	
-	
-		array_push(noodle_station.cuts, _cm);
+		var s = noodle_station;
 		
-		if (array_length(noodle_station.cuts) == 1) {
-			noodle_station.state = NOODLE_STATE.CUTTING;
-			noodle_station.ritual_available = true;
+		if (!s.has_sheet) return;
+		if (s.state != NOODLE_STATE.ACTIVE && s.state != NOODLE_STATE.CUTTING) return;	
+	
+		array_push(s.cuts, _cm);
+		
+		if (array_length(s.cuts) == 1) {
+			s.state = NOODLE_STATE.CUTTING;
+			s.ritual_available = true;
 		}
 	}
 	
 	function calculate_quality() {
+		var s = noodle_station;
 		
-		if (!noodle_station.has_sheet) return 0;
+		if (!s.has_sheet) return 0;
 		
-		var cut_count = array_length(noodle_station.cuts);
+		var cut_count = array_length(s.cuts);
 		if (cut_count == 0) return 0;
 		
-		var target = noodle_station.target_cm;
+		var target = s.target_cm;
 		var sheet_lenght = 10;
 		
 		var prev = 0;
 		var total_error = 0;
 		
 		for (var i = 0; i < cut_count; i++) {
-		
-			var current = noodle_station.cuts[i];
+			var current = s.cuts[i];
 			var segment = current - prev;
 			total_error += abs(segment - target);
 			prev = current;
 		}
 		
-		// ultimo segmento
 		var last_segment = sheet_lenght - prev;
 		total_error += abs(last_segment - target);
 	
-		// normalizar error - calidad
 		var segments = sheet_lenght / target;
-		var max_error_per_segment = 1;
-		var max_error = segments * max_error_per_segment;
+		var max_error = segments * 1;
 	
-		var quality = 1 - (total_error / max_error);
-		quality = clamp(quality,0,1);
-		
-		return quality;
+		return clamp(1 - (total_error / max_error), 0, 1);
 	}
 		
 	function can_serve() {
@@ -130,254 +120,212 @@ function NoodleSystem() constructor {
 	}
 	
 	function get_result() {
-		
 	    return { 
 			noodle_id: noodle_station.type,
 	        quality: calculate_quality()
 	    };
 	}
 
+	function should_update(_current_station) {
+		return is_passive || _current_station == my_station;	
+	}
+
 	function update(_dt) {
+		var s = noodle_station;
 		
-		var station = noodle_station;
+		if (s.ritual_input_lock > 0) s.ritual_input_lock--;
+		if (s.ritual_last_timer > 0) s.ritual_last_timer--;
 		
-		if (station.ritual_input_lock > 0) {
-			station.ritual_input_lock--;
-		}
-		if (station.ritual_last_timer > 0) {
-			station.ritual_last_timer--;	
-		}
-		
-		switch (station.state) {
-			
-			case NOODLE_STATE.RITUAL_TRANSFORM:
-				update_ritual_transform();
-			break;
-			
-			case NOODLE_STATE.RITUAL_PATTERN:
-				update_ritual_pattern();
-			break;
-			
-			case NOODLE_STATE.RITUAL_FAIL:
-				update_ritual_fail();
-			break;
-			
+		switch (s.state) {
+			case NOODLE_STATE.RITUAL_TRANSFORM: update_ritual_transform(); break;
+			case NOODLE_STATE.RITUAL_PATTERN:   update_ritual_pattern();   break;
+			case NOODLE_STATE.RITUAL_FAIL:      update_ritual_fail();      break;
 		}
 		
-		if (station.state >= NOODLE_STATE.RITUAL_TRANSFORM) {
+		if (s.state >= NOODLE_STATE.RITUAL_TRANSFORM) {
 			update_rune_positions();
 		}
 	}
 	
 	function update_ritual_transform() {
+		var s = noodle_station;
 		
-		var station = noodle_station;
-		
-		station.ritual_timer --;
-		
-		if (station.ritual_timer > 0) return;
+		s.ritual_timer--;
+		if (s.ritual_timer > 0) return;
 		
 		start_ritual_pattern();
-		
 	}
 	
 	function update_ritual_pattern() {
-		
-		var station = noodle_station;
+		var s = noodle_station;
 
-		station.ritual_timer--;
+		s.ritual_timer--;
+		if (s.ritual_timer > 0) return;
 		
-		if (station.ritual_timer > 0) return;
-		
-		if (station.ritual_show_on) {
-			
-			station.ritual_show_on = false;
-			station.ritual_timer = 12;
-			
+		if (s.ritual_show_on) {
+			s.ritual_show_on = false;
+			s.ritual_timer = 30;
 		} else {
-			
-			station.ritual_show_index++;
+			s.ritual_show_index++;
 		
-			if (station.ritual_show_index >= array_length(station.ritual_sequence)) {
-			
-				station.ritual_index = 0;
-				station.state = NOODLE_STATE.RITUAL_INPUT;
+			if (s.ritual_show_index >= array_length(s.ritual_sequence)) {
+				s.ritual_index = 0;
+				s.state = NOODLE_STATE.RITUAL_INPUT;
 				return;
 			}
 			
-			station.ritual_show_on = true;
-			station.ritual_timer = 20;
-			
+			s.ritual_show_on = true;
+			s.ritual_timer = 45;
 		}
 	}
 	
 	function update_ritual_fail() {
+		var s = noodle_station;
 		
-		var station = noodle_station;
-		
-		station.ritual_timer--;
-		
-		if (station.ritual_timer > 0) return;
+		s.ritual_timer--;
+		if (s.ritual_timer > 0) return;
 		
 		start_ritual_pattern();
-		
 	}
 	
 	function update_rune_positions() {
+		var s = noodle_station;
 
-		var station = noodle_station;
+		var cx = s.sheet_x;
+		var cy = s.sheet_y;
 
-		var cx = station.sheet_x;
-		var cy = station.sheet_y;
+		var radius = (sprite_get_width(spr_nd_ritual_circle) * 0.5)
+				   - (sprite_get_width(spr_nd_ritual_runes) * 0.5);
 
-		var circle_w = sprite_get_width(spr_nd_ritual_circle);
-		var rune_w = sprite_get_width(spr_nd_ritual_runes);
-
-		var radius = (circle_w * 0.5) - (rune_w * 0.5);
-
-		var rune_count = 6;
-		var step = 360 / rune_count;
-	
+		var step = 360 / 6;
 		
-		for (var i = 0; i < rune_count; i++) {
-
+		for (var i = 0; i < 6; i++) {
 			var ang = -90 + i * step;
-
 			ritual_rune_x[i] = cx + lengthdir_x(radius, ang);
 			ritual_rune_y[i] = cy + lengthdir_y(radius, ang);
 		}
 	}
 
 	function reset() {
+		var s = noodle_station;
 		
-	    noodle_station.has_sheet = false;
-	    noodle_station.cuts = [];
-	    noodle_station.type = NOODLE_ID.NONE;
+		s.has_sheet = false;
+		s.cuts = [];
+		s.type = NOODLE_ID.NONE;
+		s.ritual_complete = false;
+		s.ritual_available = false;
+		s.state = NOODLE_STATE.NO_SHEET;
 	}		
 	
 	function start_ritual() {
+		var s = noodle_station;
 		
-		if (!noodle_station.has_sheet) return;
-		if (!noodle_station.ritual_available) return;
-		if (noodle_station.ritual_complete) return;
+		if (!s.has_sheet) return;
+		if (!s.ritual_available) return;
+		if (s.ritual_complete) return;
 		
-		noodle_station.ritual_active = true;
-		
-		noodle_station.ritual_prev_state = noodle_station.state;
-
-		noodle_station.state = NOODLE_STATE.RITUAL_SELECT;
-		
+		s.ritual_prev_state = s.state;
+		s.state = NOODLE_STATE.RITUAL_SELECT;
 	}	
 	
 	function select_ritual(_noodle_type) {
+		var s = noodle_station;
 		
-		if (!noodle_station.ritual_active) return;
-		if (noodle_station.state != NOODLE_STATE.RITUAL_SELECT) return;
+		if (s.state != NOODLE_STATE.RITUAL_SELECT) return;
 		
-		noodle_station.ritual_type = _noodle_type;
-		noodle_station.state = NOODLE_STATE.RITUAL_TRANSFORM;
-		noodle_station.ritual_timer = 120;
+		if (s.ritual_type != _noodle_type) {
+			s.ritual_sequence = [];
+			s.ritual_index = 0;
+			s.ritual_show_index = 0;			
+		}
+
+		s.ritual_type = _noodle_type;
+		s.state = NOODLE_STATE.RITUAL_TRANSFORM;
+		s.ritual_timer = 120;
 		
 		if (_noodle_type == NOODLE_ID.WHEAT) {
-			
-			noodle_station.type = NOODLE_ID.WHEAT;
-			noodle_station.ritual_complete = true;
-			noodle_station.ritual_active = false;
-			noodle_station.state = NOODLE_STATE.COMPLETE;
-			
-			return;
+			s.type = NOODLE_ID.WHEAT;
+			s.state = NOODLE_STATE.CUTTING;
 		}
 	}
 	
 	function start_ritual_pattern() {
+		var s = noodle_station;
 		
-		var station = noodle_station;
+		s.ritual_sequence = [];
+		s.ritual_index = 0;
+		s.ritual_show_index = 0;
 		
-		station.ritual_sequence = [];
-		station.ritual_index = 0;
-		station.ritual_show_index = 0;
-		
-		var length = 6;
-		
-		repeat(length) {
-			array_push(station.ritual_sequence, irandom(5));
+		repeat(ritual_seq_lenght) {
+			array_push(s.ritual_sequence, irandom(5));
 		}
 		
-		station.ritual_show_on = true;
-		station.ritual_timer = 27;
-		station.state = NOODLE_STATE.RITUAL_PATTERN;
-		
+		s.ritual_show_on = true;
+		s.ritual_timer = 27;
+		s.state = NOODLE_STATE.RITUAL_PATTERN;
 	}
 		
 	function get_current_rune() {
+		var s = noodle_station;
 		
-		var station = noodle_station;
+		if (s.state != NOODLE_STATE.RITUAL_PATTERN) return -1;
+		if (!s.ritual_show_on) return -1;
+		if (s.ritual_show_index >= array_length(s.ritual_sequence)) return -1;
 		
-		if (station.state != NOODLE_STATE.RITUAL_PATTERN) return -1;
-		if (!station.ritual_show_on) return -1;
-		if (station.ritual_show_index >= array_length(station.ritual_sequence)) return -1;
-		
-		return station.ritual_sequence[station.ritual_show_index];
-		
+		return s.ritual_sequence[s.ritual_show_index];
 	}
 		
 	function press_rune(_rune_index) {
 		
-		var station = noodle_station;
+		var s = noodle_station;
 		
-		if (station.state != NOODLE_STATE.RITUAL_INPUT) return;
-		if (station.ritual_input_lock > 0) return;
+		if (array_length(s.ritual_sequence) == 0) return;
+		if (s.state != NOODLE_STATE.RITUAL_INPUT) return;
+		if (s.ritual_input_lock > 0) return;
 		
-		station.ritual_last_pressed = _rune_index;
-		station.ritual_last_timer = 10;
+		s.ritual_last_pressed = _rune_index;
+		s.ritual_last_timer = 10;
 		
-		var expected = station.ritual_sequence[station.ritual_index];
-		
-		station.ritual_input_lock = 8;
+		var expected = s.ritual_sequence[s.ritual_index];
+		s.ritual_input_lock = 1;
 		
 		if (_rune_index == expected) {
 			
-			station.ritual_index++;
+			s.ritual_last_correct = true;
+			s.ritual_index++;
 			
-			if (station.ritual_index >= array_length(station.ritual_sequence)) {
+			if (s.ritual_index >= array_length(s.ritual_sequence)) {
 				ritual_success();
-			}	
-			
+			}
 		} else {
-			
+			s.ritual_last_correct = false;
 			ritual_fail();
-			
 		}
 	}
 	
 	function ritual_success() {
+		var s = noodle_station;
 		
-		var station = noodle_station;
-		station.type = station.ritual_type;
-		
-		station.ritual_complete = true;
-		station.ritual_active = false;
-		
-		station.state = NOODLE_STATE.COMPLETE;
-		
+		s.type = s.ritual_type;
+		s.ritual_complete = true;
+		s.state = NOODLE_STATE.COMPLETE;
 	}
 	
 	function ritual_fail() {
+		var s = noodle_station;
 		
-		var station = noodle_station;
-		
-		station.state = NOODLE_STATE.RITUAL_FAIL;
-		station.ritual_timer = 45;
-		
+		s.state = NOODLE_STATE.RITUAL_FAIL;
+		s.ritual_timer = 45;
 	}
 	
 	function close_ritual_ui() {
+		var s = noodle_station;
 		
-		if (!noodle_station.ritual_active) return;
+		if (s.state < NOODLE_STATE.RITUAL_SELECT ||
+		    s.state > NOODLE_STATE.RITUAL_FAIL) return;
 		
-		noodle_station.state = noodle_station.ritual_prev_state;
-		
+		s.state = s.ritual_prev_state;
+
+		s.ritual_complete = false;
 	}
-		
-		
 }

@@ -3,7 +3,23 @@ if (obj_game.game_mode != GAME_MODE.COOKING) exit;
 var mx = device_mouse_x_to_gui(0);
 var my = device_mouse_y_to_gui(0);
 var station = obj_game.noodles.noodle_station;
-block_exit = station.ritual_active;
+block_exit = (station.state == NOODLE_STATE.RITUAL_SELECT);
+
+
+// Botón ritual
+if (station.state != NOODLE_STATE.RITUAL_SELECT &&  station.ritual_available && !station.ritual_complete) {
+
+	var mouse_over_ritual = 
+	mx >= rbutton_x - rbutton_w * 0.5 &&
+	mx <= rbutton_x + rbutton_w * 0.5 &&
+	my >= rbutton_y - rbutton_h * 0.5 &&
+	my <= rbutton_y + rbutton_h * 0.5;
+
+	if (mouse_over_ritual && mouse_check_button_pressed(mb_left)) {
+		obj_game.noodles.start_ritual();
+		return;
+	}
+}
 
 // Botones Runas
 if (station.state == NOODLE_STATE.RITUAL_INPUT) {
@@ -39,58 +55,63 @@ if (station.state == NOODLE_STATE.RITUAL_INPUT) {
 	exit;
 }
 
+// Bloqueo de input en selección de Ritual
 if (station.state == NOODLE_STATE.RITUAL_SELECT) {
 	update_ritual_select(mx, my);
 	exit;
 }
-if (station.ritual_active) exit;
 
+if (station.state >= NOODLE_STATE.RITUAL_TRANSFORM &&
+    station.state <= NOODLE_STATE.RITUAL_FAIL) exit;
+	
 // Masas drag & drop
-for (var i = 0; i < array_length(dough); i++) {
-	var d = dough[i]
+if (station.state != NOODLE_STATE.COMPLETE) {
+	for (var i = 0; i < array_length(dough); i++) {
+		var d = dough[i]
 	
-	var w = sprite_get_width(d.sprite);
-	var h = sprite_get_height(d.sprite);
+		var w = sprite_get_width(d.sprite);
+		var h = sprite_get_height(d.sprite);
 	
-	var left = d.x - w * 0.5;
-	var right = d.x + w * 0.5;
-	var top = d.y - h * 0.5;
-	var bottom = d.y + h * 0.5;
+		var left = d.x - w * 0.5;
+		var right = d.x + w * 0.5;
+		var top = d.y - h * 0.5;
+		var bottom = d.y + h * 0.5;
 	
-	var mouse_over = 
-		mx >= left && mx <= right &&
-		my >= top && my <= bottom;
-	
-	
-	// drag
-	if (mouse_over && mouse_check_button_pressed(mb_left)) {
-		d.dragging = true;
-	}
-	
-	if (d.dragging) {
-		d.x = mx;
-		d.y = my;
-	}
+		var mouse_over = 
+			mx >= left && mx <= right &&
+			my >= top && my <= bottom;
 	
 	
-	// soltar
-	if (d.dragging && mouse_check_button_released(mb_left)) {
-		
-		d.dragging = false;
-		
-		if (mx >= station.board_x - station.board_w * 0.5 &&
-		    mx <= station.board_x + station.board_w * 0.5 &&
-		    my >= station.board_y - station.board_h * 0.5 &&
-		    my <= station.board_y + station.board_h * 0.5) {
-	
-			obj_game.noodles.start_sheet(obj_game.current_order.noodle_target_cm);
+		// drag
+		if (mouse_over && mouse_check_button_pressed(mb_left)) {
+			d.dragging = true;
 		}
-		
-		d.x = d.x_start;
-		d.y = d.y_start;
-	}
 	
-	dough[i] = d;
+		if (d.dragging) {
+			d.x = mx;
+			d.y = my;
+		}
+	
+	
+		// soltar
+		if (d.dragging && mouse_check_button_released(mb_left)) {
+		
+			d.dragging = false;
+		
+			if (mx >= station.board_x - station.board_w * 0.5 &&
+			    mx <= station.board_x + station.board_w * 0.5 &&
+			    my >= station.board_y - station.board_h * 0.5 &&
+			    my <= station.board_y + station.board_h * 0.5) {
+	
+				obj_game.noodles.start_sheet(obj_game.current_order.noodle_target_cm);
+			}
+		
+			d.x = d.x_start;
+			d.y = d.y_start;
+		}
+	
+		dough[i] = d;
+	}
 }
 	
 if (!station.has_sheet) exit;
@@ -145,18 +166,4 @@ if (mouse_check_button_pressed(mb_left)) {
 	}
 }
 
-// Botón ritual
-if (station.ritual_available && !station.ritual_complete) {
-	
-	var mouse_over_ritual = 
-	mx >= rbutton_x - rbutton_w * 0.5 &&
-	mx <= rbutton_x + rbutton_w * 0.5 &&
-	my >= rbutton_y - rbutton_h * 0.5 &&
-	my <= rbutton_y + rbutton_h * 0.5;
-
-	if (mouse_over_ritual && mouse_check_button_pressed(mb_left)) {
-		obj_game.noodles.start_ritual();
-		
-	}
-}
 	

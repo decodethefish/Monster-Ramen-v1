@@ -3,9 +3,15 @@ var dt = delta_time / 1000000;
 dt *= time_scale_global;
 
 // updates de sistemas
-broth.update(dt);
-noodles.update(dt);
-eggs.update(dt);
+var systems = [broth, noodles, eggs];
+for (var i = 0; i < array_length(systems); i++) {
+	
+	var sys = systems[i];
+	
+	if (sys.should_update(current_station)) {
+		sys.update(dt);
+	}
+}
 
 // Controles UI
 if (game_mode == GAME_MODE.COOKING) {
@@ -32,9 +38,8 @@ if (game_mode == GAME_MODE.COOKING) {
 	// salir de la UI.
 	if keyboard_check_pressed(vk_escape) {
 		
-		if (instance_exists(current_ui)) {
-			if (current_ui.block_exit) return;
-		}
+		if (variable_instance_exists(current_ui, "block_exit") 
+		&& current_ui.block_exit) return;
 		
 		close_station();
 	}
