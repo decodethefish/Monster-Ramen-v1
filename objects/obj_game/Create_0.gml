@@ -1,4 +1,8 @@
 display_set_gui_size(640, 360);
+gpu_set_texfilter(false);
+camera_set_view_pos(view_camera[0], 0, 0);
+
+
 
 game_mode = GAME_MODE.WORLD;
 

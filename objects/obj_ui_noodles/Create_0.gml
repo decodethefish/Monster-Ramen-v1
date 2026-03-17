@@ -6,6 +6,7 @@ var gui_w = display_get_gui_width();
 var gui_h = display_get_gui_height();
 
 obj_game.noodles.set_board_geometry(gui_w, gui_h);
+obj_game.bowls.set_drag_locked_for_station(STATION.NOODLES, false);
 
 //botón ritual
 var station = obj_game.noodles.noodle_station;
@@ -15,7 +16,6 @@ rbutton_x = station.board_x + station.board_w * 0.5 + 32;
 rbutton_y = station.board_y;
 rbutton_w = sprite_get_width(spr_nd_choose_ritual);
 rbutton_h = sprite_get_height(spr_nd_choose_ritual);
-
 
 // Selección ritual
 ritual_symbols = [

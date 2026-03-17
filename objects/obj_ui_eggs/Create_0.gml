@@ -42,7 +42,8 @@ for (var i = 0; i < 3; i++) {
     bw.y_start = by;
     bw.bowl_index = i;
 }
-block_bowl_move = true;
+
+obj_game.bowls.set_drag_locked_for_station(STATION.EGGS, true);
 
 // Huevos
 dragging_egg = false;

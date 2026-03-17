@@ -5,6 +5,10 @@ var my = device_mouse_y_to_gui(0);
 var station = obj_game.noodles.noodle_station;
 block_exit = (station.state == NOODLE_STATE.RITUAL_SELECT);
 
+obj_game.bowls.set_drag_locked_for_station(
+	STATION.NOODLES,
+	station.state == NOODLE_STATE.RITUAL_SELECT
+);
 
 // Botón ritual
 if (station.state != NOODLE_STATE.RITUAL_SELECT &&  station.ritual_available && !station.ritual_complete) {

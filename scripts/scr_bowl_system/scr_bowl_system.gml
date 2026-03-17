@@ -1,6 +1,7 @@
 function BowlSystem(_count) constructor {
 
 	bowls = array_create(_count);
+	bowl_drag_lock_by_station = [];
 
 	for (var i = 0; i < _count; i++) {
 		bowls[i] = {
@@ -152,6 +153,17 @@ function BowlSystem(_count) constructor {
 		draw_sprite(spr_bowl_base, 0, _x, _y);
 		
 		draw_layers(data, _x, _y);
+	}
+		
+	function set_drag_locked_for_station(_station_id, _locked) {
+		if (_station_id < 0) return;
+		bowl_drag_lock_by_station[_station_id] = _locked;
+	}
+
+	function is_drag_locked_for_station(_station_id) {
+		if (_station_id < 0) return false;
+		if (_station_id >= array_length(bowl_drag_lock_by_station)) return false;
+		return bowl_drag_lock_by_station[_station_id];
 	}
 		
 }

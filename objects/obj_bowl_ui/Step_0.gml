@@ -7,8 +7,18 @@ var mouse_over =
 	mouse_x >= left && mouse_x <= right &&
 	mouse_y >= top && mouse_y <= bottom;
 	
+var station_id = obj_game.current_station;
+var drag_locked = obj_game.bowls.is_drag_locked_for_station(station_id);
+
+
 // drag & drop
-if (obj_game.current_station == STATION.EGGS) {
+if (drag_locked) {
+	if (dragging) {
+		dragging = false;
+		global.bowl_drag_active = false;
+		x = x_start;
+		y = y_start;
+	}
 	return;
 }
 
