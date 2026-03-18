@@ -3,7 +3,7 @@ var dt = delta_time / 1000000;
 dt *= time_scale_global;
 
 // updates de sistemas
-var systems = [broth, noodles, eggs];
+var systems = [broth, noodles, eggs, meat];
 for (var i = 0; i < array_length(systems); i++) {
 	
 	var sys = systems[i];

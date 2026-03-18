@@ -1,5 +1,3 @@
-// Tabla
-c_brown = #CCA57A
 
 // Crear tabla
 var gui_w = display_get_gui_width();
