@@ -51,3 +51,6 @@ noodles.init();
 
 eggs = new EggSystem();
 eggs.init();
+
+meat = new MeatSystem();
+meat.init();

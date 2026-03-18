@@ -29,7 +29,11 @@ if (game_mode == GAME_MODE.COOKING) {
 			
 			case STATION.EGGS:
 				current_ui = instance_create_layer(0,0,"UI",obj_ui_eggs);
-			break;			
+			break;	
+			
+			case STATION.MEAT:
+				current_ui = instance_create_layer(0,0,"UI",obj_ui_meat);
+			break;					
 			
 		}
 	}

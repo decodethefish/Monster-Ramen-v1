@@ -1,5 +1,5 @@
 function scr_enums(){
-	
+
 // game managing
 	enum GAME_MODE {
 		WORLD,
@@ -8,8 +8,7 @@ function scr_enums(){
 	enum STATION {
 		BROTH,
 		NOODLES,
-		MEAT_CUT,
-		MEAT_COOK,
+		MEAT,
 		EGGS,
 		VEGGIES,
 	}
@@ -70,6 +69,22 @@ function scr_enums(){
 	enum EGG_STATION_STATE {
 		CATCHING,
 		SERVING
+	}
+
+// meat system
+
+	enum MEAT_ID {
+		NONE,
+		BEEF,
+		BUG,
+		DRAGON
+	}
+	enum MEAT_STATE {
+		RAW,
+		TENDER,
+		READY_FOR_GRILL,
+		GRILL,
+		DONE
 	}
 
 }
