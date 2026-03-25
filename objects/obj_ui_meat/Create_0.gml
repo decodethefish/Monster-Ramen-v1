@@ -1,4 +1,5 @@
 dragging_raw = false;
+dragging_ready = false;
 drag_meat_id = MEAT_ID.NONE;
 
 var gui_w = display_get_gui_width();
@@ -7,6 +8,8 @@ var gui_h = display_get_gui_height();
 c_brown = #B27859;
 obj_game.meat.set_board_geometry(gui_w, gui_h);
 obj_game.meat.set_hammer_geometry(gui_w, gui_h);
+obj_game.meat.set_tray_geometry(gui_w, gui_h);
+obj_game.meat.set_cook_button_geometry(gui_w, gui_h);
 
 // obteniendo posiciones de carnes
 function get_meat_layout(_x_center, _y, _meats, _spacing) {

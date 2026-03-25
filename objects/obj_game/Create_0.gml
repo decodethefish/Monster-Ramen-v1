@@ -3,7 +3,6 @@ gpu_set_texfilter(false);
 camera_set_view_pos(view_camera[0], 0, 0);
 
 
-
 game_mode = GAME_MODE.WORLD;
 
 // Tiempo
@@ -16,7 +15,8 @@ current_ui = noone;
 
 // variables provicionales de ordenes
 current_order = {
-	noodle_target_cm: 2
+	noodle_target_cm: 2,
+	meat_target_tender: 3,
 };
 
 // Funciones

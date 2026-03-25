@@ -86,5 +86,15 @@ function scr_enums(){
 		GRILL,
 		DONE
 	}
+	enum MEAT_MODE {
+		TENDER,
+		COOK
+	}
+	enum COOK_STATE {
+		EMPTY,
+		COOKING,
+		DONE,
+		BURNING
+	}
 
 }

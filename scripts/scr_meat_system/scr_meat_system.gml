@@ -1,31 +1,32 @@
-function MeatSystem() constructor{
+function MeatSystem() constructor {
 	
 	my_station = STATION.MEAT;
 	is_passive = true;
 	
 	meats_data = [];
 	active_meats = [];
-
+	
+	
 	function init() {
 		
 		meats_data[MEAT_ID.BEEF] = {
-			gravity: 2,
-			lift: 3,
-			tender_time: 120,
+			gravity: 4,
+			lift: 5,
+			tender_time: 6,
 			cook_time: 100
 		};
 		
 		meats_data[MEAT_ID.BUG] = {
 			gravity: 4,
-			lift: 5,
-			tender_time: 100,
+			lift: 7,
+			tender_time: 5,
 			cook_time: 100
 		};
 		
 		meats_data[MEAT_ID.DRAGON] = {
-			gravity: -2,
-			lift: -3,
-			tender_time: 120,
+			gravity: -4,
+			lift: -6,
+			tender_time: 6,
 			cook_time: 100
 		};
 	
@@ -36,6 +37,8 @@ function MeatSystem() constructor{
 				MEAT_ID.BUG,
 				MEAT_ID.DRAGON
 			],
+			
+			mode: MEAT_MODE.TENDER,
 			
 		    board_x : 0,
 		    board_y : 0,
@@ -60,6 +63,19 @@ function MeatSystem() constructor{
 			hammer_home_x: 0,
 			hammer_home_y: 0,
 			
+			tray_x :0,
+			tray_y: 0,
+			tray_w: 0,
+			tray_h: 0,
+			tray_meats: [],
+			tray_max: 3,
+			tray_has_meat: false,
+			
+			cook_b_x : 0,
+		    cook_b_y : 0,
+			cook_b_w : 0,
+		    cook_b_h : 0,
+			
 			tender_value: 0,
 			tender_dir: 1,
 			tender_speed: 0.02,
@@ -68,17 +84,34 @@ function MeatSystem() constructor{
 			tender_target: 0.5,
 			tender_window: 0.15,
 			
-			tender_progress: 0,
+			tender_time_in_zone: 0,
 			tender_goal: 5,
 			
 			tender_input: false,
 			tender_segments: 6,
-			tender_target_zone: 2,
+			tender_target_zone: obj_game.current_order.meat_target_tender,
 			tender_current_zone: 0,
 			tender_timer: 0,
 			tender_time_required: 60,
 		
 		}
+	}
+
+	function start_meat(_type) {
+		
+		var s = meat_station;
+		var data = meats_data[_type];
+		
+		s.has_meat = true;
+		s.type = _type;
+
+		s.state = MEAT_STATE.RAW;
+		
+		s.tender_value = 0;
+		
+		s.tender_running = false;
+		s.tender_timer = data.tender_time;
+		s.tender_progress = 0;
 	}
 	
 	function set_board_geometry(_gui_w, _gui_h) {
@@ -112,6 +145,34 @@ function MeatSystem() constructor{
 		
 	}
 	
+	function set_tray_geometry(_gui_w, _gui_h) {
+		
+		var s = meat_station;
+		var w = sprite_get_width(spr_mt_tray);
+		var h = sprite_get_height(spr_mt_tray);
+		
+		s.tray_w = w;
+		s.tray_h = h
+		
+		s.tray_x = _gui_w - w * 0.5;
+		s.tray_y = s.board_y;
+		
+	}
+
+	function set_cook_button_geometry(_gui_w, _gui_h) {
+		
+		var s = meat_station
+		var w = sprite_get_width(spr_mt_cook_button);
+		var h = sprite_get_height(spr_mt_cook_button);
+		
+		s.cook_b_w = w;
+		s.cook_b_h = h;
+		
+		s.cook_b_x = _gui_w - w * 0.5;
+		s.cook_b_y = 0 + h * 0.5;
+
+	}
+	
 	function should_update(_current_station) {
 		return is_passive || _current_station == my_station;	
 	}
@@ -131,12 +192,23 @@ function MeatSystem() constructor{
 	}
 	
 	function update(_dt) {
-	
-		update_tender();
+		
+		var s = meat_station;
+		
+		switch (s.mode) {
+			
+			case MEAT_MODE.TENDER:
+				update_tender(_dt);
+			break;
+			
+			case MEAT_MODE.COOK:
+				// nada por ahora.
+			break;
+		}
 	
 	}
 	
-	function update_tender() {
+	function update_tender(_dt) {
 	
 		var s = meat_station;
 		var data = meats_data[s.type]
@@ -156,8 +228,19 @@ function MeatSystem() constructor{
 		var zone = get_tender_zone();
 		s.tender_current_zone = zone;
 		
-		if (s.tender_current_zone == s.tender_target_zone) {
-			s.tender_timer += 1;
+		if (zone == s.tender_target_zone) {
+			s.tender_time_in_zone += _dt;
+		}
+		
+		s.tender_timer -= _dt;
+		s.tender_timer = max(0, s.tender_timer);
+		
+		if (s.tender_timer <= 0) {
+			
+			s.tender_running = false;
+			s.state = MEAT_STATE.READY_FOR_GRILL;
+			s.hammer_picked = false;
+		
 		}
 	}
 	
@@ -181,21 +264,57 @@ function MeatSystem() constructor{
 		return clamp(zone, 0, s.tender_segments -1);
 	}
 	
-	function start_meat(_type) {
-		
+	function end_tender() {
+	
 		var s = meat_station;
+		var data = meats_data[s.type];
 		
-		s.has_meat = true;
-		s.type = _type;
-
-		s.state = MEAT_STATE.RAW;
-		s.tender_value = 0;
-		s.tender_dir = 1;
+		var total_time = data.tender_time;
+		var time_in_zone = s.tender_time_in_zone;
+		var margin = 0.5;
+		
+		var effective_time = max(0, time_in_zone - margin);
+		
+		var q = effective_time / total_time;
+		q = clamp(q, 0, 1);
+		
+		
+		var tender_quality;
+		
+		if (q >= 0.7) {
+			tender_quality = 3; // HIGH
+		}
+		else if (q >= 0.4) {
+			tender_quality = 2; // MID
+		}
+		else {
+			tender_quality = 1; // LOW	
+		}
+		
 		s.tender_running = false;
-		s.tender_timer = 0;
-		s.tender_progress = 0;
+		s.state = MEAT_STATE.READY_FOR_GRILL;
+		
+	    return {
+	        type: s.type,
+	        tender_quality: tender_quality
+	    };
 	}
 	
+	function reset() {
 	
-	
+		var s = meat_station;
+		
+		s.has_meat = false;
+		s.type = MEAT_ID.NONE;
+		s.state = MEAT_STATE.RAW;
+		s.mode = MEAT_MODE.TENDER;
+		s.tender_value = 0;
+		s.tender_running = false;
+		s.tender_timer = 0;
+		s.tender_time_in_zone = 0;
+		s.tender_current_zone = 0;
+		s.hammer_picked = false;
+
+	}
+
 }
