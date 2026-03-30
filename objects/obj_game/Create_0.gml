@@ -54,3 +54,5 @@ eggs.init();
 
 meat = new MeatSystem();
 meat.init();
+
+veggies = new VeggiesSystem(); 

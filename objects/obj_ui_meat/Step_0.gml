@@ -167,9 +167,179 @@ if (station.mode == MEAT_MODE.TENDER) {
 	var mouseover_cook = mx >= cook_left && mx <= cook_right && my >= cook_top && my <= cook_bottom;
 
 	if (mouseover_cook && mouse_check_button_pressed(mb_left)) {
-    
-	    if (array_length(station.tray_meats) > 0) {
-	        station.mode = MEAT_MODE.COOK;
+	    station.mode = MEAT_MODE.COOK;
+	}
+}
+
+if (station.mode == MEAT_MODE.COOK) {
+
+	var layout = obj_game.meat.set_cook_tray_geometry(display_get_gui_height());
+	var tray = station.tray_meats;
+
+	// grill 
+	var gleft   = station.grill_x - station.grill_w * 0.5;
+	var gright  = station.grill_x + station.grill_w * 0.5;
+	var gtop    = station.grill_y - station.grill_h * 0.5;
+	var gbottom = station.grill_y + station.grill_h * 0.5;
+
+	var mouse_over_grill =
+	    mx >= gleft && mx <= gright &&
+	    my >= gtop && my <= gbottom;
+
+	// -----------------------------
+	// DRAG TRAY → GRILL
+	// -----------------------------
+	
+	mouseover_cook_index = -1;
+	for (var i = 0; i < array_length(layout); i++) {
+	    var l = layout[i];
+
+	    if (mx >= l.left && mx <= l.right && my >= l.top && my <= l.bottom) {
+	        mouseover_cook_index = i;
 	    }
 	}
+		
+	if (!dragging_cook && mouseover_cook_index != -1 && mouse_check_button_pressed(mb_left)) {
+
+	    dragging_cook = true;
+	    drag_meat = tray[mouseover_cook_index];
+
+	    array_delete(station.tray_meats, mouseover_cook_index, 1);
+	}
+	
+	if (dragging_cook && mouse_check_button_released(mb_left)) {
+
+	    var dropped = false;
+
+	    if (mouse_over_grill) {
+
+			for (var i = 0; i < 2; i++) {
+
+			    if (station.grill_slots[i] == noone) {
+
+			        station.grill_slots[i] = {
+			            type: drag_meat.type,
+			            tender_quality: drag_meat.tender_quality,
+			            cook_time: 0,
+			            in_window: false,
+						is_burned: false
+			        };
+
+			        dropped = true;
+			        break;
+			    }
+			}
+	    }
+
+	    if (!dropped) {
+	        array_push(station.tray_meats, drag_meat);
+	    }
+
+	    dragging_cook = false;
+	    drag_meat = -1;
+	}
+
+	// -----------------------------
+	// DRAG GRILL → BOWL
+	// -----------------------------
+	
+	var grill = station.grill_slots;
+
+	var spacing = sprite_get_height(spr_mt_meat_ready) + 20;
+	var gx = station.grill_x;
+	var top_y = station.grill_y - spacing * 0.5;
+	var bottom_y = station.grill_y + spacing * 0.5;
+
+	var mouse_over_grill_index = -1;
+
+	for (var i = 0; i < 2; i++) {
+
+		if (grill[i] == noone) continue;
+
+		var gy = (i == 0) ? top_y : bottom_y;
+
+		var w = sprite_get_width(spr_mt_meat_done);
+		var h = sprite_get_height(spr_mt_meat_done);
+
+	    var left   = gx - w * 0.5;
+	    var right  = gx + w * 0.5;
+	    var top    = gy - h * 0.5;
+	    var bottom = gy + h * 0.5;		
+
+		if (mx >= left && mx <= right && my >= top && my <= bottom) {
+			mouse_over_grill_index = i;	
+		}
+	}
+
+	if (!dragging_grill && mouse_over_grill_index != -1 && mouse_check_button_pressed(mb_left)) {
+		
+		dragging_grill = true;
+		drag_meat = grill[mouse_over_grill_index];
+		drag_slot = mouse_over_grill_index;
+
+		station.grill_slots[mouse_over_grill_index] = noone;
+	}
+
+	if (dragging_grill && mouse_check_button_released(mb_left)) {
+
+		var dropped = false;
+
+		for (var i = 0; i < array_length(bowls); i++) {
+
+			var bw = bowls[i];
+		
+			var bw_w = sprite_get_width(spr_bowl_base);
+			var bw_h = sprite_get_height(spr_bowl_base);
+		
+			var left = bw.x - bw_w * 0.5;
+			var right = bw.x + bw_w * 0.5;
+			var top = bw.y - bw_h * 0.5;
+			var bottom = bw.y + bw_h * 0.5;
+		
+			var mouse_over_bowl = 
+				mx > left &&
+				mx < right &&
+				my > top &&
+				my < bottom;
+				
+			// soltar en bowl y añadir calidad
+			if (mouse_over_bowl && obj_game.bowls.can_receive_meat(bw.bowl_index)) {
+
+				var final_q = obj_game.meat.get_meat_final_quality(drag_meat);
+
+				obj_game.bowls.add_meat(bw.bowl_index, {
+					type: drag_meat.type,
+					quality: final_q
+				});
+
+				dropped = true;
+				break;
+			}
+		}
+
+		if (!dropped) {
+		    station.grill_slots[drag_slot] = drag_meat;
+		}
+
+		dragging_grill = false;
+		drag_meat = -1;
+	}
+	
+	// -----------------------------
+	// BOTÓN TENDER
+	// -----------------------------
+		
+	var tleft   = station.tender_b_x - station.tender_b_w * 0.5;
+	var tright  = station.tender_b_x + station.tender_b_w * 0.5;
+	var ttop    = station.tender_b_y - station.tender_b_h * 0.5;
+	var tbottom = station.tender_b_y + station.tender_b_h * 0.5;
+
+	var mouseover_tender =
+		mx >= tleft && mx <= tright &&
+		my >= ttop && my <= tbottom;
+
+	if (mouseover_tender && mouse_check_button_pressed(mb_left)) {
+		station.mode = MEAT_MODE.TENDER;
+	}	
+		
 }

@@ -13,21 +13,24 @@ function MeatSystem() constructor {
 			gravity: 4,
 			lift: 5,
 			tender_time: 6,
-			cook_time: 100
+			cook_time: 60,
+			cook_ready_time: 50,
 		};
 		
 		meats_data[MEAT_ID.BUG] = {
 			gravity: 4,
 			lift: 7,
-			tender_time: 5,
-			cook_time: 100
+			tender_time: 1,
+			cook_time: 35,
+			cook_ready_time: 30,
 		};
 		
 		meats_data[MEAT_ID.DRAGON] = {
 			gravity: -4,
 			lift: -6,
-			tender_time: 6,
-			cook_time: 100
+			tender_time: 10,
+			cook_time: 45,
+			cook_ready_time: 42,
 		};
 	
 		meat_station = {
@@ -70,11 +73,25 @@ function MeatSystem() constructor {
 			tray_meats: [],
 			tray_max: 3,
 			tray_has_meat: false,
+			cook_tray_center_y: 0,
+			
+			grill_x: 0,
+			grill_y: 0,
+			grill_w: 0,
+			grill_h: 0,
+			grill_slots: [
+				noone,
+				noone
+			],
 			
 			cook_b_x : 0,
 		    cook_b_y : 0,
 			cook_b_w : 0,
 		    cook_b_h : 0,
+			tender_b_x: 0,
+			tender_b_y: 0,
+			tender_b_w: 0,
+			tender_b_h: 0,
 			
 			tender_value: 0,
 			tender_dir: 1,
@@ -172,6 +189,74 @@ function MeatSystem() constructor {
 		s.cook_b_y = 0 + h * 0.5;
 
 	}
+
+	function set_tender_button_geometry(_gui_w, _gui_h) {
+		
+		var s = meat_station
+		var w = sprite_get_width(spr_mt_tender_button);
+		var h = sprite_get_height(spr_mt_tender_button);
+		
+		s.tender_b_w = w;
+		s.tender_b_h = h;
+		
+		s.tender_b_x = 0 + w * 0.5;
+		s.tender_b_y = 0 + h * 0.5;
+
+	}
+		
+	function set_cook_tray_geometry(_gui_h) {
+	
+		var s = meat_station;
+		var tray = s.tray_meats;
+		var count = array_length(tray);
+		
+		var result = [];
+		
+		s.cook_tray_center_y = _gui_h * 0.5 + 25;
+		
+		if (count == 0) return result;
+		
+		var base_x = 80;
+		var center_y = _gui_h * 0.5;
+		
+		var meat_h = sprite_get_height(spr_mt_meat_ready_cook);
+		var spacing = meat_h * 0.8;
+		
+		var total_h = (count - 1) * spacing;
+		var start_y = center_y - total_h * 0.5;
+		
+		
+		for (var i = 0; i < count; i++) {
+		
+			var yy = start_y + i * spacing;
+			
+	        result[i] = {
+	            rx: base_x,
+	            ry: yy,
+	            left: base_x - sprite_get_width(spr_mt_meat_ready_cook) * 0.5,
+	            right: base_x + sprite_get_width(spr_mt_meat_ready_cook) * 0.5,
+	            top: yy - meat_h * 0.5,
+	            bottom: yy + meat_h * 0.5
+			};
+		}
+		
+		return result;
+	
+	}
+
+	function set_grill_geometry(_gui_w, _gui_h) {
+		
+		var s = meat_station
+		var w = sprite_get_width(spr_mt_grill);
+		var h = sprite_get_height(spr_mt_grill);
+		
+		s.grill_w = w;
+		s.grill_h = h;
+		
+		s.grill_x = _gui_w * 0.5;
+		s.grill_y = _gui_h * 0.5;
+
+	}	
 	
 	function should_update(_current_station) {
 		return is_passive || _current_station == my_station;	
@@ -195,17 +280,9 @@ function MeatSystem() constructor {
 		
 		var s = meat_station;
 		
-		switch (s.mode) {
-			
-			case MEAT_MODE.TENDER:
-				update_tender(_dt);
-			break;
-			
-			case MEAT_MODE.COOK:
-				// nada por ahora.
-			break;
-		}
-	
+		update_tender(_dt);
+		update_cook(_dt);
+		
 	}
 	
 	function update_tender(_dt) {
@@ -243,6 +320,29 @@ function MeatSystem() constructor {
 		
 		}
 	}
+		
+	function update_cook(_dt) {
+
+	    var s = meat_station;
+	    var grill = s.grill_slots;
+
+	    for (var i = 0; i < array_length(grill); i++) {
+
+	        var mt = grill[i];
+	        if (mt == noone) continue;
+
+	        var data = meats_data[mt.type];
+
+	        mt.cook_time += _dt;
+
+	        var t = mt.cook_time;
+	        var ready = data.cook_ready_time;
+	        var t_end = data.cook_time;
+			
+			mt.is_burned = (t > t_end);
+	        mt.in_window = (t >= ready && t <= t_end);
+	    }
+	}
 	
 	function hit_tender() {
 	
@@ -262,6 +362,30 @@ function MeatSystem() constructor {
 		var zone = floor((s.tender_value / 10) * s.tender_segments);
 		
 		return clamp(zone, 0, s.tender_segments -1);
+	}
+	
+	function get_meat_final_quality(_meat) {
+	
+		var data = meats_data[_meat.type];
+		
+		var t = _meat.cook_time;
+		var ready = data.cook_ready_time;
+		var end_t = data.cook_time;
+		
+		var cook_quality;
+		
+		if (t < ready) {
+			cook_quality = 1; // cruda
+		}
+		else if (t <= end_t) {
+			cook_quality = 3; // perfecta
+		}
+		else {
+			cook_quality = 0; // quemada
+		}
+		
+		var final_quality = floor((_meat.tender_quality + cook_quality) * 0.5);
+		return final_quality;
 	}
 	
 	function end_tender() {

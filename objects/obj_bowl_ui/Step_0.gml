@@ -78,6 +78,30 @@ if (dragging && mouse_check_button_released(mb_left)) {
 			}
 		}
 	}
+		
+	// ------- Intentar servir MEAT ------
+
+	if (obj_game.current_station == STATION.MEAT) {
+
+		if (obj_game.bowls.can_receive_meat(bowl_index)) {
+
+			if (obj_game.meat.dragging_grill) { // o tu flag real
+
+				var m = obj_game.meat.drag_meat;
+
+				var final_q = obj_game.meat.get_meat_final_quality(m);
+
+				obj_game.bowls.add_meat(bowl_index, {
+					type: m.type,
+					quality: final_q
+				});
+
+				// limpiar drag
+				obj_game.meat.dragging_grill = false;
+				obj_game.meat.drag_meat = -1;
+			}
+		}
+	}
 	
 	x = x_start;
 	y = y_start;

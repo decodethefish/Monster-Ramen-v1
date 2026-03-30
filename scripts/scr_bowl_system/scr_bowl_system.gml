@@ -15,7 +15,11 @@ function BowlSystem(_count) constructor {
 			noodle_quality: 0,
 			
 			has_egg: false,
-			egg_type: -1
+			egg_type: -1,
+			
+			has_meat: false,
+			meat_type: -1,
+			meat_quality: 0,
 			
 		};
 	}
@@ -30,6 +34,10 @@ function BowlSystem(_count) constructor {
 	
 	function can_receive_egg(_index) {
 		return !bowls[_index].has_egg;
+	}
+	
+	function can_receive_meat(_index) {
+		return !bowls[_index].has_meat;	
 	}
 	
 	function add_broth(_bowl_index, _pot_index, _pots) {
@@ -96,6 +104,22 @@ function BowlSystem(_count) constructor {
 		
 	}
 	
+	function add_meat(_bowl_index, _meat) {
+	
+		if (_bowl_index < 0) return;
+		if (_bowl_index >= array_length(bowls)) return;
+		
+		var bowl = bowls[_bowl_index];
+		
+		if (bowl.has_meat) return;
+		
+		bowl.has_meat = true;
+		bowl.meat_type = _meat.type;
+		bowl.meat_quality = _meat.quality;
+		
+		bowls[_bowl_index] = bowl;
+	}
+	
 	function draw_layers(_data, _x, _y) {
 		
 		// broth
@@ -143,6 +167,16 @@ function BowlSystem(_count) constructor {
 				_y
 				);
 		}
+		
+		// meat
+		if (_data.has_meat) {
+			draw_sprite(
+				spr_bowl_meat,
+				_data.meat_type -1,
+				_x,
+				_y
+			);
+		}		
 		
 	}
 	

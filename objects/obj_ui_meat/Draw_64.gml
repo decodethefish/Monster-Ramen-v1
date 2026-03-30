@@ -156,7 +156,147 @@ if (station.mode == MEAT_MODE.TENDER) {
 	}
 
 	// botón cook
-	if (array_length(station.tray_meats) > 0) {
-	    draw_sprite(spr_mt_cook_button, 0, station.cook_b_x, station.cook_b_y);
+	draw_sprite(spr_mt_cook_button, 0, station.cook_b_x, station.cook_b_y);
+	
+}
+
+if (station.mode == MEAT_MODE.COOK) {
+
+    // Fondo
+    draw_set_colour(c_dkgray);
+    draw_rectangle(0, 0, display_get_gui_width(), display_get_gui_height(), false);
+	
+	// tray y grill
+	var tray_w = sprite_get_width(spr_mt_cook_tray);
+	var tray_h = sprite_get_height(spr_mt_cook_tray);
+	var tray_y = station.cook_tray_center_y;
+
+	draw_sprite(spr_mt_cook_tray, 0, 0 + tray_w * 0.5, tray_y);
+	draw_sprite(spr_mt_grill, 0, station.grill_x, station.grill_y);
+	
+	// botón tender
+	draw_sprite(spr_mt_tender_button, 0, station.tender_b_x, station.tender_b_y);
+	
+	// carnes en grill
+	var grill = station.grill_slots;
+
+	var gx = station.grill_x;
+
+	var spacing = sprite_get_height(spr_mt_meat_ready) + 20;
+
+	var top_y = station.grill_y - spacing * 0.5;
+	var bottom_y = station.grill_y + spacing * 0.5;
+
+	for (var i = 0; i < 2; i++) {
+
+	    var gm = grill[i];
+	    if (gm == noone) continue;
+
+	    var gy = (i == 0) ? top_y : bottom_y;
+
+	    // carne
+		if (gm.is_burned) {
+		    draw_sprite(spr_mt_meat_burned, gm.type -1, gx, gy); // o burned después
+		}
+		else if (gm.in_window) {
+		    draw_sprite(spr_mt_meat_done, gm.type -1, gx, gy);
+		}
+		else {
+		    draw_sprite(spr_mt_meat_ready, gm.type -1, gx, gy);
+		}
+
+	    var data = obj_game.meat.meats_data[gm.type];
+
+	    var t = gm.cook_time;
+	    var total = data.cook_time;
+	    var ready = data.cook_ready_time;
+
+	    // barra
+	    var bar_w = 8;
+	    var bar_h = 80;
+
+	    var bx = gx + sprite_get_width(spr_mt_meat_ready) * 0.5 + 10;
+	    var by = gy - bar_h * 0.5;
+
+	    draw_set_colour(c_black);
+	    draw_rectangle(bx, by, bx + bar_w, by + bar_h, false);
+
+	    var ready_ratio = ready / total;
+	    var ry = by + bar_h - bar_h * ready_ratio;
+
+	    draw_set_colour(c_lime);
+	    draw_rectangle(bx, by, bx + bar_w, ry, false);
+
+	    var ratio = clamp(t / total, 0, 1);
+	    var py = by + bar_h - bar_h * ratio;
+
+	    draw_set_colour(c_white);
+	    var line_h = 2;
+
+	    draw_rectangle(
+	        bx,
+	        py - line_h * 0.5,
+	        bx + bar_w,
+	        py + line_h * 0.5,
+	        false
+	    );
 	}
+
+	// carnes en tray
+    var tray = station.tray_meats;
+    var count = array_length(tray);
+
+    var base_x = 70;
+    var center_y = station.cook_tray_center_y;
+
+    var spacing = sprite_get_height(spr_mt_meat_ready_cook) * 0.7;
+
+    var start_y = center_y - (count - 1) * spacing * 0.5;
+
+    for (var i = 0; i < count; i++) {
+
+        var t = tray[i];
+
+        var yy = start_y + i * spacing;
+
+        draw_sprite(
+            spr_mt_meat_ready_cook,
+            t.type -1,
+            base_x,
+            yy
+        );
+    }
+
+    // carne arrastrándose
+    if (dragging_cook) {
+
+        draw_sprite(
+            spr_mt_meat_ready_cook,
+            drag_meat.type -1,
+            mx,
+            my
+        );
+    }
+	
+	// bowls
+	for (var i = 0; i < array_length(bowls); i++) {
+
+		var bw = bowls[i];
+		obj_game.bowls.draw(bw.bowl_index, bw.x, bw.y);
+	}
+	
+	// carne done
+	if (dragging_grill) {
+
+		if (drag_meat.is_burned) {
+		    draw_sprite(spr_mt_meat_burned_drag, drag_meat.type -1, mx, my);
+		}
+		else if (drag_meat.in_window) {
+		    draw_sprite(spr_mt_meat_done_drag, drag_meat.type -1, mx, my);
+		}
+		else {
+		    draw_sprite(spr_mt_meat_ready_cook, drag_meat.type -1, mx, my);
+		}
+	}
+	
 }
