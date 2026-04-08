@@ -42,13 +42,11 @@ if (dragging && mouse_check_button_released(mb_left)) {
 		
 		var pot_index = obj_game.broth.get_pot_at_position(x, y);
 	
-		if (obj_game.bowls.can_receive_broth(bowl_index)) {
-			obj_game.bowls.add_broth(
-				bowl_index,
-				pot_index,
-				obj_game.broth.pots
-			);
-		}
+		obj_game.bowls.add_broth(
+			bowl_index,
+			pot_index,
+			obj_game.broth.pots
+		);
 	}
 	
 	// ------- Intentar servir NOODLES ------
@@ -57,7 +55,7 @@ if (dragging && mouse_check_button_released(mb_left)) {
 	
 		var station = obj_game.noodles.noodle_station;
 	
-		if (obj_game.noodles.can_serve() && obj_game.bowls.can_receive_noodles(bowl_index)) {
+		if (obj_game.noodles.can_serve()) {
 		
 			var sheet_width = sprite_get_width(spr_nd_sheet);
 			var sheet_height = sprite_get_height(spr_nd_sheet);
@@ -83,23 +81,21 @@ if (dragging && mouse_check_button_released(mb_left)) {
 
 	if (obj_game.current_station == STATION.MEAT) {
 
-		if (obj_game.bowls.can_receive_meat(bowl_index)) {
+		if (obj_game.meat.dragging_grill) { // o tu flag real
 
-			if (obj_game.meat.dragging_grill) { // o tu flag real
+			var m = obj_game.meat.drag_meat;
 
-				var m = obj_game.meat.drag_meat;
+			var final_q = obj_game.meat.get_meat_final_quality(m);
 
-				var final_q = obj_game.meat.get_meat_final_quality(m);
+			obj_game.bowls.add_meat(bowl_index, {
+				type: m.type,
+				quality: final_q
+			});
 
-				obj_game.bowls.add_meat(bowl_index, {
-					type: m.type,
-					quality: final_q
-				});
-
-				// limpiar drag
-				obj_game.meat.dragging_grill = false;
-				obj_game.meat.drag_meat = -1;
-			}
+			// limpiar drag
+			obj_game.meat.dragging_grill = false;
+			obj_game.meat.drag_meat = -1;
+			
 		}
 	}
 	

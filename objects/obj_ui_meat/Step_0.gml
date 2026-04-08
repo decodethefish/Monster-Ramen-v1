@@ -303,7 +303,7 @@ if (station.mode == MEAT_MODE.COOK) {
 				my < bottom;
 				
 			// soltar en bowl y añadir calidad
-			if (mouse_over_bowl && obj_game.bowls.can_receive_meat(bw.bowl_index)) {
+			if (mouse_over_bowl) {
 
 				var final_q = obj_game.meat.get_meat_final_quality(drag_meat);
 

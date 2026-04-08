@@ -162,7 +162,7 @@ if (mouse_check_button_released(mb_left)) {
 				mx > bw.x - w*0.5 && mx < bw.x + w*0.5 &&
 				my > bw.y - h*0.5 && my < bw.y + h*0.5;
 
-			if (over && obj_game.bowls.can_receive_veggie(i)) {
+			if (over) {
 				obj_game.bowls.add_veggie(i, drag);
 				merged = true;
 				break;

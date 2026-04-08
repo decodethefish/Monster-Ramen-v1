@@ -28,26 +28,6 @@ function BowlSystem(_count) constructor {
 		};
 	}
 	
-	function can_receive_broth(_index) {
-		return !bowls[_index].has_broth;
-	}
-	
-	function can_receive_noodles(_index) {
-		return !bowls[_index].has_noodles;
-	}
-	
-	function can_receive_egg(_index) {
-		return !bowls[_index].has_egg;
-	}
-	
-	function can_receive_meat(_index) {
-		return !bowls[_index].has_meat;	
-	}
-	
-	function can_receive_veggie(_index) {
-		return !bowls[_index].has_veggie;	
-	}
-	
 	function add_broth(_bowl_index, _pot_index, _pots) {
 
 		if (_bowl_index < 0) return;
@@ -62,7 +42,6 @@ function BowlSystem(_count) constructor {
 		if (pot.state != POT_STATE.READY && pot.state != POT_STATE.BURNED) return;
 
 		var bowl = bowls[_bowl_index];
-		if (bowl.has_broth) return;
 
 		bowl.has_broth = true;
 		bowl.broth_id = pot.broth_id;
@@ -86,7 +65,6 @@ function BowlSystem(_count) constructor {
 		
 		var bowl = bowls[_bowl_index]
 		
-		if (bowl.has_noodles) return;
 		
 		bowl.has_noodles = true;
 		bowl.noodle_id = _result.noodle_id;
@@ -103,8 +81,6 @@ function BowlSystem(_count) constructor {
 		
 		var bowl = bowls[_bowl_index];
 		
-		if (bowl.has_egg) return;
-		
 		bowl.has_egg = true;
 		bowl.egg_type = _egg_type;
 		
@@ -118,8 +94,6 @@ function BowlSystem(_count) constructor {
 		if (_bowl_index >= array_length(bowls)) return;
 		
 		var bowl = bowls[_bowl_index];
-		
-		if (bowl.has_meat) return;
 		
 		bowl.has_meat = true;
 		bowl.meat_type = _meat.type;
@@ -135,10 +109,7 @@ function BowlSystem(_count) constructor {
 		
 		var bowl = bowls[_bowl_index];
 		
-		if (bowl.has_veggie) return;
-		
 		bowl.has_veggie = true;
-		
 		bowl.veg_type = _item.veg_type;
 		
 		if (_item.kind == ITEM_KIND.RESULT) {

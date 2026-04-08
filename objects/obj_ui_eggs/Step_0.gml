@@ -43,7 +43,6 @@ if (station.station_state != EGG_STATION_STATE.SERVING) exit;
 var eggs_caught = station.caught_eggs;
 var count = array_length(eggs_caught);
 var eggs_start_x = table_x - (count - 1) * serving_egg_spacing * 0.5;
-
 for (var i = 0; i < count; i++) {
 	var egg_c = eggs_caught[i];
 	
@@ -93,7 +92,7 @@ if (dragging_egg && mouse_check_button_released(mb_left)) {
 			my > top &&
 			my < bottom;
 		
-		if (mouse_over_bowl && obj_game.bowls.can_receive_egg(bw.bowl_index)) {
+		if (mouse_over_bowl) {
 			obj_game.bowls.add_egg(bw.bowl_index, drag_egg_type);
 			dropped = true;
 			break;
