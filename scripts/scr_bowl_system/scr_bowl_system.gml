@@ -21,6 +21,10 @@ function BowlSystem(_count) constructor {
 			meat_type: -1,
 			meat_quality: 0,
 			
+			has_veggie: false,
+			veg_type: -1,
+			veg_result: -1,
+			
 		};
 	}
 	
@@ -38,6 +42,10 @@ function BowlSystem(_count) constructor {
 	
 	function can_receive_meat(_index) {
 		return !bowls[_index].has_meat;	
+	}
+	
+	function can_receive_veggie(_index) {
+		return !bowls[_index].has_veggie;	
 	}
 	
 	function add_broth(_bowl_index, _pot_index, _pots) {
@@ -119,6 +127,29 @@ function BowlSystem(_count) constructor {
 		
 		bowls[_bowl_index] = bowl;
 	}
+		
+	function add_veggie(_bowl_index, _item) {
+	
+		if (_bowl_index < 0) return;
+		if (_bowl_index >= array_length(bowls)) return;
+		
+		var bowl = bowls[_bowl_index];
+		
+		if (bowl.has_veggie) return;
+		
+		bowl.has_veggie = true;
+		
+		bowl.veg_type = _item.veg_type;
+		
+		if (_item.kind == ITEM_KIND.RESULT) {
+			bowl.veg_result = _item.result_type;
+		} else {
+			bowl.veg_result = -1;
+		}
+		
+		bowls[_bowl_index] = bowl;
+	
+	}
 	
 	function draw_layers(_data, _x, _y) {
 		
@@ -144,7 +175,6 @@ function BowlSystem(_count) constructor {
 				
 			}
 		}
-		
 		
 		// noodles
 		if (_data.has_noodles) {
@@ -176,7 +206,19 @@ function BowlSystem(_count) constructor {
 				_x,
 				_y
 			);
-		}		
+		}
+
+		// veggies
+		if (_data.has_veggie) {
+	
+			var spr = obj_game.veggies.get_bowl_sprite(_data.veg_type);
+	
+			var frame = (_data.veg_result != -1)
+				? _data.veg_result + 1
+				: 0;
+	
+			draw_sprite(spr, frame, _x, _y);
+		}
 		
 	}
 	
@@ -195,9 +237,15 @@ function BowlSystem(_count) constructor {
 	}
 
 	function is_drag_locked_for_station(_station_id) {
+
 		if (_station_id < 0) return false;
 		if (_station_id >= array_length(bowl_drag_lock_by_station)) return false;
-		return bowl_drag_lock_by_station[_station_id];
+
+		var val = bowl_drag_lock_by_station[_station_id];
+
+		if (is_undefined(val)) return false;
+
+		return val;
 	}
 		
 }

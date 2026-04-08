@@ -9,49 +9,49 @@ function BrothSystem() constructor {
 	function init() {
 		
 		broth_data[BROTH_ID.CHICKEN] = {
-		name: "Chicken Broth",
-		ready_time: 20,
-		burn_time: 30
-		};
-		
-	broth_data[BROTH_ID.ROTTEN] = {
-		name: "Rotten Broth",
-		ready_time: 10,
-		burn_time: 12
-		
-		};
-		
-	pots = array_create(2);
-	
-	for (var i = 0; i < array_length(pots); i++) {
-		pots[i] = {
-			broth_id: BROTH_ID.NONE,
-			progress: 0,
-			is_on: false,
-			state: POT_STATE.EMPTY
+			name: "Chicken Broth",
+			ready_time: 60,
+			burn_time: 70
 			};
-		}
 		
-	pot_positions = [];
-	var center_x = 640 * 0.5;
-	var center_y = 360 * 0.5;
-	var spacing = 100;
+		broth_data[BROTH_ID.ROTTEN] = {
+			name: "Rotten Broth",
+			ready_time: 45,
+			burn_time: 57
+		
+			};
+		
+		pots = array_create(2);
+	
+		for (var i = 0; i < array_length(pots); i++) {
+			pots[i] = {
+				broth_id: BROTH_ID.NONE,
+				progress: 0,
+				is_on: false,
+				state: POT_STATE.EMPTY
+				};
+			}
+		
+		pot_positions = [];
+		var center_x = 640 * 0.5;
+		var center_y = 360 * 0.5;
+		var spacing = 100;
 
-	var sw = sprite_get_width(spr_br_pot) * 1.1;
-	var sh = sprite_get_height(spr_br_pot) * 1.1;
+		var sw = sprite_get_width(spr_br_pot) * 1.1;
+		var sh = sprite_get_height(spr_br_pot) * 1.1;
 
-	pot_positions[0] = { 
-		x: center_x - spacing, 
-		y: center_y, 
-		w: sw, 
-		h: sh 
-	};
-	pot_positions[1] = { 
-		x: center_x + spacing, 
-		y: center_y, 
-		w: sw, 
-		h: sh 
-	};
+		pot_positions[0] = { 
+			x: center_x - spacing, 
+			y: center_y, 
+			w: sw, 
+			h: sh 
+		};
+		pot_positions[1] = { 
+			x: center_x + spacing, 
+			y: center_y, 
+			w: sw, 
+			h: sh 
+		};
 	}
 	
 	function get_pot_at_position(_x, _y) {

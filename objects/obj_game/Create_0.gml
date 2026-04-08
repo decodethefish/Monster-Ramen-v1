@@ -56,3 +56,4 @@ meat = new MeatSystem();
 meat.init();
 
 veggies = new VeggiesSystem(); 
+veggies.init();

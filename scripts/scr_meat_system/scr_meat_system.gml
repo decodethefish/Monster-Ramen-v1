@@ -13,8 +13,8 @@ function MeatSystem() constructor {
 			gravity: 4,
 			lift: 5,
 			tender_time: 6,
-			cook_time: 60,
-			cook_ready_time: 50,
+			cook_time: 40,
+			cook_ready_time: 30,
 		};
 		
 		meats_data[MEAT_ID.BUG] = {
@@ -22,15 +22,15 @@ function MeatSystem() constructor {
 			lift: 7,
 			tender_time: 1,
 			cook_time: 35,
-			cook_ready_time: 30,
+			cook_ready_time: 25,
 		};
 		
 		meats_data[MEAT_ID.DRAGON] = {
 			gravity: -4,
 			lift: -6,
 			tender_time: 10,
-			cook_time: 45,
-			cook_ready_time: 42,
+			cook_time: 35,
+			cook_ready_time: 30,
 		};
 	
 		meat_station = {

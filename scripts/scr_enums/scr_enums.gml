@@ -96,5 +96,44 @@ function scr_enums(){
 		DONE,
 		BURNING
 	}
+		
+// veggies system
+	
+	enum ITEM_KIND {
+		VEG,
+		GEM,
+		RESULT
+	}
+	enum VEGGIE_TYPE {
+		CARROT,
+		MUSHROOM,
+		BOK_CHOY
+	}
+	enum GEM_TYPE {
+		CRIMSON,
+		SOUL,
+		ARCANE
+	}
+	enum VEGGIE_RESULT {
+		
+		BLEEDING,
+		SPECTRAL,
+		MAGICAL,
+		
+		CURSED,
+		CORRUPT,		
+		DARK,
+		
+		ALCHEMICAL,
+		PARADOX,
+		ETERNAL
+	}
+	enum VEGGIE_TIER {
+		T1,
+		T2,
+		T3,
+		T4,
+		T5
+	}
 
 }
