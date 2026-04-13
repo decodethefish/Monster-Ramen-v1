@@ -1,0 +1,11 @@
+draw_sprite_ext(
+	spr_burning_eye,
+	obj_game.get_cooking_state(),
+	x,
+	y,
+	eye_scale,
+	eye_scale,
+	0,
+	c_white,
+	1
+);

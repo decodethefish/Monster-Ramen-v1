@@ -188,6 +188,7 @@ if (mouse_check_button_released(mb_left)) {
 							: it.veg_type;
 
 						var new_item = result;
+						new_item.bump_t = 0;
 						new_item.veg_type = veg_type;
 						new_item.x = it.x;
 						new_item.y = it.y;

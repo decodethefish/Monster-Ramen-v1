@@ -39,6 +39,50 @@ function close_station() {
     game_mode = GAME_MODE.WORLD;
 }
 
+function get_cooking_state() {
+	
+	var state = 0;
+	var broth = obj_game.broth.pots;
+	
+	for (var i = 0; i < array_length(broth); i++) {
+	
+		var p = broth[i];
+		
+		if (p.broth_id = BROTH_ID.NONE) continue;
+		
+		var data = obj_game.broth.broth_data[p.broth_id];
+		
+		if (p.state == POT_STATE.BURNED) return 4;
+		if (p.state == POT_STATE.READY) state = max(state, 3);
+		
+		var t = p.progress / data.ready_time;
+		
+		if (t >= 0.5) state = max(state, 2);
+		else state = max(state, 1);
+	}
+	
+	var grill = obj_game.meat.meat_station.grill_slots;
+	
+	for (var i = 0; i < array_length(grill); i++) {
+	
+		var mt = grill[i];
+		if (mt == noone) continue;
+		
+		var data = obj_game.meat.meats_data[mt.type];
+		
+		if (mt.is_burned) return 4;
+		if (mt.in_window) state = max(state, 3);
+		
+		var t = mt.cook_time / data.cook_ready_time;
+		
+		if (t >= 0.5) state = max(state, 2);
+		else state = max(state, 1);
+	}
+	
+	return state;
+}
+
+
 // --------- ESTACIONES y BOWLS ---------
 
 bowls = new BowlSystem(3);

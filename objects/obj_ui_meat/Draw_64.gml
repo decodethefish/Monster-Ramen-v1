@@ -158,6 +158,8 @@ if (station.mode == MEAT_MODE.TENDER) {
 	// botón cook
 	draw_sprite(spr_mt_cook_button, 0, station.cook_b_x, station.cook_b_y);
 	
+	// Ojo
+	draw_sprite(spr_burning_eye, obj_game.get_cooking_state(), obj_burning_eye.x, obj_burning_eye.y);
 }
 
 if (station.mode == MEAT_MODE.COOK) {

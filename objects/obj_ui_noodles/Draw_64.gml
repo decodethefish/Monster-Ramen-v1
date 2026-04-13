@@ -269,3 +269,6 @@ if (in_select) {
 		draw_sprite(spr, i, sym_x, sym_y);
 	}
 }
+
+// Ojo
+draw_sprite(spr_burning_eye, obj_game.get_cooking_state(), obj_burning_eye.x, obj_burning_eye.y);

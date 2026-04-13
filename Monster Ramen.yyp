@@ -35,6 +35,7 @@
   "name":"Monster Ramen",
   "resources":[
     {"id":{"name":"obj_bowl_ui","path":"objects/obj_bowl_ui/obj_bowl_ui.yy",},},
+    {"id":{"name":"obj_burning_eye","path":"objects/obj_burning_eye/obj_burning_eye.yy",},},
     {"id":{"name":"obj_game","path":"objects/obj_game/obj_game.yy",},},
     {"id":{"name":"obj_player","path":"objects/obj_player/obj_player.yy",},},
     {"id":{"name":"obj_st_broth","path":"objects/obj_st_broth/obj_st_broth.yy",},},
@@ -83,6 +84,7 @@
     {"id":{"name":"spr_br_pot_rt","path":"sprites/spr_br_pot_rt/spr_br_pot_rt.yy",},},
     {"id":{"name":"spr_br_pot","path":"sprites/spr_br_pot/spr_br_pot.yy",},},
     {"id":{"name":"spr_br_rotten","path":"sprites/spr_br_rotten/spr_br_rotten.yy",},},
+    {"id":{"name":"spr_burning_eye","path":"sprites/spr_burning_eye/spr_burning_eye.yy",},},
     {"id":{"name":"spr_egg_basket","path":"sprites/spr_egg_basket/spr_egg_basket.yy",},},
     {"id":{"name":"spr_egg_chicken_fire","path":"sprites/spr_egg_chicken_fire/spr_egg_chicken_fire.yy",},},
     {"id":{"name":"spr_egg_chicken_gold","path":"sprites/spr_egg_chicken_gold/spr_egg_chicken_gold.yy",},},

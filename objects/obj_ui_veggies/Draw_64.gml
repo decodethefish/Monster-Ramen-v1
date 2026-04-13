@@ -70,7 +70,37 @@ for (var i = 0; i < array_length(station.board_items); i++) {
 				case VEGGIE_TYPE.BOK_CHOY: spr_mod = spr_vg_mod_bokchoy; break;
 			}
 			
-			draw_sprite(spr_mod, it.result_type, it.x, it.y);
+			// dibujar item / animación de pop
+			var sc = 1;
+
+			if (variable_struct_exists(it, "bump_t") && it.bump_t >= 0) {
+	
+				it.bump_t += 2;
+	
+				var t = it.bump_t / 20;
+	
+				if (t >= 1) {
+					it.bump_t = -1;
+				} else {
+					var wave   = sin(t * pi);        // crecimiento
+					var squash = sin(t * pi * 2);    // rebote
+		
+					sc = 1 + wave * 0.2 - abs(squash) * 0.1;
+				}
+			}
+
+			draw_sprite_ext(
+				spr_mod,
+				it.result_type,
+				it.x,
+				it.y,
+				sc,
+				sc,
+				0,
+				c_white,
+				1
+			);
+			
 		break;
 	}
 }
@@ -109,3 +139,17 @@ for (var i = 0; i < array_length(bowls); i++) {
 	obj_game.bowls.draw(bw.bowl_index, bw.x, bw.y);
 	
 }
+
+// Ojo
+var eye = obj_burning_eye;
+draw_sprite_ext(
+	spr_burning_eye,
+	obj_game.get_cooking_state(),
+	eye.x,
+	eye.y,
+	eye.eye_scale,
+	eye.eye_scale,
+	0,
+	c_white,
+	1
+);
