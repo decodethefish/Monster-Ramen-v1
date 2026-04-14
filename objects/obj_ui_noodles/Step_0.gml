@@ -107,7 +107,7 @@ if (station.state != NOODLE_STATE.COMPLETE) {
 			    my >= station.board_y - station.board_h * 0.5 &&
 			    my <= station.board_y + station.board_h * 0.5) {
 	
-				obj_game.noodles.start_sheet(obj_game.current_order.noodle_target_cm);
+				obj_game.noodles.start_sheet();
 			}
 		
 			d.x = d.x_start;

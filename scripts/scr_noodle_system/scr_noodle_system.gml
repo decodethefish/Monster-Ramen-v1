@@ -26,7 +26,6 @@ function NoodleSystem() constructor {
 			
 			has_sheet: false,
 			type: NOODLE_ID.NONE,
-			target_cm: 5,
 			cuts: [],
 			quality: 0,
 			state: NOODLE_STATE.NO_SHEET,
@@ -56,8 +55,7 @@ function NoodleSystem() constructor {
 		};
 	}
 			
-	function start_sheet(_target_cm) {
-		if (_target_cm <= 0) return;
+	function start_sheet() {
 		
 		var s = noodle_station;
 		
@@ -65,7 +63,6 @@ function NoodleSystem() constructor {
 		s.sheet_y = s.board_y;
 		s.has_sheet = true;
 		s.type = NOODLE_ID.WHEAT;
-		s.target_cm = _target_cm;
 		s.cuts = [];
 		s.state = NOODLE_STATE.ACTIVE;
 		s.ritual_available = false;
@@ -93,7 +90,6 @@ function NoodleSystem() constructor {
 		var cut_count = array_length(s.cuts);
 		if (cut_count == 0) return 0;
 		
-		var target = s.target_cm;
 		var sheet_lenght = 10;
 		
 		var prev = 0;

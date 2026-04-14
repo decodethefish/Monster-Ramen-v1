@@ -1,198 +1,276 @@
 function CustomerSystem() constructor {
+
+    function init() {
+        customers = [];
+        active_customer = noone;
+
+        active_orders = array_create(3, noone);
+
+        spawn_timer = 0;
+        spawn_interval = 8;
+        max_customers = 3;
+
+        customer_wait_time = 30;
+        queue_spacing = 32;
+
+        station_x = 0;
+        station_y = 0;
+        queue_start_x = 0;
+        queue_start_y = 0;
+
+        refresh_station_anchor();
+    }
+
+    function should_update(_current_station) {
+        return true;
+    }
+
+    function update(_dt) {
+        refresh_station_anchor();
+        update_spawning(_dt);
+        cleanup();
+        update_queue_targets();
+        update_active_customer();
+    }
+
+    function refresh_station_anchor() {
+        var st = instance_find(obj_st_order, 0);
+        if (st == noone) return;
+
+        station_x = st.x;
+        station_y = st.y;
+
+        queue_start_x = st.x + 32;
+        queue_start_y = st.y + 56;
+    }
+
+    function update_spawning(_dt) {
+        spawn_timer -= _dt;
+
+        if (spawn_timer > 0) return;
+
+        if (array_length(customers) < max_customers) {
+            spawn_customer();
+        }
+
+        spawn_timer = spawn_interval;
+    }
+
+    function spawn_customer() {
+        var spawn_x = station_x + 120;
+        var spawn_y = display_get_gui_height() + sprite_get_height(spr_cx);
+
+        var npc = instance_create_layer(spawn_x, spawn_y, "Instances", obj_cx_npc);
+
+        npc.target_x = spawn_x;
+        npc.target_y = spawn_y;
+
+        npc.state = CUSTOMER_STATE.QUEUE;
+        npc.wait_timer = customer_wait_time;
+        npc.locked = false;
+
+        array_push(customers, npc);
+    }
+
+    function update_queue_targets() {
+        var queue_index = 0;
+
+        for (var i = 0; i < array_length(customers); i++) {
+
+            var c = customers[i];
+
+            if (!instance_exists(c)) continue;
+            if (c == active_customer) continue;
+            if (c.state == CUSTOMER_STATE.LEAVE || c.state == CUSTOMER_STATE.DONE) continue;
+
+            var tx = queue_start_x + queue_index * queue_spacing;
+            var ty = queue_start_y;
+
+            c.target_x = tx;
+            c.target_y = ty;
+
+            if (c.state == CUSTOMER_STATE.SPAWN || c.state == CUSTOMER_STATE.QUEUE) {
+                c.state = CUSTOMER_STATE.WALK;
+            }
+
+            queue_index++;
+        }
+    }
+
+    function update_active_customer() {
+
+        // invalidar si ya no sirve
+        if (instance_exists(active_customer)) {
+
+            if (active_customer.state == CUSTOMER_STATE.LEAVE ||
+                active_customer.state == CUSTOMER_STATE.DONE) {
+
+                active_customer = noone;
+            }
+        }
+
+        // asignar nuevo
+        if (active_customer == noone) {
+
+            for (var i = 0; i < array_length(customers); i++) {
+
+                var c = customers[i];
+
+                if (!instance_exists(c)) continue;
+                if (c.state == CUSTOMER_STATE.LEAVE || c.state == CUSTOMER_STATE.DONE) continue;
+                if (c.locked) continue;
+
+                activate_customer(c);
+                break;
+            }
+        }
+    }
+
+    function activate_customer(_c) {
+
+        if (_c == noone || !instance_exists(_c)) return;
+
+        active_customer = _c;
+
+        _c.wait_timer = customer_wait_time;
+        _c.target_x = station_x;
+        _c.target_y = station_y;
+
+        _c.state = CUSTOMER_STATE.WALK;
+    }
+
+    function get_active_customer() {
+
+        if (!instance_exists(active_customer)) return noone;
+        if (active_customer.state != CUSTOMER_STATE.WAIT) return noone;
+        if (active_customer.locked) return noone;
+
+        return active_customer;
+    }
+
+    function start_interaction(_c) {
+
+        if (_c == noone) return false;
+        if (_c != active_customer) return false;
+        if (_c.state != CUSTOMER_STATE.WAIT) return false;
+
+        _c.locked = true;
+        _c.state = CUSTOMER_STATE.INTERACT;
+
+        return true;
+    }
+
+    function confirm_order(_c) {
+
+        if (_c == noone || !instance_exists(_c)) return;
+
+        var slot = get_free_order_slot();
+
+        if (slot == -1) {
+            _c.state = CUSTOMER_STATE.LEAVE;
+            _c.locked = false;
+
+            if (_c == active_customer) active_customer = noone;
+            return;
+        }
+
+        active_orders[slot] = generate_order();
+
+        _c.state = CUSTOMER_STATE.DONE;
+        _c.locked = false;
+
+        if (_c == active_customer) active_customer = noone;
+    }
 	
-	function init() {
-		
-		spawn_timer = 2;
-		
-		active_customer = noone;
-		active_orders = array_create(3, noone);	
-		
-		customers = [];
-		spawn_timer = 0;
-		max_active_orders = 3;
-		max_customers = 2;
-		
-	}
+	function generate_order() {
 	
-	function should_update(_current_station) {
-		return true;
-	}	
-	
-	function update(_dt) {
-
-	    spawn_timer -= _dt;
-		
-		// Spawnear cliente
-	    if (spawn_timer <= 0) {
-
-	        if (array_length(customers) < max_customers) {
-	            spawn_customer();
-	        }
-
-	        spawn_timer = 8;
-	    }
-
-	    cleanup();
-		
-		// Asignar cliente
-		if (active_customer == noone) {
+		return {
 			
-			for (var i = 0; i < array_length(customers); i++) {
+			noodles: {
+				type: choose(
+					NOODLE_ID.WHEAT, 
+					NOODLE_ID.CURSED, 
+					NOODLE_ID.MUCUS, 
+					NOODLE_ID.STONE
+				),
+				target_cm: choose(1, 2, 4, 6)
+			},
 			
-				var c = customers[i];
-				
-				if (!instance_exists(c)) continue;
-				if (c.state != CUSTOMER_STATE.WAIT) continue;
-				if (c.locked) continue;
-				
-				active_customer = c;
-				break;
+			broth: choose(
+				BROTH_ID.CHICKEN, 
+				BROTH_ID.ROTTEN
+			),
+			
+			meat: {
+				type: choose(
+					MEAT_ID.BEEF, 
+					MEAT_ID.BUG, 
+					MEAT_ID.DRAGON
+					),
+				target_tender: irandom_range(0, 5)
+			},
+			
+			egg: choose(
+				EGG_TYPE.NORMAL,
+				EGG_TYPE.ROTTEN,
+				EGG_TYPE.FIRE,
+				EGG_TYPE.WATER,
+				EGG_TYPE.GOLD,
+				EGG_TYPE.SHADOW
+			),
+			
+	        veggies: {
+	            type: choose(
+	                VEGGIE_TYPE.CARROT,
+	                VEGGIE_TYPE.MUSHROOM,
+	                VEGGIE_TYPE.BOK_CHOY
+	            ),
+	            result: choose(
+	                VEGGIE_RESULT.BLEEDING,
+	                VEGGIE_RESULT.MAGICAL,
+	                VEGGIE_RESULT.SPECTRAL,
+					VEGGIE_RESULT.CORRUPT,
+					VEGGIE_RESULT.CURSED,
+					VEGGIE_RESULT.DARK,
+					VEGGIE_RESULT.SPECTRAL,
+					VEGGIE_RESULT.ALCHEMICAL,
+					VEGGIE_RESULT.PARADOX,
+					VEGGIE_RESULT.ETERNAL
+				)
 			}
 		}
 	}
-	
-	function update_spawning(_dt) {
-	
-		spawn_timer -= _dt;
-		
-		if (spawn_timer <= 0) {
-		
-			if (array_length(customers) < max_customers) {
-				spawn_customer();	
-			}
-		
-		spawn_timer = 8;
-		
-		}
-	}
-	
-	function update_customers(_dt) {
 
-	    for (var i = array_length(customers) - 1; i >= 0; i--) {
+    function get_free_order_slot() {
 
-	        var c = customers[i];
+        for (var i = 0; i < array_length(active_orders); i++) {
+            if (active_orders[i] == noone) return i;
+        }
 
-	        if (c.state == CUSTOMER_STATE.LEAVE && c.x < -50) {
-	            array_delete(customers, i, 1);
-	        }
-	    }
-	}
+        return -1;
+    }
 
-	function spawn_customer() {
-		
-		var st = instance_find(obj_st_order, 0);
-		
-		if (st == noone) {
-			show_debug_message("NO STATION FOUND");
-			return;
-		}
-		
-	    var npc = instance_create_layer(100, 400, "Instances", obj_cx_npc);
-		
-		npc.target_x = st.x;
-		npc.target_y = st.y;
-		
-		npc.state = CUSTOMER_STATE.SPAWN;
+    function cleanup() {
 
-	    array_push(customers, npc);
-		
-		show_debug_message("TARGET: " + string(st.x) + ", " + string(st.y));
-	}
-	
-	function get_waiting_customer() {
-	
-		for (var i = 0; i < array_length(customers); i++) {
-			
-			var c = customers[i];
-			
-			if (c.state == CUSTOMER_STATE.WAIT && !c.locked) {
-				return c;	
-			}
-		}
-		
-		return noone;
-	}
-	
-	function start_interaction(c) {
-		
-		if (c == noone) return false;
-		
-		c.locked = true;
-		c.state = CUSTOMER_STATE.INTERACT;
-		
-		return true;
-		
-	}
-	
-	function confirm_order(c) {
-		
-		if (c == noone) return;
-		
-		var slot = get_free_order_slot();
-		
-		if (slot == -1) {
-			// si no hay espacio, podemos hacer que se moleste o algo xd
-			c.state =	CUSTOMER_STATE.LEAVE;
-			return;
-		}
-		
-		var order = generate_order();
-		
-		active_orders[slot] = order;
-		c.state = CUSTOMER_STATE.DONE;
-		
-	}
-		
-	function get_free_order_slot() {
-		
-		for (var i = 0; i < array_length(active_orders); i++) {
-			if (active_orders[i] == noone) return i;
-		}
-		
-		return -1;
-	}
-	
-	function get_customer_at_station(_x, _y, _range) {
-	
-		var best = noone;
-		var best_dist = _range;
-		
-		for (var i = 0; i < array_length(customers); i++) {
-		
-			var c = customers[i];
-			
-			if (!instance_exists(c)) continue;
-			if (c.state != CUSTOMER_STATE.WAIT) continue;
-			if (c.locked) continue;
-			
-			var d = point_distance(c.x, c.y, _x, _y);
-			
-			if (d < best_dist) {
-				best = c;
-				best_dist = d;
-			}
-		}
-		
-		return best;
-	}
-	
-	function cleanup() {
+        for (var i = array_length(customers) - 1; i >= 0; i--) {
 
-	    for (var i = array_length(customers) - 1; i >= 0; i--) {
+            var c = customers[i];
 
-	        var c = customers[i];
+            if (!instance_exists(c)) {
+                array_delete(customers, i, 1);
+                continue;
+            }
 
-	        if (!instance_exists(c)) {
-	            array_delete(customers, i, 1);
-	            continue;
-	        }
+            if (c.state == CUSTOMER_STATE.LEAVE) {
 
-	        if (c.state == CUSTOMER_STATE.LEAVE && c.x < -50) {
-	            instance_destroy(c);
-	            array_delete(customers, i, 1);
-	        }
-	    }
-	}
-	
-	
+                if (c.x < -100 || c.y > room_height + 100) {
+
+                    if (c == active_customer) active_customer = noone;
+
+                    instance_destroy(c);
+                    array_delete(customers, i, 1);
+                }
+            }
+        }
+    }
 }

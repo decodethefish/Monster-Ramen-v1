@@ -1,4 +1,4 @@
-state = 0;
+state = CUSTOMER_STATE.SPAWN;
 
 spd = 80;
 

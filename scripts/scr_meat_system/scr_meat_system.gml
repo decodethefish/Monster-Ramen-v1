@@ -106,7 +106,7 @@ function MeatSystem() constructor {
 			
 			tender_input: false,
 			tender_segments: 6,
-			tender_target_zone: obj_game.current_order.meat_target_tender,
+			tender_target_zone: 0,
 			tender_current_zone: 0,
 			tender_timer: 0,
 			tender_time_required: 60,
@@ -129,6 +129,16 @@ function MeatSystem() constructor {
 		s.tender_running = false;
 		s.tender_timer = data.tender_time;
 		s.tender_progress = 0;
+	}
+	
+	function set_order(_order) {
+	
+		if (_order == noone) return;
+		
+		var s = meat_station;
+		
+		s.tender_target_zone = _order.meat.target_tender;
+	
 	}
 	
 	function set_board_geometry(_gui_w, _gui_h) {
@@ -435,6 +445,7 @@ function MeatSystem() constructor {
 		s.tender_value = 0;
 		s.tender_running = false;
 		s.tender_timer = 0;
+		s.tender_target_zone = 0;
 		s.tender_time_in_zone = 0;
 		s.tender_current_zone = 0;
 		s.hammer_picked = false;

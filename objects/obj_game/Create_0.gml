@@ -12,12 +12,8 @@ time_scale_global = 1;
 current_station = undefined;
 current_ui = noone;
 
-
-// variables provicionales de ordenes
-current_order = {
-	noodle_target_cm: 2,
-	meat_target_tender: 3,
-};
+// Orden
+current_order = noone
 
 // Funciones
 function request_open_station(_station_id) {
@@ -34,7 +30,16 @@ function close_station() {
         instance_destroy(current_ui);
         current_ui = noone;
     }
-
+	
+	if (instance_exists(current_customer)) {
+		
+		if (current_customer.state == CUSTOMER_STATE.INTERACT) {
+			current_customer.state = CUSTOMER_STATE.WAIT;
+			current_customer.locked = false;
+		}
+	}
+	
+	current_customer = noone;
     current_station = undefined;
     game_mode = GAME_MODE.WORLD;
 }
@@ -107,3 +112,5 @@ veggies.init();
 customers = new CustomerSystem();
 customers.init();
 current_customer = noone;
+
+order_system = new OrderSystem();

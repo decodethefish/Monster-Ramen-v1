@@ -18,6 +18,7 @@ function scr_enums(){
 	enum CUSTOMER_STATE {
 		SPAWN,
 		WALK,
+		QUEUE,
 		WAIT,
 		INTERACT,
 		DONE,

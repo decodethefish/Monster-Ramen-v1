@@ -3,7 +3,8 @@ var dt = delta_time / 1000000;
 switch (state) {
 
     case CUSTOMER_STATE.SPAWN:
-        state = CUSTOMER_STATE.WALK;
+    case CUSTOMER_STATE.QUEUE:
+
     break;
 
     case CUSTOMER_STATE.WALK:
@@ -15,12 +16,24 @@ switch (state) {
             x += lengthdir_x(spd * dt, dir);
             y += lengthdir_y(spd * dt, dir);
         } else {
-            state = CUSTOMER_STATE.WAIT;
+
+            // SOLO el cliente activo puede entrar a WAIT
+            if (obj_game.customers.active_customer == id) {
+                state = CUSTOMER_STATE.WAIT;
+            } else {
+                state = CUSTOMER_STATE.QUEUE;
+            }
         }
 
     break;
 
     case CUSTOMER_STATE.WAIT:
+
+        // Si deja de ser activo, vuelve a la cola
+        if (obj_game.customers.active_customer != id) {
+            state = CUSTOMER_STATE.QUEUE;
+            break;
+        }
 
         if (!locked) {
             wait_timer -= dt;
@@ -33,6 +46,7 @@ switch (state) {
     break;
 
     case CUSTOMER_STATE.INTERACT:
+        // quieto
     break;
 
     case CUSTOMER_STATE.DONE:
@@ -40,7 +54,6 @@ switch (state) {
     break;
 
     case CUSTOMER_STATE.LEAVE:
-        x -= spd * dt;
+        y += spd * dt;
     break;
 }
-	
