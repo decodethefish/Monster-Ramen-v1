@@ -11,6 +11,17 @@ function scr_enums(){
 		MEAT,
 		EGGS,
 		VEGGIES,
+		ORDER,
+	}
+		
+// customer system
+	enum CUSTOMER_STATE {
+		SPAWN,
+		WALK,
+		WAIT,
+		INTERACT,
+		DONE,
+		LEAVE,
 	}
 
 // broth system

@@ -101,3 +101,9 @@ meat.init();
 
 veggies = new VeggiesSystem(); 
 veggies.init();
+
+// ------------ SISTEMAS DE JUEGO -------------
+
+customers = new CustomerSystem();
+customers.init();
+current_customer = noone;

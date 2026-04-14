@@ -3,7 +3,7 @@ var dt = delta_time / 1000000;
 dt *= time_scale_global;
 
 // updates de sistemas
-var systems = [broth, noodles, eggs, meat, veggies];
+var systems = [broth, noodles, eggs, meat, veggies, customers];
 for (var i = 0; i < array_length(systems); i++) {
 	
 	var sys = systems[i];
@@ -13,7 +13,7 @@ for (var i = 0; i < array_length(systems); i++) {
 	}
 }
 
-// Controles UI
+// Controlador UI
 if (game_mode == GAME_MODE.COOKING) {
 	if (!instance_exists(current_ui)) {
 		
@@ -37,6 +37,10 @@ if (game_mode == GAME_MODE.COOKING) {
 			
 			case STATION.VEGGIES:
 				current_ui = instance_create_layer(0,0,"UI",obj_ui_veggies);
+			break;		
+			
+			case STATION.ORDER:
+				current_ui = instance_create_layer(0,0,"UI",obj_ui_order);
 			break;		
 			
 		}
