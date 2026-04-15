@@ -44,8 +44,6 @@ if (station.mode == MEAT_MODE.TENDER) {
 	
 	}
 
-
-
 	// dibujar carnes sobre table
 	if (station.has_meat && !dragging_ready) {
 
@@ -107,7 +105,7 @@ if (station.mode == MEAT_MODE.TENDER) {
 		var segments = station.tender_segments;
 		var segment_h = bh / segments;
 
-		var colors = [c_red, c_orange, c_yellow, c_lime, c_aqua, c_fuchsia];
+		var colors = [c_red, c_orange, c_yellow, c_lime, c_blue, c_fuchsia];
 
 		for (var i = 0; i < segments; i++) {
 

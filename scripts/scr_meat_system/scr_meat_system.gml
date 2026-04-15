@@ -20,7 +20,7 @@ function MeatSystem() constructor {
 		meats_data[MEAT_ID.BUG] = {
 			gravity: 4,
 			lift: 7,
-			tender_time: 1,
+			tender_time: 5,
 			cook_time: 35,
 			cook_ready_time: 25,
 		};
@@ -427,6 +427,13 @@ function MeatSystem() constructor {
 		
 		s.tender_running = false;
 		s.state = MEAT_STATE.READY_FOR_GRILL;
+		
+		show_debug_message("---- MEAT END ----");
+		show_debug_message("type: " + string(s.type));
+		show_debug_message("target_zone: " + string(s.tender_target_zone));
+		show_debug_message("current_zone: " + string(s.tender_current_zone));
+		show_debug_message("time_in_zone: " + string(s.tender_time_in_zone));
+		show_debug_message("tender_quality: " + string(tender_quality));
 		
 	    return {
 	        type: s.type,

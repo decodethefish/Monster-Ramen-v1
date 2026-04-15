@@ -20,6 +20,7 @@ function scr_enums(){
 		WALK,
 		QUEUE,
 		WAIT,
+		WAIT_FOOD,
 		INTERACT,
 		DONE,
 		LEAVE,

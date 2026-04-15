@@ -17,6 +17,17 @@ function OrderSystem() constructor {
 		var current_score = 0;
 		var max_score = 5;
 		
+		// Broth
+		if (_bowl.has_broth) {
+    
+		    if (_bowl.broth_id == current_order.broth) {
+        
+		        if (_bowl.broth_state != POT_STATE.BURNED) {
+		            current_score += 1;
+		        }
+		    }
+		}		
+			
 		// Noodles
 		if (_bowl.noodles != noone) {
 			
@@ -47,6 +58,8 @@ function OrderSystem() constructor {
 		}
 		
 		return current_score / max_score;
+		
+	
 	}
 
 

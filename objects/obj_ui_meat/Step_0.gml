@@ -306,12 +306,39 @@ if (station.mode == MEAT_MODE.COOK) {
 			if (mouse_over_bowl) {
 
 				var final_q = obj_game.meat.get_meat_final_quality(drag_meat);
-
+				
 				obj_game.bowls.add_meat(bw.bowl_index, {
-					type: drag_meat.type,
-					quality: final_q
+				    type: drag_meat.type,
+				    quality: final_q
 				});
 
+				var b = obj_game.bowls.bowls[bw.bowl_index];
+				
+				show_debug_message("==== BOWL ====");
+
+				show_debug_message("NOODLES: " 
+				    + noodle_to_string(b.noodle_id) 
+				    + " | q: " + string(b.noodle_quality)
+				);
+
+				show_debug_message("BROTH: " 
+				    + broth_to_string(b.broth_id) 
+				    + " | state: " + string(b.broth_state)
+				);
+
+				show_debug_message("MEAT: " 
+				    + meat_to_string(b.meat_type) 
+				    + " | q: " + string(b.meat_quality)
+				);
+
+				show_debug_message("EGG: " 
+				    + egg_to_string(b.egg_type)
+				);
+
+show_debug_message("VEGGIE: " 
+    + veggie_to_string(b.veg_type)
+    + " | result: " + veggie_result_to_string(b.veg_result)
+);
 				dropped = true;
 				break;
 			}

@@ -8,17 +8,16 @@ function CustomerSystem() constructor {
 
         spawn_timer = 0;
         spawn_interval = 8;
-        max_customers = 3;
+        max_customers = 2;
 
         customer_wait_time = 30;
-        queue_spacing = 32;
 
         station_x = 0;
         station_y = 0;
+		queue_spacing = 0;
         queue_start_x = 0;
         queue_start_y = 0;
 
-        refresh_station_anchor();
     }
 
     function should_update(_current_station) {
@@ -33,16 +32,23 @@ function CustomerSystem() constructor {
         update_active_customer();
     }
 
-    function refresh_station_anchor() {
-        var st = instance_find(obj_st_order, 0);
-        if (st == noone) return;
+	function refresh_station_anchor() {
 
-        station_x = st.x;
-        station_y = st.y;
+	    var qs = instance_find(obj_queue_spot, 0);
 
-        queue_start_x = st.x + 32;
-        queue_start_y = st.y + 56;
-    }
+	    if (qs != noone) {
+	        queue_start_x = qs.x;
+	        queue_start_y = qs.y;
+	        queue_spacing = qs.spacing;
+	    }
+		
+	    var st = instance_find(obj_st_order, 0);
+
+	    if (st != noone) {
+	        station_x = st.x;
+	        station_y = st.y;
+	    }		
+	}
 
     function update_spawning(_dt) {
         spawn_timer -= _dt;
@@ -57,8 +63,12 @@ function CustomerSystem() constructor {
     }
 
     function spawn_customer() {
-        var spawn_x = station_x + 120;
-        var spawn_y = display_get_gui_height() + sprite_get_height(spr_cx);
+		
+		var sa = instance_find(obj_spawn_anchor, 0);
+		if (sa == noone) return;
+		
+        var spawn_x = sa.x
+        var spawn_y = sa.y + 64;
 
         var npc = instance_create_layer(spawn_x, spawn_y, "Instances", obj_cx_npc);
 
@@ -81,7 +91,10 @@ function CustomerSystem() constructor {
 
             if (!instance_exists(c)) continue;
             if (c == active_customer) continue;
-            if (c.state == CUSTOMER_STATE.LEAVE || c.state == CUSTOMER_STATE.DONE) continue;
+			if (c.state == CUSTOMER_STATE.WALK && c.has_order) continue;
+            if (c.state == CUSTOMER_STATE.LEAVE 
+			|| c.state == CUSTOMER_STATE.DONE
+			|| c.state == CUSTOMER_STATE.WAIT_FOOD) continue;
 
             var tx = queue_start_x + queue_index * queue_spacing;
             var ty = queue_start_y;
@@ -89,7 +102,7 @@ function CustomerSystem() constructor {
             c.target_x = tx;
             c.target_y = ty;
 
-            if (c.state == CUSTOMER_STATE.SPAWN || c.state == CUSTOMER_STATE.QUEUE) {
+            if (c.state == CUSTOMER_STATE.SPAWN) {
                 c.state = CUSTOMER_STATE.WALK;
             }
 
@@ -98,7 +111,7 @@ function CustomerSystem() constructor {
     }
 
     function update_active_customer() {
-
+	
         // invalidar si ya no sirve
         if (instance_exists(active_customer)) {
 
@@ -115,9 +128,12 @@ function CustomerSystem() constructor {
             for (var i = 0; i < array_length(customers); i++) {
 
                 var c = customers[i];
-
+				
+				if (c.has_order) continue;
                 if (!instance_exists(c)) continue;
-                if (c.state == CUSTOMER_STATE.LEAVE || c.state == CUSTOMER_STATE.DONE) continue;
+                if (c.state == CUSTOMER_STATE.LEAVE 
+				|| c.state == CUSTOMER_STATE.DONE
+				|| c.state == CUSTOMER_STATE.WAIT_FOOD) continue;
                 if (c.locked) continue;
 
                 activate_customer(c);
@@ -193,7 +209,7 @@ function CustomerSystem() constructor {
 					NOODLE_ID.MUCUS, 
 					NOODLE_ID.STONE
 				),
-				target_cm: choose(1, 2, 4, 6)
+				target_cm: choose(1, 2, 4)
 			},
 			
 			broth: choose(

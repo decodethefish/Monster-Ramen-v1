@@ -38,6 +38,8 @@ function NoodleSystem() constructor {
 			board_w: 0,
 			board_h: 0,
 			
+			target_cm: 0,
+			
 			ritual_available: false,
 			ritual_complete: false,
 			ritual_prev_state: NOODLE_STATE.NO_SHEET,
@@ -82,33 +84,40 @@ function NoodleSystem() constructor {
 		}
 	}
 	
+	function set_order(_order) {
+		noodle_station.target_cm = _order.noodles.target_cm;
+	}
+	
 	function calculate_quality() {
-		var s = noodle_station;
+	    var s = noodle_station;
+    
+	    if (!s.has_sheet) return 0;
+    
+		var target = s.target_cm;
+		if (target <= 0) return 0;
 		
-		if (!s.has_sheet) return 0;
-		
-		var cut_count = array_length(s.cuts);
-		if (cut_count == 0) return 0;
-		
-		var sheet_lenght = 10;
-		
-		var prev = 0;
-		var total_error = 0;
-		
-		for (var i = 0; i < cut_count; i++) {
-			var current = s.cuts[i];
-			var segment = current - prev;
-			total_error += abs(segment - target);
-			prev = current;
-		}
-		
-		var last_segment = sheet_lenght - prev;
-		total_error += abs(last_segment - target);
-	
-		var segments = sheet_lenght / target;
-		var max_error = segments * 1;
-	
-		return clamp(1 - (total_error / max_error), 0, 1);
+	    var cut_count = array_length(s.cuts);
+	    if (cut_count == 0) return 0;
+    
+	    var sheet_lenght = 10;
+    
+	    var prev = 0;
+	    var total_error = 0;
+    
+	    for (var i = 0; i < cut_count; i++) {
+	        var current = s.cuts[i];
+	        var segment = current - prev;
+	        total_error += abs(segment - target);
+	        prev = current;
+	    }
+    
+	    var last_segment = sheet_lenght - prev;
+	    total_error += abs(last_segment - target);
+
+	    var segments = sheet_lenght / target;
+	    var max_error = segments * 1;
+
+	    return clamp(1 - (total_error / max_error), 0, 1);
 	}
 		
 	function can_serve() {
