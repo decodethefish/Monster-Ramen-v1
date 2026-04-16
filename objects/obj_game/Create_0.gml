@@ -114,3 +114,5 @@ customers.init();
 current_customer = noone;
 
 order_system = new OrderSystem();
+
+global.order_dialog_db = scr_ord_dialog_db();

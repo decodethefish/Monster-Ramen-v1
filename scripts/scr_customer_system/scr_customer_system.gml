@@ -172,7 +172,15 @@ function CustomerSystem() constructor {
 
         _c.locked = true;
         _c.state = CUSTOMER_STATE.INTERACT;
-
+		
+		var pool = global.order_dialog_db;
+		var pack = pool[irandom(array_length(pool) - 1)];
+		
+		_c.dialog_lines = pack;
+		_c.dialog_index = 0;		
+		
+		show_debug_message("dialog assigned: " + string(array_length(_c.dialog_lines)));
+		
         return true;
     }
 
@@ -276,7 +284,6 @@ function CustomerSystem() constructor {
 		_c.has_order = true;
 		
 		_c.locked = false;
-		
 		_c.state = CUSTOMER_STATE.WALK;
 		
 		var w_spot = instance_find(obj_wait_spot, 0);

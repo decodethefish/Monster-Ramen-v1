@@ -66,6 +66,7 @@
     {"id":{"name":"scr_enums","path":"scripts/scr_enums/scr_enums.yy",},},
     {"id":{"name":"scr_meat_system","path":"scripts/scr_meat_system/scr_meat_system.yy",},},
     {"id":{"name":"scr_noodle_system","path":"scripts/scr_noodle_system/scr_noodle_system.yy",},},
+    {"id":{"name":"scr_ord_dialog_db","path":"scripts/scr_ord_dialog_db/scr_ord_dialog_db.yy",},},
     {"id":{"name":"scr_order_system","path":"scripts/scr_order_system/scr_order_system.yy",},},
     {"id":{"name":"scr_veggies_system","path":"scripts/scr_veggies_system/scr_veggies_system.yy",},},
     {"id":{"name":"utils_CommunityToolboxArray","path":"scripts/utils_CommunityToolboxArray/utils_CommunityToolboxArray.yy",},},
