@@ -128,7 +128,7 @@ function CustomerSystem() constructor {
             for (var i = 0; i < array_length(customers); i++) {
 
                 var c = customers[i];
-				
+				if (!instance_exists(c)) continue;
 				if (c.has_order) continue;
                 if (!instance_exists(c)) continue;
                 if (c.state == CUSTOMER_STATE.LEAVE 
@@ -265,6 +265,34 @@ function CustomerSystem() constructor {
 
         return -1;
     }
+	
+	function finish_interaction(_c) {
+	
+		if (_c == noone || !instance_exists(_c)) return;
+		
+		var order = generate_order();
+		
+		_c.order = order;
+		_c.has_order = true;
+		
+		_c.locked = false;
+		
+		_c.state = CUSTOMER_STATE.WALK;
+		
+		var w_spot = instance_find(obj_wait_spot, 0);
+		if (w_spot != noone) {
+		
+			_c.target_x = w_spot.x;
+			_c.target_y = w_spot.y;
+			
+			if (_c == active_customer) {
+				active_customer = noone;	
+			}
+			
+			array_push(active_orders, order);
+		
+		}
+	}
 
     function cleanup() {
 

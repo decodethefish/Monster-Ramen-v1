@@ -1,18 +1,9 @@
 function OrderSystem() constructor {
 	
-	current_order = noone;
 	
-	function set_order(_order) {
-		current_order = _order;
-	}
-	
-	function clear_order() {
-		current_order = noone;	
-	}
-	
-	function evaluate_bowl(_bowl) {
+	function evaluate_bowl(_bowl, _order) {
 		
-		if (current_order == noone) return 0;
+		if (_order == noone) return 0;
 		
 		var current_score = 0;
 		var max_score = 5;
@@ -45,7 +36,7 @@ function OrderSystem() constructor {
 		}
 		
 		// Eggs
-		if (_bowl.egg == current_order.egg) {
+		if (_bowl.egg == _order.egg) {
 			current_score += 1;	
 		}
 		

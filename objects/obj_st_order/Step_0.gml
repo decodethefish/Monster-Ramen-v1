@@ -4,12 +4,19 @@ if (place_meeting(x, y, obj_player)) {
 
     if (keyboard_check_pressed(ord("E"))) {
 
-        var c = obj_game.customers.get_active_customer();
+		var c = obj_game.customers.get_active_customer();
 
-        if (obj_game.customers.start_interaction(c)) {
+		if (c == noone) {
+		    show_debug_message("NO CUSTOMER READY");
+		    exit;
+		}
 
-            obj_game.current_customer = c;
-            obj_game.request_open_station(STATION.ORDER);
-        }
+		if (obj_game.customers.start_interaction(c)) {
+
+		    obj_game.request_open_station(STATION.ORDER);
+
+		    var ui = instance_create_layer(0, 0, "UI", obj_ui_order);
+		    ui.customer = c;
+		}
     }
 }
