@@ -15,9 +15,8 @@ if (place_meeting(x, y, obj_player)) {
 
 		    obj_game.request_open_station(STATION.ORDER);
 
-		    var ui = instance_create_layer(0, 0, "UI", obj_ui_order);
-
-		    ui.interaction = obj_game.customers.get_current_interaction();
+		    obj_game.current_ui = instance_create_layer(0, 0, "UI", obj_ui_order);
+		    obj_game.current_ui.interaction = obj_game.customers.get_current_interaction();
 		}
     }
 }
