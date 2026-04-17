@@ -9,8 +9,8 @@
   "name":"obj_st_noodle",
   "overriddenProperties":[],
   "parent":{
-    "name":"objects",
-    "path":"folders/objects.yy",
+    "name":"stations",
+    "path":"folders/objects/stations.yy",
   },
   "parentObjectId":null,
   "persistent":false,

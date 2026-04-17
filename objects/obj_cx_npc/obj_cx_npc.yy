@@ -10,8 +10,8 @@
   "name":"obj_cx_npc",
   "overriddenProperties":[],
   "parent":{
-    "name":"objects",
-    "path":"folders/objects.yy",
+    "name":"playable",
+    "path":"folders/objects/playable.yy",
   },
   "parentObjectId":null,
   "persistent":false,

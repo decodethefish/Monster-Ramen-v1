@@ -1,8 +1,11 @@
 function CustomerSystem() constructor {
 
     function init() {
+		
         customers = [];
         active_customer = noone;
+		
+		current_interaction = noone;
 
         active_orders = array_create(3, noone);
 
@@ -18,18 +21,6 @@ function CustomerSystem() constructor {
         queue_start_x = 0;
         queue_start_y = 0;
 
-    }
-
-    function should_update(_current_station) {
-        return true;
-    }
-
-    function update(_dt) {
-        refresh_station_anchor();
-        update_spawning(_dt);
-        cleanup();
-        update_queue_targets();
-        update_active_customer();
     }
 
 	function refresh_station_anchor() {
@@ -48,7 +39,22 @@ function CustomerSystem() constructor {
 	        station_x = st.x;
 	        station_y = st.y;
 	    }		
-	}
+	}		
+
+
+	// Updates
+
+    function update(_dt) {
+        refresh_station_anchor();
+        update_spawning(_dt);
+        cleanup();
+        update_queue_targets();
+        update_active_customer();
+    }
+
+    function should_update(_current_station) {
+        return true;
+    }
 
     function update_spawning(_dt) {
         spawn_timer -= _dt;
@@ -60,26 +66,6 @@ function CustomerSystem() constructor {
         }
 
         spawn_timer = spawn_interval;
-    }
-
-    function spawn_customer() {
-		
-		var sa = instance_find(obj_spawn_anchor, 0);
-		if (sa == noone) return;
-		
-        var spawn_x = sa.x
-        var spawn_y = sa.y + 64;
-
-        var npc = instance_create_layer(spawn_x, spawn_y, "Instances", obj_cx_npc);
-
-        npc.target_x = spawn_x;
-        npc.target_y = spawn_y;
-
-        npc.state = CUSTOMER_STATE.QUEUE;
-        npc.wait_timer = customer_wait_time;
-        npc.locked = false;
-
-        array_push(customers, npc);
     }
 
     function update_queue_targets() {
@@ -109,6 +95,30 @@ function CustomerSystem() constructor {
             queue_index++;
         }
     }
+	
+	
+	// Customers
+
+    function spawn_customer() {
+		
+		var sa = instance_find(obj_spawn_anchor, 0);
+		if (sa == noone) return;
+		
+        var spawn_x = sa.x
+        var spawn_y = sa.y + 64;
+
+        var npc = instance_create_layer(spawn_x, spawn_y, "Instances", obj_cx_npc);
+
+        npc.target_x = spawn_x;
+        npc.target_y = spawn_y;
+
+        npc.state = CUSTOMER_STATE.QUEUE;
+        npc.wait_timer = customer_wait_time;
+        npc.locked = false;
+		npc.has_order = false;
+
+        array_push(customers, npc);
+    }		
 
     function update_active_customer() {
 	
@@ -163,26 +173,9 @@ function CustomerSystem() constructor {
 
         return active_customer;
     }
-
-    function start_interaction(_c) {
-
-        if (_c == noone) return false;
-        if (_c != active_customer) return false;
-        if (_c.state != CUSTOMER_STATE.WAIT) return false;
-
-        _c.locked = true;
-        _c.state = CUSTOMER_STATE.INTERACT;
 		
-		var pool = global.order_dialog_db;
-		var pack = pool[irandom(array_length(pool) - 1)];
-		
-		_c.dialog_lines = pack;
-		_c.dialog_index = 0;		
-		
-		show_debug_message("dialog assigned: " + string(array_length(_c.dialog_lines)));
-		
-        return true;
-    }
+	
+	// Orders	
 
     function confirm_order(_c) {
 
@@ -274,9 +267,45 @@ function CustomerSystem() constructor {
         return -1;
     }
 	
-	function finish_interaction(_c) {
 	
-		if (_c == noone || !instance_exists(_c)) return;
+	// Interactions 
+	
+	function get_current_interaction() {
+		return current_interaction;	
+	}
+	
+	function create_interaction(_c) {
+		
+		var pool = global.order_dialog_db;
+		var pack = pool[irandom(array_length(pool) - 1)];
+		
+		return {
+			customer: _c,
+			dialog_lines: pack,
+			dialog_index: 0,
+			done: false,
+		}
+	}
+	
+    function start_interaction(_c) {
+
+        if (_c == noone) return false;
+        if (_c != active_customer) return false;
+        if (_c.state != CUSTOMER_STATE.WAIT) return false;
+
+        _c.locked = true;
+        _c.state = CUSTOMER_STATE.INTERACT;
+		
+		current_interaction = create_interaction(_c);
+		
+        return true;
+    }
+	
+	function finish_interaction() {
+		
+		if (current_interaction == noone) return;
+		
+		var _c = current_interaction.customer;
 		
 		var order = generate_order();
 		
@@ -288,19 +317,21 @@ function CustomerSystem() constructor {
 		
 		var w_spot = instance_find(obj_wait_spot, 0);
 		if (w_spot != noone) {
-		
 			_c.target_x = w_spot.x;
 			_c.target_y = w_spot.y;
-			
-			if (_c == active_customer) {
-				active_customer = noone;	
-			}
-			
-			array_push(active_orders, order);
-		
 		}
+		
+		if (_c == active_customer) active_customer = noone;
+		
+		array_push(active_orders, order);
+		
+		current_interaction = noone;
+		
 	}
-
+		
+		
+	// Cleanse
+	
     function cleanup() {
 
         for (var i = array_length(customers) - 1; i >= 0; i--) {

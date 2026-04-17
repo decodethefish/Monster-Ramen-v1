@@ -9,8 +9,8 @@
   "name":"obj_bowl_ui",
   "overriddenProperties":[],
   "parent":{
-    "name":"objects",
-    "path":"folders/objects.yy",
+    "name":"stations_ui",
+    "path":"folders/objects/stations_ui.yy",
   },
   "parentObjectId":null,
   "persistent":false,
