@@ -97,9 +97,11 @@ function BowlSystem(_count) constructor {
 		
 		bowl.has_meat = true;
 		bowl.meat_type = _meat.type;
-		bowl.meat_quality = _meat.quality;
+		bowl.meat_data= _meat;
 		
 		bowls[_bowl_index] = bowl;
+		
+		
 	}
 		
 	function add_veggie(_bowl_index, _item) {

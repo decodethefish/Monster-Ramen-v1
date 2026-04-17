@@ -101,12 +101,12 @@ function MeatSystem() constructor {
 			tender_target: 0.5,
 			tender_window: 0.15,
 			
+			tender_time_per_zone : array_create(6, 0),
 			tender_time_in_zone: 0,
 			tender_goal: 5,
 			
 			tender_input: false,
 			tender_segments: 6,
-			tender_target_zone: 0,
 			tender_current_zone: 0,
 			tender_timer: 0,
 			tender_time_required: 60,
@@ -129,6 +129,7 @@ function MeatSystem() constructor {
 		s.tender_running = false;
 		s.tender_timer = data.tender_time;
 		s.tender_progress = 0;
+		s.tender_time_per_zone = array_create(s.tender_segments, 0);
 	}
 	
 	function set_order(_order) {
@@ -136,8 +137,6 @@ function MeatSystem() constructor {
 		if (_order == noone) return;
 		
 		var s = meat_station;
-		
-		s.tender_target_zone = _order.meat.target_tender;
 	
 	}
 	
@@ -296,7 +295,7 @@ function MeatSystem() constructor {
 	}
 	
 	function update_tender(_dt) {
-	
+		
 		var s = meat_station;
 		var data = meats_data[s.type]
 		
@@ -312,16 +311,15 @@ function MeatSystem() constructor {
 
 		s.tender_value = clamp(s.tender_value, 0, 10);		
 		
+		// Tiempo por cada zona de tender
 		var zone = get_tender_zone();
 		s.tender_current_zone = zone;
 		
-		if (zone == s.tender_target_zone) {
-			s.tender_time_in_zone += _dt;
-		}
-		
+		s.tender_time_per_zone[zone] += _dt;
+
 		s.tender_timer -= _dt;
 		s.tender_timer = max(0, s.tender_timer);
-		
+		show_debug_message(s.tender_time_per_zone);
 		if (s.tender_timer <= 0) {
 			
 			s.tender_running = false;
@@ -401,46 +399,20 @@ function MeatSystem() constructor {
 	function end_tender() {
 	
 		var s = meat_station;
-		var data = meats_data[s.type];
-		
-		var total_time = data.tender_time;
-		var time_in_zone = s.tender_time_in_zone;
-		var margin = 0.5;
-		
-		var effective_time = max(0, time_in_zone - margin);
-		
-		var q = effective_time / total_time;
-		q = clamp(q, 0, 1);
-		
-		
-		var tender_quality;
-		
-		if (q >= 0.7) {
-			tender_quality = 3; // HIGH
-		}
-		else if (q >= 0.4) {
-			tender_quality = 2; // MID
-		}
-		else {
-			tender_quality = 1; // LOW	
-		}
-		
+	
 		s.tender_running = false;
 		s.state = MEAT_STATE.READY_FOR_GRILL;
-		
+	
 		show_debug_message("---- MEAT END ----");
 		show_debug_message("type: " + string(s.type));
-		show_debug_message("target_zone: " + string(s.tender_target_zone));
-		show_debug_message("current_zone: " + string(s.tender_current_zone));
-		show_debug_message("time_in_zone: " + string(s.tender_time_in_zone));
-		show_debug_message("tender_quality: " + string(tender_quality));
-		
-	    return {
-	        type: s.type,
-	        tender_quality: tender_quality
-	    };
-	}
+		show_debug_message("time_per_zone: " + string(s.tender_time_per_zone));
 	
+		return {
+		    type: s.type,
+		    time_per_zone: s.tender_time_per_zone
+		};
+	}
+		
 	function reset() {
 	
 		var s = meat_station;
@@ -452,7 +424,6 @@ function MeatSystem() constructor {
 		s.tender_value = 0;
 		s.tender_running = false;
 		s.tender_timer = 0;
-		s.tender_target_zone = 0;
 		s.tender_time_in_zone = 0;
 		s.tender_current_zone = 0;
 		s.hammer_picked = false;

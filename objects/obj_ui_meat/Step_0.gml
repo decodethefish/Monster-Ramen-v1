@@ -69,9 +69,9 @@ if (station.mode == MEAT_MODE.TENDER) {
 			if (array_length(station.tray_meats) < station.tray_max) {
 			
 				array_push(station.tray_meats, {
-					type: meat_data.type,
-					tender_quality: meat_data.tender_quality,
-					rot: irandom_range(-40, 40)
+				    type: meat_data.type,
+				    time_per_zone: meat_data.time_per_zone,
+				    rot: irandom_range(-40, 40)
 				});
 			}
 		
@@ -219,7 +219,7 @@ if (station.mode == MEAT_MODE.COOK) {
 
 			        station.grill_slots[i] = {
 			            type: drag_meat.type,
-			            tender_quality: drag_meat.tender_quality,
+			            time_per_zone: drag_meat.time_per_zone,
 			            cook_time: 0,
 			            in_window: false,
 						is_burned: false
@@ -304,41 +304,15 @@ if (station.mode == MEAT_MODE.COOK) {
 				
 			// soltar en bowl y añadir calidad
 			if (mouse_over_bowl) {
-
-				var final_q = obj_game.meat.get_meat_final_quality(drag_meat);
 				
 				obj_game.bowls.add_meat(bw.bowl_index, {
 				    type: drag_meat.type,
-				    quality: final_q
+				    time_per_zone: drag_meat.time_per_zone,
+					cook_time: drag_meat.cook_time,
 				});
 
 				var b = obj_game.bowls.bowls[bw.bowl_index];
 				
-				show_debug_message("==== BOWL ====");
-
-				show_debug_message("NOODLES: " 
-				    + noodle_to_string(b.noodle_id) 
-				    + " | q: " + string(b.noodle_quality)
-				);
-
-				show_debug_message("BROTH: " 
-				    + broth_to_string(b.broth_id) 
-				    + " | state: " + string(b.broth_state)
-				);
-
-				show_debug_message("MEAT: " 
-				    + meat_to_string(b.meat_type) 
-				    + " | q: " + string(b.meat_quality)
-				);
-
-				show_debug_message("EGG: " 
-				    + egg_to_string(b.egg_type)
-				);
-
-show_debug_message("VEGGIE: " 
-    + veggie_to_string(b.veg_type)
-    + " | result: " + veggie_result_to_string(b.veg_result)
-);
 				dropped = true;
 				break;
 			}

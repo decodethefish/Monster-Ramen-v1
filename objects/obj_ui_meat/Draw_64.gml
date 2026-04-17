@@ -104,8 +104,9 @@ if (station.mode == MEAT_MODE.TENDER) {
 		// segmentos (visual de lógica)
 		var segments = station.tender_segments;
 		var segment_h = bh / segments;
-
-		var colors = [c_red, c_orange, c_yellow, c_lime, c_blue, c_fuchsia];
+		var c_ltblue = #32DCFF;
+		
+		var colors = [c_red, c_orange, c_yellow, c_lime, c_ltblue, c_fuchsia];
 
 		for (var i = 0; i < segments; i++) {
 
