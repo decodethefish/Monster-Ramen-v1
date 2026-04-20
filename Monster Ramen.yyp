@@ -58,6 +58,7 @@
     {"id":{"name":"obj_ui_meat","path":"objects/obj_ui_meat/obj_ui_meat.yy",},},
     {"id":{"name":"obj_ui_noodles","path":"objects/obj_ui_noodles/obj_ui_noodles.yy",},},
     {"id":{"name":"obj_ui_order","path":"objects/obj_ui_order/obj_ui_order.yy",},},
+    {"id":{"name":"obj_ui_review","path":"objects/obj_ui_review/obj_ui_review.yy",},},
     {"id":{"name":"obj_ui_veggies","path":"objects/obj_ui_veggies/obj_ui_veggies.yy",},},
     {"id":{"name":"obj_wait_spot","path":"objects/obj_wait_spot/obj_wait_spot.yy",},},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},

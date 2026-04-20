@@ -20,6 +20,9 @@ function CustomerSystem() constructor {
 		queue_spacing = 0;
         queue_start_x = 0;
         queue_start_y = 0;
+		wait_start_x = 0;
+		wait_start_y = 0;
+		wait_spacing = 55;
 
     }
 
@@ -39,6 +42,14 @@ function CustomerSystem() constructor {
 	        station_x = st.x;
 	        station_y = st.y;
 	    }		
+		
+		var ws = instance_find(obj_wait_spot, 0);
+		
+		if (ws != noone) {
+			wait_start_x = ws.x;
+			wait_start_y = ws.y;
+		}
+		
 	}		
 
 
@@ -50,6 +61,7 @@ function CustomerSystem() constructor {
         cleanup();
         update_queue_targets();
         update_active_customer();
+		update_foodwait_position();
     }
 
     function should_update(_current_station) {
@@ -95,6 +107,27 @@ function CustomerSystem() constructor {
             queue_index++;
         }
     }
+	
+	function update_foodwait_position() {
+		
+		var index = 0;
+		
+		for (var i = 0; i < array_length(customers); i++) {
+			
+			var c = customers[i];
+			if (!instance_exists(c)) continue;
+			if (!c.has_order) continue;
+			if (c.state != CUSTOMER_STATE.WAIT_FOOD) continue;
+			
+			c.target_x = wait_start_x;
+			c.target_y = wait_start_y + index * wait_spacing;
+			
+			index++;
+			
+			
+		}
+		
+	}
 	
 	
 	// Customers
@@ -322,8 +355,11 @@ function CustomerSystem() constructor {
 		}
 		
 		if (_c == active_customer) active_customer = noone;
+		var slot = get_free_order_slot();
 		
-		array_push(active_orders, order);
+		if (slot != -1) {
+			active_orders[slot]	 = order;
+		}
 		
 		current_interaction = noone;
 		

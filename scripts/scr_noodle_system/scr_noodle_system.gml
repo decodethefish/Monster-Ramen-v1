@@ -4,14 +4,6 @@ function NoodleSystem() constructor {
 	noodle_station = [];
 	is_passive = false;
 	my_station = STATION.NOODLES;
-
-	function set_board_geometry(_gui_w, _gui_h) {
-		noodle_station.board_w = sprite_get_width(spr_nd_board);
-		noodle_station.board_h = sprite_get_height(spr_nd_board);
-		
-		noodle_station.board_x = round(_gui_w * 0.07 + noodle_station.board_w * 0.5);
-		noodle_station.board_y = round(_gui_h * 0.25 + noodle_station.board_h * 0.5);
-	}
 	
 	function init() {
 		
@@ -27,7 +19,6 @@ function NoodleSystem() constructor {
 			has_sheet: false,
 			type: NOODLE_ID.NONE,
 			cuts: [],
-			quality: 0,
 			state: NOODLE_STATE.NO_SHEET,
 			
 			sheet_x: 0,
@@ -37,8 +28,6 @@ function NoodleSystem() constructor {
 			board_y: 0,
 			board_w: 0,
 			board_h: 0,
-			
-			target_cm: 0,
 			
 			ritual_available: false,
 			ritual_complete: false,
@@ -56,7 +45,15 @@ function NoodleSystem() constructor {
 			ritual_input_lock: 0
 		};
 	}
-			
+
+	function set_board_geometry(_gui_w, _gui_h) {
+		noodle_station.board_w = sprite_get_width(spr_nd_board);
+		noodle_station.board_h = sprite_get_height(spr_nd_board);
+		
+		noodle_station.board_x = round(_gui_w * 0.07 + noodle_station.board_w * 0.5);
+		noodle_station.board_y = round(_gui_h * 0.25 + noodle_station.board_h * 0.5);
+	}			
+
 	function start_sheet() {
 		
 		var s = noodle_station;
@@ -77,47 +74,12 @@ function NoodleSystem() constructor {
 		if (s.state != NOODLE_STATE.ACTIVE && s.state != NOODLE_STATE.CUTTING) return;	
 	
 		array_push(s.cuts, _cm);
+		array_sort(s.cuts, true);
 		
 		if (array_length(s.cuts) == 1) {
 			s.state = NOODLE_STATE.CUTTING;
 			s.ritual_available = true;
 		}
-	}
-	
-	function set_order(_order) {
-		noodle_station.target_cm = _order.noodles.target_cm;
-	}
-	
-	function calculate_quality() {
-	    var s = noodle_station;
-    
-	    if (!s.has_sheet) return 0;
-    
-		var target = s.target_cm;
-		if (target <= 0) return 0;
-		
-	    var cut_count = array_length(s.cuts);
-	    if (cut_count == 0) return 0;
-    
-	    var sheet_lenght = 10;
-    
-	    var prev = 0;
-	    var total_error = 0;
-    
-	    for (var i = 0; i < cut_count; i++) {
-	        var current = s.cuts[i];
-	        var segment = current - prev;
-	        total_error += abs(segment - target);
-	        prev = current;
-	    }
-    
-	    var last_segment = sheet_lenght - prev;
-	    total_error += abs(last_segment - target);
-
-	    var segments = sheet_lenght / target;
-	    var max_error = segments * 1;
-
-	    return clamp(1 - (total_error / max_error), 0, 1);
 	}
 		
 	function can_serve() {
@@ -127,7 +89,7 @@ function NoodleSystem() constructor {
 	function get_result() {
 	    return { 
 			noodle_id: noodle_station.type,
-	        quality: calculate_quality()
+	        cuts: noodle_station.cuts
 	    };
 	}
 
@@ -151,7 +113,7 @@ function NoodleSystem() constructor {
 			update_rune_positions();
 		}
 	}
-	
+
 	function update_ritual_transform() {
 		var s = noodle_station;
 		
@@ -333,4 +295,5 @@ function NoodleSystem() constructor {
 
 		s.ritual_complete = false;
 	}
+		
 }

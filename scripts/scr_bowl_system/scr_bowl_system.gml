@@ -12,7 +12,7 @@ function BowlSystem(_count) constructor {
 
 			has_noodles: false,
 			noodle_id: NOODLE_ID.NONE,
-			noodle_quality: 0,
+			noodle_data: noone,
 			
 			has_egg: false,
 			egg_type: -1,
@@ -68,7 +68,7 @@ function BowlSystem(_count) constructor {
 		
 		bowl.has_noodles = true;
 		bowl.noodle_id = _result.noodle_id;
-		bowl.noodle_quality = _result.quality;
+		bowl.noodle_data = _result;
 		
 		bowls[_bowl_index] = bowl;
 
@@ -220,5 +220,19 @@ function BowlSystem(_count) constructor {
 
 		return val;
 	}
+		
+	function reset_bowl(_bowl_index) {
+
+    if (_bowl_index < 0) return;
+    if (_bowl_index >= array_length(bowls)) return;
+
+    bowls[_bowl_index] = {
+        has_broth:   false, broth_id:    BROTH_ID.NONE, broth_state: POT_STATE.EMPTY,
+        has_noodles: false, noodle_id:   NOODLE_ID.NONE, noodle_data: noone,
+        has_egg:     false, egg_type:    -1,
+        has_meat:    false, meat_type:   -1, meat_quality: 0,
+        has_veggie:  false, veg_type:    -1, veg_result:   -1
+    };
+}
 		
 }

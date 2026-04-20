@@ -13,24 +13,24 @@ function MeatSystem() constructor {
 			gravity: 4,
 			lift: 5,
 			tender_time: 6,
-			cook_time: 40,
 			cook_ready_time: 30,
+			cook_time: 40,
 		};
 		
 		meats_data[MEAT_ID.BUG] = {
 			gravity: 4,
 			lift: 7,
 			tender_time: 5,
-			cook_time: 35,
 			cook_ready_time: 25,
+			cook_time: 35,
 		};
 		
 		meats_data[MEAT_ID.DRAGON] = {
 			gravity: -4,
 			lift: -6,
 			tender_time: 10,
-			cook_time: 35,
 			cook_ready_time: 30,
+			cook_time: 35,
 		};
 	
 		meat_station = {
@@ -370,30 +370,6 @@ function MeatSystem() constructor {
 		var zone = floor((s.tender_value / 10) * s.tender_segments);
 		
 		return clamp(zone, 0, s.tender_segments -1);
-	}
-	
-	function get_meat_final_quality(_meat) {
-	
-		var data = meats_data[_meat.type];
-		
-		var t = _meat.cook_time;
-		var ready = data.cook_ready_time;
-		var end_t = data.cook_time;
-		
-		var cook_quality;
-		
-		if (t < ready) {
-			cook_quality = 1; // cruda
-		}
-		else if (t <= end_t) {
-			cook_quality = 3; // perfecta
-		}
-		else {
-			cook_quality = 0; // quemada
-		}
-		
-		var final_quality = floor((_meat.tender_quality + cook_quality) * 0.5);
-		return final_quality;
 	}
 	
 	function end_tender() {

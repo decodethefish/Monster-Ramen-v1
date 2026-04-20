@@ -63,6 +63,16 @@ switch (state) {
 	
     case CUSTOMER_STATE.WAIT_FOOD:
         
+		var dist = point_distance(x, y, target_x, target_y);
+		
+		if (dist > 2) {
+			
+			var dir = point_direction(x, y, target_x, target_y);
+			x += lengthdir_x(spd * dt, dir);
+			y += lengthdir_y(spd * dt, dir);
+			
+		}
+		
 		food_wait_timer -= dt;
 		
 		if (food_wait_timer <= 0) {
