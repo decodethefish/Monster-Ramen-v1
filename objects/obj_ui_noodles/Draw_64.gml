@@ -1,4 +1,4 @@
-if (obj_game.game_mode != GAME_MODE.COOKING) exit;
+ if (obj_game.game_mode != GAME_MODE.COOKING) exit;
 
 // Fondo
 draw_set_colour(c_white);

@@ -102,6 +102,7 @@
     {"id":{"name":"spr_br_pot","path":"sprites/spr_br_pot/spr_br_pot.yy",},},
     {"id":{"name":"spr_br_rotten","path":"sprites/spr_br_rotten/spr_br_rotten.yy",},},
     {"id":{"name":"spr_burning_eye","path":"sprites/spr_burning_eye/spr_burning_eye.yy",},},
+    {"id":{"name":"spr_customer_npc","path":"sprites/spr_customer_npc/spr_customer_npc.yy",},},
     {"id":{"name":"spr_cx","path":"sprites/spr_cx/spr_cx.yy",},},
     {"id":{"name":"spr_egg_basket","path":"sprites/spr_egg_basket/spr_egg_basket.yy",},},
     {"id":{"name":"spr_egg_chicken_fire","path":"sprites/spr_egg_chicken_fire/spr_egg_chicken_fire.yy",},},

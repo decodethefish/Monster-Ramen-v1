@@ -1,22 +1,15 @@
 display_set_gui_size(640, 360);
 gpu_set_texfilter(false);
 camera_set_view_pos(view_camera[0], 0, 0);
-
 randomize();
-
 game_mode = GAME_MODE.WORLD;
-
-// Tiempo
-time_scale_global = 1;
-
-// Estaciones de cocina
 current_station = undefined;
 current_ui = noone;
 
-// Orden
-current_order = noone
+// --------- TIEMPO --------- 
+time_scale_global = 1;
 
-// Funciones
+// --------- FUNCIONES ---------
 function request_open_station(_station_id) {
 	
 	if (game_mode != GAME_MODE.WORLD) return;
@@ -90,7 +83,6 @@ function get_cooking_state() {
 
 
 // --------- ESTACIONES y BOWLS ---------
-
 bowls = new BowlSystem(3);
 
 broth = new BrothSystem();
@@ -109,11 +101,10 @@ veggies = new VeggiesSystem();
 veggies.init();
 
 // ------------ SISTEMAS DE JUEGO -------------
-
 customers = new CustomerSystem();
+order_system = new OrderSystem();
+
 customers.init();
 current_customer = noone;
-
-order_system = new OrderSystem();
 
 global.order_dialog_db = scr_ord_dialog_db();
