@@ -4,13 +4,14 @@ camera_set_view_pos(view_camera[0], 0, 0);
 randomize();
 game_mode = GAME_MODE.WORLD;
 current_station = undefined;
-current_ui = noone;
+current_cooking_ui = noone;
+current_modal_ui = noone;
 
 // --------- TIEMPO --------- 
 time_scale_global = 1;
 
 // --------- FUNCIONES ---------
-function request_open_station(_station_id) {
+function request_open_station(_station_id) { 
 	
 	if (game_mode != GAME_MODE.WORLD) return;
 
@@ -20,9 +21,9 @@ function request_open_station(_station_id) {
 
 function close_station() {
 
-    if (instance_exists(current_ui)) {
-        instance_destroy(current_ui);
-        current_ui = noone;
+    if (instance_exists(current_cooking_ui)) {
+        instance_destroy(current_cooking_ui);
+        current_cooking_ui = noone;
     }
 	
 	if (instance_exists(current_customer)) {
@@ -80,6 +81,21 @@ function get_cooking_state() {
 	
 	return state;
 }
+	
+function open_modal_ui(_ui_obj) {
+	
+	if (instance_exists(current_modal_ui)) return;
+	current_modal_ui = instance_create_layer(0, 0, "UI", _ui_obj);
+	
+}
+
+function close_modal_ui() {
+	
+	if (instance_exists(current_modal_ui)) {
+		instance_destroy(current_modal_ui);
+		current_modal_ui = noone;
+	}
+}
 
 
 // --------- ESTACIONES y BOWLS ---------
@@ -102,7 +118,10 @@ veggies.init();
 
 // ------------ SISTEMAS DE JUEGO -------------
 customers = new CustomerSystem();
-order_system = new OrderSystem();
+order_system = new QualitySystem();
+
+tickets = new TicketSystem();
+current_ticket = noone;
 
 customers.init();
 current_customer = noone;

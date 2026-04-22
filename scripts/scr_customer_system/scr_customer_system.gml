@@ -6,6 +6,7 @@ function CustomerSystem() constructor {
         active_customer = noone;
 		
 		current_interaction = noone;
+		current_review_customer = noone;
 
         active_orders = array_create(3, noone);
 
@@ -149,6 +150,8 @@ function CustomerSystem() constructor {
         npc.wait_timer = customer_wait_time;
         npc.locked = false;
 		npc.has_order = false;
+		
+		npc.portrait_index_id = irandom(sprite_get_number(spr_customer_npc) - 1);
 
         array_push(customers, npc);
     }		
@@ -240,7 +243,7 @@ function CustomerSystem() constructor {
 				type: choose(
 					NOODLE_ID.WHEAT, 
 					NOODLE_ID.CURSED, 
-					NOODLE_ID.MUCUS, 
+					NOODLE_ID.BONE, 
 					NOODLE_ID.STONE
 				),
 				target_cm: choose(1, 2, 4)
@@ -345,6 +348,39 @@ function CustomerSystem() constructor {
 		_c.order = order;
 		_c.has_order = true;
 		
+		// ================= DEBUG =================
+		show_debug_message("=== NEW ORDER ===");
+
+		show_debug_message(
+			"BROTH: " + broth_to_string(order.broth)
+		);
+
+		show_debug_message(
+			"NOODLES: "
+			+ noodle_to_string(order.noodles.type)
+			+ " (" + string(order.noodles.target_cm) + "cm)"
+		);
+
+		show_debug_message(
+			"MEAT: "
+			+ meat_to_string(order.meat.type)
+			+ " (" + tender_to_string(order.meat.target_tender) + ")"
+		);
+
+		show_debug_message(
+			"EGG: " + egg_to_string(order.egg)
+		);
+
+		show_debug_message(
+			"VEGGIE: "
+			+ veggie_to_string(order.veggies.type)
+			+ " | "
+			+ veggie_result_to_string(order.veggies.result)
+		);
+		// =========================================
+
+
+
 		_c.locked = false;
 		_c.state = CUSTOMER_STATE.WALK;
 		
@@ -362,9 +398,50 @@ function CustomerSystem() constructor {
 		}
 		
 		current_interaction = noone;
+		obj_game.current_ticket = obj_game.tickets.create_ticket(order);
 		
 	}
 		
+	function try_open_review(_c) {
+		
+		if (obj_game.current_modal_ui != noone) return;
+		if (_c == noone) return;
+		if (!instance_exists(_c)) return;
+		if (_c.state != CUSTOMER_STATE.WAIT_FOOD) return;
+		
+		current_review_customer = _c;
+		
+		obj_game.open_modal_ui(obj_ui_review);
+		show_debug_message("OPEN REVIEW: " + string(_c) + " | portrait: " + string(_c.portrait_index_id));
+	}
+	
+	function serve_bowl(_bowl_index) {
+	
+		var c = current_review_customer;
+		
+		if (!instance_exists(c)) return;
+		
+		var order = c.order;
+		if (is_undefined(order)) return;
+		
+		var bowl = obj_game.bowls.bowls[_bowl_index];
+		if (is_undefined(bowl)) return;
+		
+		// evaluar
+		var bowl_score = obj_game.order_system.evaluate_bowl(bowl, order);
+		
+		show_debug_message("SCORE: " + string(bowl_score));
+		
+		var stars = round(bowl_score * 5 * 2) / 2;
+		
+		show_debug_message("STARS: " + string(stars));
+		
+		obj_game.bowls.reset_bowl(_bowl_index);
+		
+		c.state = CUSTOMER_STATE.DONE;
+		obj_game.close_modal_ui();
+		
+	}
 		
 	// Cleanse
 	

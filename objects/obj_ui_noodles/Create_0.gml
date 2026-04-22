@@ -18,7 +18,7 @@ rbutton_h = sprite_get_height(spr_nd_choose_ritual);
 // Selección ritual
 ritual_symbols = [
 	NOODLE_ID.WHEAT,
-	NOODLE_ID.MUCUS,
+	NOODLE_ID.BONE,
 	NOODLE_ID.STONE,
 	NOODLE_ID.CURSED
 ];

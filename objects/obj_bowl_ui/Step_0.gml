@@ -1,14 +1,20 @@
-var left = x - sprite_width * 0.5
-var right = x + sprite_width * 0.5
-var top = y - sprite_height * 0.5
-var bottom = y + sprite_height * 0.5
+var mx = device_mouse_x_to_gui(0);
+var my = device_mouse_y_to_gui(0);
+
+var left = x - sprite_width * 0.5;
+var right = x + sprite_width * 0.5;
+var top = y - sprite_height * 0.5;
+var bottom = y + sprite_height * 0.5;
 
 var mouse_over = 
-	mouse_x >= left && mouse_x <= right &&
-	mouse_y >= top && mouse_y <= bottom;
+	mx >= left && mx <= right &&
+	my >= top && my <= bottom;
 	
 var station_id = obj_game.current_station;
-var drag_locked = obj_game.bowls.is_drag_locked_for_station(station_id);
+var drag_locked = false;
+if (!is_undefined(station_id)) {
+	drag_locked = obj_game.bowls.is_drag_locked_for_station(station_id)	;
+}
 
 
 // drag & drop
@@ -27,8 +33,8 @@ if (mouse_over && mouse_check_button_pressed(mb_left) && !global.bowl_drag_activ
 	global.bowl_drag_active = true;
 }
 if (dragging) {
-	x = mouse_x;
-	y = mouse_y;
+	x = mx
+	y = my;
 }
 	
 // drop en estaciones
@@ -36,6 +42,41 @@ if (dragging && mouse_check_button_released(mb_left)) {
 	
 	dragging = false;
 	global.bowl_drag_active = false;
+	
+	// ------- REVIEW ----------
+	
+	if (obj_game.current_modal_ui != noone) {
+	
+		var c = obj_game.customers.current_review_customer;
+		
+		if (instance_exists(c)) {
+			
+			var ui = obj_game.current_modal_ui
+			var cx = ui.customer_x;
+			var cy = ui.customer_y;
+			
+			var spr = spr_customer_npc;
+			var w = sprite_get_width(spr);
+			var h = sprite_get_height(spr);
+			
+	        var left = cx - w * 0.5;
+	        var right = cx + w * 0.5;
+	        var top = cy - h * 0.5;
+	        var bottom = cy + h * 0.5;
+			
+			var over_customer = 
+				mx >= left && mx <= right &&
+				my >= top && my <= bottom;
+			
+			if (over_customer) {
+				show_debug_message("SERVE BOWL:" + string(bowl_index));
+				
+				obj_game.customers.serve_bowl(bowl_index);
+				return;
+			
+			}
+		}
+	}
 	
 	// ------- Intentar servir BROTH ------
 	if (obj_game.current_station == STATION.BROTH) {

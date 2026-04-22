@@ -319,7 +319,6 @@ function MeatSystem() constructor {
 
 		s.tender_timer -= _dt;
 		s.tender_timer = max(0, s.tender_timer);
-		show_debug_message(s.tender_time_per_zone);
 		if (s.tender_timer <= 0) {
 			
 			s.tender_running = false;

@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"scr_order_system",
+  "%Name":"scr_ticket_system",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"scr_order_system",
+  "name":"scr_ticket_system",
   "parent":{
     "name":"scripts",
     "path":"folders/scripts.yy",

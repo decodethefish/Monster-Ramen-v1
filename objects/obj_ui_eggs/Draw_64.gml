@@ -51,6 +51,7 @@ for (var i = 0; i < array_length(station.eggs); i++) {
 	draw_sprite(spr_egg, egg.sprite_frame, egg.x, egg.y);
 }
 
+// Sirviendo
 if (station.station_state == EGG_STATION_STATE.SERVING) {
 	// Mesa
 	draw_sprite(spr_egg_table, 0, table_x, table_y);

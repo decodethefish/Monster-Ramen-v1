@@ -1,4 +1,4 @@
-function OrderSystem() constructor {
+function QualitySystem() constructor {
 	
 	function evaluate_bowl(_bowl, _order) {
 		
@@ -34,7 +34,7 @@ function OrderSystem() constructor {
 		}
 		
 		// Veggies
-		if (_bowl.has_veggies && _bowl.veg_type ==  _order.veggies.type) {
+		if (_bowl.has_veggie && _bowl.veg_type ==  _order.veggies.type) {
 			current_score += 1;
 		}
 		

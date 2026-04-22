@@ -24,5 +24,10 @@ function scr_ord_dialog_db() {
             "Nom nom nom nom *brrr* "
         ],		
 
+        [
+            "Llevo 300 años esperando para esto!",
+            " Por cierto, la luz del baño no funciona. "
+        ],				
+
     ];
 }

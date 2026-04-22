@@ -43,7 +43,7 @@ function scr_enums(){
 	enum NOODLE_ID {
 		NONE,
 		WHEAT,
-		MUCUS,
+		BONE,
 		STONE,
 		CURSED
 	}

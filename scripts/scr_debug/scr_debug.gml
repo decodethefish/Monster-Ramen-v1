@@ -21,7 +21,7 @@ function noodle_to_string(_id) {
     switch (_id) {
         case NOODLE_ID.NONE: return "NONE";
         case NOODLE_ID.WHEAT: return "WHEAT";
-        case NOODLE_ID.MUCUS: return "MUCUS";
+        case NOODLE_ID.BONE: return "BONE";
         case NOODLE_ID.STONE: return "STONE";
         case NOODLE_ID.CURSED: return "CURSED";
     }
@@ -62,6 +62,18 @@ function veggie_result_to_string(_id) {
         case VEGGIE_RESULT.ALCHEMICAL: return "ALCHEMICAL";
         case VEGGIE_RESULT.PARADOX: return "PARADOX";
         case VEGGIE_RESULT.ETERNAL: return "ETERNAL";
+    }
+    return "UNKNOWN";
+}
+
+function tender_to_string(_zone) {
+    switch (_zone) {
+        case 0: return "RED";
+        case 1: return "ORANGE";
+        case 2: return "YELLOW";
+        case 3: return "GREEN";
+        case 4: return "BLUE";
+        case 5: return "PURPLE";
     }
     return "UNKNOWN";
 }
