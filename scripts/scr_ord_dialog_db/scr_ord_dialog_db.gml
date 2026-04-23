@@ -4,19 +4,19 @@ function scr_ord_dialog_db() {
 
         [
 			"¡Vaya, a ti no te conozco!",
-			"¿Como te llamas, colega?",
-			"¡Un placer conocerte, cocinitas! ¡Estoy hambriento!"
+			"¿Cómo te llamas, colega?",
+			"¡Un placer conocerte, cocinitas! \n ¡Estoy hambriento!"
         ],
 
         [
-            "Lo siento, pero no tengo todo el dia.",
+            "Lo siento, pero no tengo todo el día.",
             "Quiero lo de siempre. Gracias.",
         ],
 
         [
             "Hmm...",
             "Algo huele bien aqui.",
-            "Sorprendeme!"
+            "¡Sorpréndeme!"
         ],
 		
         [
@@ -25,7 +25,7 @@ function scr_ord_dialog_db() {
         ],		
 
         [
-            "Llevo 300 años esperando para esto!",
+            "¡Llevo 300 años esperando para esto!",
             " Por cierto, la luz del baño no funciona. "
         ],				
 

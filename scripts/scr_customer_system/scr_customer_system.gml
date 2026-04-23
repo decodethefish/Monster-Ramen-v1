@@ -348,8 +348,7 @@ function CustomerSystem() constructor {
 		_c.order = order;
 		_c.has_order = true;
 		
-		var ticket = obj_game.tickets.create_ticket(order, _c);
-		array_push(obj_game.tickets.tickets, ticket);
+		add_active_ticket(order, _c);
 
 		_c.locked = false;
 		_c.state = CUSTOMER_STATE.WALK;
@@ -361,13 +360,7 @@ function CustomerSystem() constructor {
 		}
 		
 		if (_c == active_customer) active_customer = noone;
-		var slot = get_free_order_slot();
-		
-		if (slot != -1) {
-			active_orders[slot]	 = order;
-			obj_game.tickets.tickets[slot] = obj_game.tickets.create_ticket(order);
-		}
-		
+
 		current_interaction = noone;
 		obj_game.current_ticket = obj_game.tickets.create_ticket(order);
 		
@@ -384,6 +377,20 @@ function CustomerSystem() constructor {
 		
 		obj_game.open_modal_ui(obj_review_ui);
 		show_debug_message("OPEN REVIEW: " + string(_c) + " | portrait: " + string(_c.portrait_index_id));
+	}
+	
+	function cancel_interaction() {
+		
+		if (current_interaction == noone) return;
+		
+		var _c = current_interaction.customer;
+		if (instance_exists(_c)) {
+			if (_c.state == CUSTOMER_STATE.INTERACT)	{
+				_c.state = CUSTOMER_STATE.WAIT;		
+			}
+			_c.locked = false;
+		}
+		current_interaction = noone;
 	}
 	
 	function serve_bowl(_bowl_index) {
@@ -413,21 +420,56 @@ function CustomerSystem() constructor {
 		obj_game.close_modal_ui();
 		
 		// eliminar ticket
+		remove_ticket_for_customer(c);
+
+		
+	}
+	
+	// Tickets
+	
+	function add_active_ticket(_order, _customer) {
+	
+		if (array_length(obj_game.tickets.tickets) >= 3) return false;
+		
+		var ticket = obj_game.tickets.create_ticket(_order, _customer);
+		array_push(obj_game.tickets.tickets, ticket);
+		rebuild_active_orders_from_tickets();
+		
+		return true;
+	}
+	
+	function remove_ticket_for_customer(_customer) {
+		
 		var tickets = obj_game.tickets.tickets;
 		
 		for (var i = 0; i < array_length(tickets); i++) {
-		
+			
 			var t = tickets[i];
 			if (t == noone) continue;
 			
-			if (t.customer == c) {
-				array_delete(tickets, i, 1)	;
+			if (t.customer == _customer) {
+				array_delete(obj_game.tickets.tickets, i, 1);
 				break;
 			}
 		}
-		
+		rebuild_active_orders_from_tickets();
 	}
+	
+	function rebuild_active_orders_from_tickets() {
 		
+		active_orders = array_create(3, noone);
+		
+		var tickets = obj_game.tickets.tickets;
+		var max_copy = min(array_length(tickets), array_length(active_orders));
+		
+		for (var i = 0; i < max_copy; i++) {
+			var t = tickets[i];
+			if (t == noone) continue;
+			active_orders[i] = t.order;
+		}
+	}
+
+
 	// Cleanse
 	
     function cleanup() {

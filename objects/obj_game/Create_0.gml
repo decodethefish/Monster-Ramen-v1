@@ -23,7 +23,6 @@ function request_open_station(_station_id) {
 	}
 }
 
-
 function close_station() {
 
     if (instance_exists(current_cooking_ui)) {
@@ -33,13 +32,7 @@ function close_station() {
 	
 	current_ticket = noone;
 	
-	if (instance_exists(current_customer)) {
-		
-		if (current_customer.state == CUSTOMER_STATE.INTERACT) {
-			current_customer.state = CUSTOMER_STATE.WAIT;
-			current_customer.locked = false;
-		}
-	}
+	customers.cancel_interaction();
 	
 	with (obj_tickets_ui) instance_destroy();
 	

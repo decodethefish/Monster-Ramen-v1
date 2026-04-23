@@ -17,6 +17,7 @@ if (instance_exists(c)) {
 draw_sprite(spr_tk_board, 0, ticket_bar_x, ticket_bar_y);
 
 // Texto
+draw_set_font(fnt_default);
 draw_set_colour(c_white);
 draw_set_halign(fa_center);
 
