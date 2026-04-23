@@ -15,14 +15,27 @@ if (!interaction.done) {
 	return;
 }
 
-// generar orden 
+// mostrar ticket de orden
 if (!order_generated) {
 	order_generated = true;
-	obj_game.customers.finish_interaction();
+	
+	var preview_order = interaction.preview_order;
+	if (is_undefined(preview_order)) {
+		var c = interaction.customer;
+		if (instance_exists(c)) {
+			preview_order = c.pending_order;	
+		}
+	}
+	
+	if (!is_undefined(preview_order)) {
+		obj_game.current_ticket = obj_game.tickets.create_ticket(preview_order, interaction.customer);
+	}
 	return;
 }
 
-// cerrar UI en siguiente input
+
+// cerrar UI y terminar interacción al siguiente input
 if (keyboard_check_pressed(vk_space)) {
+	obj_game.customers.finish_interaction();
 	obj_game.close_station();
 }

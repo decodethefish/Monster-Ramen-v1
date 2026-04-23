@@ -325,9 +325,16 @@ function CustomerSystem() constructor {
 			_c.order_dialog_lines = pack;
 		}
 		
+		var pending_order = _c.pending_order;
+		if (is_undefined(pending_order)) {
+			pending_order = generate_order();
+			_c.pending_order = pending_order;
+		}
+		
 		return {
 			customer: _c,
 			dialog_lines: pack,
+			preview_order: pending_order,
 			dialog_index: 0,
 			done: false,
 		}
@@ -359,6 +366,7 @@ function CustomerSystem() constructor {
 		}
 		_c.order = order;
 		_c.has_order = true;
+		_c.pending_order = generate_order();
 		
 		add_active_ticket(order, _c);
 
