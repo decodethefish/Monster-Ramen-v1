@@ -152,6 +152,8 @@ function CustomerSystem() constructor {
 		npc.has_order = false;
 		
 		npc.portrait_index_id = irandom(sprite_get_number(spr_customer_npc) - 1);
+		npc.order_dialog_lines = create_spawn_dialog_lines();
+		npc.pending_order = generate_order();
 
         array_push(customers, npc);
     }		
@@ -310,10 +312,18 @@ function CustomerSystem() constructor {
 		return current_interaction;	
 	}
 	
+	function create_spawn_dialog_lines() {
+		var pool = global.order_dialog_db;
+		return pool[irandom(array_length(pool) -1)];
+	}
+	
 	function create_interaction(_c) {
 		
-		var pool = global.order_dialog_db;
-		var pack = pool[irandom(array_length(pool) - 1)];
+		var pack = _c.order_dialog_lines;
+		if (is_undefined(pack)) {
+			pack = create_spawn_dialog_lines();
+			_c.order_dialog_lines = pack;
+		}
 		
 		return {
 			customer: _c,
@@ -344,7 +354,9 @@ function CustomerSystem() constructor {
 		var _c = current_interaction.customer;
 		
 		var order = generate_order();
-		
+		if (is_undefined(order)) {
+			order = generate_order();
+		}
 		_c.order = order;
 		_c.has_order = true;
 		
