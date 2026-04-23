@@ -348,38 +348,8 @@ function CustomerSystem() constructor {
 		_c.order = order;
 		_c.has_order = true;
 		
-		// ================= DEBUG =================
-		show_debug_message("=== NEW ORDER ===");
-
-		show_debug_message(
-			"BROTH: " + broth_to_string(order.broth)
-		);
-
-		show_debug_message(
-			"NOODLES: "
-			+ noodle_to_string(order.noodles.type)
-			+ " (" + string(order.noodles.target_cm) + "cm)"
-		);
-
-		show_debug_message(
-			"MEAT: "
-			+ meat_to_string(order.meat.type)
-			+ " (" + tender_to_string(order.meat.target_tender) + ")"
-		);
-
-		show_debug_message(
-			"EGG: " + egg_to_string(order.egg)
-		);
-
-		show_debug_message(
-			"VEGGIE: "
-			+ veggie_to_string(order.veggies.type)
-			+ " | "
-			+ veggie_result_to_string(order.veggies.result)
-		);
-		// =========================================
-
-
+		var ticket = obj_game.tickets.create_ticket(order, _c);
+		array_push(obj_game.tickets.tickets, ticket);
 
 		_c.locked = false;
 		_c.state = CUSTOMER_STATE.WALK;
@@ -395,6 +365,7 @@ function CustomerSystem() constructor {
 		
 		if (slot != -1) {
 			active_orders[slot]	 = order;
+			obj_game.tickets.tickets[slot] = obj_game.tickets.create_ticket(order);
 		}
 		
 		current_interaction = noone;
@@ -411,7 +382,7 @@ function CustomerSystem() constructor {
 		
 		current_review_customer = _c;
 		
-		obj_game.open_modal_ui(obj_ui_review);
+		obj_game.open_modal_ui(obj_review_ui);
 		show_debug_message("OPEN REVIEW: " + string(_c) + " | portrait: " + string(_c.portrait_index_id));
 	}
 	
@@ -440,6 +411,20 @@ function CustomerSystem() constructor {
 		
 		c.state = CUSTOMER_STATE.DONE;
 		obj_game.close_modal_ui();
+		
+		// eliminar ticket
+		var tickets = obj_game.tickets.tickets;
+		
+		for (var i = 0; i < array_length(tickets); i++) {
+		
+			var t = tickets[i];
+			if (t == noone) continue;
+			
+			if (t.customer == c) {
+				array_delete(tickets, i, 1)	;
+				break;
+			}
+		}
 		
 	}
 		

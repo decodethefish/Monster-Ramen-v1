@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"scr_veggies_system",
   "parent":{
-    "name":"scripts",
-    "path":"folders/scripts.yy",
+    "name":"cook_stations",
+    "path":"folders/scripts/cook_stations.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

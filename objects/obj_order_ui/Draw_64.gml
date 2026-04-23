@@ -13,6 +13,9 @@ if (instance_exists(c)) {
 	draw_sprite(spr_customer_npc, c.portrait_index_id, half_w, display_get_gui_height()- table_h);	
 }
 
+// Tabla de tickets
+draw_sprite(spr_tk_board, 0, ticket_bar_x, ticket_bar_y);
+
 // Texto
 draw_set_colour(c_white);
 draw_set_halign(fa_center);
@@ -28,5 +31,5 @@ if (is_array(lines) && i < array_length(lines)) {
 var t = obj_game.current_ticket;
 
 if (!is_undefined(t)) {
-	obj_game.tickets.draw(t, half_w, half_h);
+	obj_game.tickets.draw(t, ticket_bar_x, ticket_bar_y);
 }

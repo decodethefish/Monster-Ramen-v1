@@ -13,8 +13,8 @@
   "For3D":false,
   "frames":[
     {"$GMSpriteFrame":"v1","%Name":"95663cce-9d2a-41b3-86e5-e32444a18dd9","name":"95663cce-9d2a-41b3-86e5-e32444a18dd9","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"6a4fd7e6-9cbc-4c82-8664-2359b561f568","name":"6a4fd7e6-9cbc-4c82-8664-2359b561f568","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
     {"$GMSpriteFrame":"v1","%Name":"c688a8c2-13dd-4970-ad67-cf075e71f6e0","name":"c688a8c2-13dd-4970-ad67-cf075e71f6e0","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
-    {"$GMSpriteFrame":"v1","%Name":"85b9d959-f7af-4801-9e8b-78cc6ea76d4e","name":"85b9d959-f7af-4801-9e8b-78cc6ea76d4e","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
     {"$GMSpriteFrame":"v1","%Name":"96fbb8fa-6cd5-4b6e-a298-f3d609ad125d","name":"96fbb8fa-6cd5-4b6e-a298-f3d609ad125d","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
@@ -75,11 +75,11 @@
                 "0":{"$SpriteFrameKeyframe":"","Id":{"name":"95663cce-9d2a-41b3-86e5-e32444a18dd9","path":"sprites/spr_tk_runes/spr_tk_runes.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
               },"Disabled":false,"id":"c52e9693-5688-4511-8e66-6ccc0107e117","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
             {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"c688a8c2-13dd-4970-ad67-cf075e71f6e0","path":"sprites/spr_tk_runes/spr_tk_runes.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"986193ed-7765-4c0d-95a8-92de8124a424","IsCreationKey":false,"Key":1.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"6a4fd7e6-9cbc-4c82-8664-2359b561f568","path":"sprites/spr_tk_runes/spr_tk_runes.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
+              },"Disabled":false,"id":"395e8aa2-e954-4afd-ae28-4d99e0852b4e","IsCreationKey":false,"Key":1.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
             {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"85b9d959-f7af-4801-9e8b-78cc6ea76d4e","path":"sprites/spr_tk_runes/spr_tk_runes.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"7aa98469-02cc-4d0f-88f9-258800d85e24","IsCreationKey":false,"Key":2.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"c688a8c2-13dd-4970-ad67-cf075e71f6e0","path":"sprites/spr_tk_runes/spr_tk_runes.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
+              },"Disabled":false,"id":"986193ed-7765-4c0d-95a8-92de8124a424","IsCreationKey":false,"Key":2.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
             {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
                 "0":{"$SpriteFrameKeyframe":"","Id":{"name":"96fbb8fa-6cd5-4b6e-a298-f3d609ad125d","path":"sprites/spr_tk_runes/spr_tk_runes.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
               },"Disabled":false,"id":"95f96b1e-8bf0-4b1b-ab1d-381f22142a86","IsCreationKey":false,"Key":3.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},

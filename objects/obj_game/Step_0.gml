@@ -40,7 +40,7 @@ if (game_mode == GAME_MODE.COOKING) {
 			break;		
 			
 			case STATION.ORDER:
-				current_cooking_ui = instance_create_layer(0,0,"UI",obj_ui_order);
+				current_cooking_ui = instance_create_layer(0,0,"UI",obj_order_ui);
 			break;		
 			
 		}

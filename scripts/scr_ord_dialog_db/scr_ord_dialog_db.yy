@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"scr_ord_dialog_db",
   "parent":{
-    "name":"scripts",
-    "path":"folders/scripts.yy",
+    "name":"order_systems",
+    "path":"folders/scripts/order_systems.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

@@ -11,8 +11,8 @@
   "name":"obj_ui_veggies",
   "overriddenProperties":[],
   "parent":{
-    "name":"stations_ui",
-    "path":"folders/objects/stations_ui.yy",
+    "name":"ui",
+    "path":"folders/objects/ui.yy",
   },
   "parentObjectId":null,
   "persistent":false,

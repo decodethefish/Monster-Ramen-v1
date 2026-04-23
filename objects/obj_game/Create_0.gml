@@ -17,7 +17,12 @@ function request_open_station(_station_id) {
 
 	current_station = _station_id;
 	game_mode = GAME_MODE.COOKING;
+
+	if (!instance_exists(obj_tickets_ui)) {
+		instance_create_layer(0,0,"UI",obj_tickets_ui);
+	}
 }
+
 
 function close_station() {
 
@@ -26,6 +31,8 @@ function close_station() {
         current_cooking_ui = noone;
     }
 	
+	current_ticket = noone;
+	
 	if (instance_exists(current_customer)) {
 		
 		if (current_customer.state == CUSTOMER_STATE.INTERACT) {
@@ -33,6 +40,8 @@ function close_station() {
 			current_customer.locked = false;
 		}
 	}
+	
+	with (obj_tickets_ui) instance_destroy();
 	
 	current_customer = noone;
     current_station = undefined;

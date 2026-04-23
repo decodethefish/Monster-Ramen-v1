@@ -2,19 +2,29 @@ function TicketSystem() constructor {
 	
 	tickets = [];
 	
-	function create_ticket(_order) {
+	function create_ticket(_order, _customer) {
 		
 		return {
-			order: _order
+			order: _order,
+			customer: _customer,
 		};
 		
 	}
-		
+	
+	function cm_to_index(_cm) {
+		switch (_cm) {
+			case 1: return 0;
+			case 2: return 1;
+			case 4: return 2;
+		}
+		return 0;
+	}
+	
 	function draw(_ticket, _x, _y) {
 	
 		if (is_undefined(_ticket)) return;
 		if (_ticket == noone) return;
-		if (is_struct(_ticket)) return;
+		if (!is_struct(_ticket)) return;
 		
 		var o = _ticket.order;
 		
@@ -38,17 +48,16 @@ function TicketSystem() constructor {
 		}
 		
 		if (spr != -1) {
-			draw_sprite(spr, o.veggies.result, _x, _y );
+			draw_sprite(spr, o.veggies.result +1, _x, _y );
 		}
 		
 		// ---------------- NOODLES ----------------
 		draw_sprite(spr_tk_noodles, 0, _x, _y);
 		
-		var cm_index = 0;
-		if (o.noodles.target_cm == 2) cm_index = 1;
-		if (o.noodles.target_cm == 24) cm_index = 2;
-		
+		var cm_index = cm_to_index(o.noodles.target_cm);
 		draw_sprite(spr_tk_centimeters, cm_index, _x, _y);
+		
+		draw_sprite(spr_tk_runes, o.noodles.type -1, _x, _y);
 		
 		// ---------------- MEAT ----------------
 		draw_sprite(spr_tk_meats, o.meat.type -1, _x, _y);
