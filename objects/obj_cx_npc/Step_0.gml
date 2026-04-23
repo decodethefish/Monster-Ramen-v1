@@ -78,6 +78,11 @@ switch (state) {
 		food_wait_timer -= dt;
 		
 		if (food_wait_timer <= 0) {
+			if (has_order) {
+				obj_game.customers.remove_ticket_for_customer(id);
+				has_order = false;
+			}
+			
 			state = CUSTOMER_STATE.LEAVE;	
 			locked = false;
 			

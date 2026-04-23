@@ -8,6 +8,9 @@ tray_y = display_get_gui_height() - tray_h * 0.5;
 customer_x = half_w;
 customer_y = display_get_gui_height() - tray_h;
 
+review_ready = false;
+stars = 0;
+
 // bowls
 bowls = [];
 

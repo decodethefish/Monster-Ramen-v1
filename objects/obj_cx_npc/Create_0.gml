@@ -9,3 +9,6 @@ wait_timer = 30;
 food_wait_timer = 0;
 has_order = false;
 locked = false;
+
+review_done = false;
+review_stars = 0;

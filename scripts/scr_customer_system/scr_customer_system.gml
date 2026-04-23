@@ -436,8 +436,8 @@ function CustomerSystem() constructor {
 		
 		obj_game.bowls.reset_bowl(_bowl_index);
 		
-		c.state = CUSTOMER_STATE.DONE;
-		obj_game.close_modal_ui();
+		c.review_stars = stars;
+		c.review_done = true
 		
 		// eliminar ticket
 		remove_ticket_for_customer(c);

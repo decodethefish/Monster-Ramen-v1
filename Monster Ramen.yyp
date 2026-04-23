@@ -162,6 +162,7 @@
     {"id":{"name":"spr_st_noodle","path":"sprites/spr_st_noodle/spr_st_noodle.yy",},},
     {"id":{"name":"spr_st_order","path":"sprites/spr_st_order/spr_st_order.yy",},},
     {"id":{"name":"spr_st_veggies","path":"sprites/spr_st_veggies/spr_st_veggies.yy",},},
+    {"id":{"name":"spr_stars_review","path":"sprites/spr_stars_review/spr_stars_review.yy",},},
     {"id":{"name":"spr_tk_base","path":"sprites/spr_tk_base/spr_tk_base.yy",},},
     {"id":{"name":"spr_tk_board","path":"sprites/spr_tk_board/spr_tk_board.yy",},},
     {"id":{"name":"spr_tk_bok","path":"sprites/spr_tk_bok/spr_tk_bok.yy",},},
