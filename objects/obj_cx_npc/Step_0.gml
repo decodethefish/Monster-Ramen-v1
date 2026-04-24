@@ -4,19 +4,28 @@ var my = device_mouse_y_to_gui(0);
 
 switch (state) {
 
+    case CUSTOMER_STATE.SPAWN:
+    case CUSTOMER_STATE.QUEUE:
+    case CUSTOMER_STATE.WALK:
     case CUSTOMER_STATE.WAIT_FOOD:
 		var dist = point_distance(x, y, target_x, target_y);
 		if (dist > 2) {
-			var dir = point_distance(x, y, target_x, target_y)	;;
-			x += lengthdir_x(spr * dt, dir);
-			y += lengthdir_y(spr * dt, dir);
+			var dir = point_direction(x, y, target_x, target_y);
+			x += lengthdir_x(spd * dt, dir);
+			y += lengthdir_y(spd * dt, dir);
 		}
-	break;
+    break;
+	
+    case CUSTOMER_STATE.WAIT:
+    case CUSTOMER_STATE.INTERACT:
+    break;
+
+    case CUSTOMER_STATE.DONE:
+    break;
 
     case CUSTOMER_STATE.LEAVE:
         y += spd * dt;
     break;
-	
 }
 
 // Entrar a review

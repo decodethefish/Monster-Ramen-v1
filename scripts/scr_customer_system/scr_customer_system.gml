@@ -81,7 +81,12 @@ function CustomerSystem() constructor {
 	        c.target_x = queue_start_x + queue_index * queue_spacing;
 	        c.target_y = queue_start_y;
 
-	        if (c.state == CUSTOMER_STATE.SPAWN || c.state == CUSTOMER_STATE.QUEUE) c.state = CUSTOMER_STATE.WALK;
+	        if (c.state == CUSTOMER_STATE.SPAWN) {
+	            c.state = CUSTOMER_STATE.WALK;
+	        } else if (c.state == CUSTOMER_STATE.QUEUE) {
+	            var needs_reposition = (point_distance(c.x, c.y, c.target_x, c.target_y) > 2);
+	            if (needs_reposition) c.state = CUSTOMER_STATE.WALK;
+	        }
 	        queue_index++;
 	    }
 	}
@@ -127,17 +132,24 @@ function CustomerSystem() constructor {
 		if (instance_exists(active_customer))	 {
 			if (active_customer.state == CUSTOMER_STATE.LEAVE || active_customer.state == CUSTOMER_STATE.DONE) {
 				active_customer = noone;
+			} else {
+				// Garantiza que el cliente activo siempre tenga destino/estado de avance hacia estación.
+				active_customer.target_x = station_x;
+				active_customer.target_y = station_y;
+				if (active_customer.state == CUSTOMER_STATE.SPAWN || active_customer.state == CUSTOMER_STATE.QUEUE) {
+					active_customer.state = CUSTOMER_STATE.WALK;
+				}
 			}
 		}
-		
+	
 		if (!instance_exists(active_customer) || active_customer.state != CUSTOMER_STATE.INTERACT)
 			for (var i = 0; i < array_length(customers); i++) {
 				var c = customers[i]	;
 				if (!instance_exists(c)) continue;
-				
+			
 				if (c.state != CUSTOMER_STATE.QUEUE) continue;
 				if (c.locked) continue;
-				
+			
 				activate_customer(c);
 				break;
 		}
@@ -169,11 +181,6 @@ function CustomerSystem() constructor {
 			var at_target = (dist <= 2);
 		
 			switch (c.state) {
-				case CUSTOMER_STATE.SPAWN:
-				case CUSTOMER_STATE.QUEUE:
-					c.state = CUSTOMER_STATE.WALK;
-				break;
-
 				case CUSTOMER_STATE.WALK:
 					if (at_target) {
 						if (c.has_order) {
