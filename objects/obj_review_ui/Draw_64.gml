@@ -41,11 +41,13 @@ if (review_ready) {
 		
 		else if (star_value >= 0.5) {
 			// ⭐media
+			var ox = sprite_get_xoffset(spr_stars_review);
+			var oy = sprite_get_yoffset(spr_stars_review);
 			draw_sprite_part(
 				spr_stars_review, 1,
 				0, 0,
 				sw * 0.5, sh,
-				star_x, star_y
+				star_x - ox, star_y - oy
 			);
 		}
 		else {
