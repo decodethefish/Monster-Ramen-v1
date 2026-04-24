@@ -79,7 +79,7 @@ switch (state) {
 		
 		if (food_wait_timer <= 0) {
 			if (has_order) {
-				obj_game.customers.remove_ticket_for_customer(id);
+				obj_game.orders.remove_ticket_for_customer(id);
 				has_order = false;
 			}
 			
@@ -106,7 +106,7 @@ switch (state) {
     break;
 }
 
-// Review entregar bowl
+// Entrar a review
 if (state == CUSTOMER_STATE.WAIT_FOOD) {
 
 	var player = instance_find(obj_player, 0);

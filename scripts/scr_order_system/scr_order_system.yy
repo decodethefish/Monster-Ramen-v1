@@ -1,12 +1,12 @@
 {
   "$GMScript":"v1",
-  "%Name":"scr_ticket_system",
+  "%Name":"scr_order_system",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"scr_ticket_system",
+  "name":"scr_order_system",
   "parent":{
-    "name":"order_systems",
-    "path":"folders/scripts/order_systems.yy",
+    "name":"customer_system",
+    "path":"folders/scripts/customer_system.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

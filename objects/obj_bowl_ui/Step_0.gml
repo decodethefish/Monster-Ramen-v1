@@ -16,8 +16,7 @@ if (!is_undefined(station_id)) {
 	drag_locked = obj_game.bowls.is_drag_locked_for_station(station_id)	;
 }
 
-
-// drag & drop
+// -------- DRAG ---------
 if (drag_locked) {
 	if (dragging) {
 		dragging = false;
@@ -37,46 +36,44 @@ if (dragging) {
 	y = my;
 }
 	
-// drop en estaciones
+// -------- DROP EN ESTACIONES ---------
 if (dragging && mouse_check_button_released(mb_left)) {
 	
 	dragging = false;
 	global.bowl_drag_active = false;
 	
-	// ------- REVIEW ----------
-	
-	if (obj_game.current_modal_ui != noone) {
-	
-		var c = obj_game.customers.current_review_customer;
-		
-		if (instance_exists(c)) {
-			
-			var ui = obj_game.current_modal_ui
-			var cx = ui.customer_x;
-			var cy = ui.customer_y;
-			
-			var spr = spr_customer_npc;
-			var w = sprite_get_width(spr);
-			var h = sprite_get_height(spr);
-			
-	        var left = cx - w * 0.5;
-	        var right = cx + w * 0.5;
-	        var top = cy - h * 0.5;
-	        var bottom = cy + h * 0.5;
-			
-			var over_customer = 
-				mx >= left && mx <= right &&
-				my >= top && my <= bottom;
-			
-			if (over_customer) {
-				show_debug_message("SERVE BOWL:" + string(bowl_index));
-				
-				obj_game.customers.serve_bowl(bowl_index);
-				return;
-			
-			}
-		}
-	}
+// ------- REVIEW ----------
+if (obj_game.current_modal_ui != noone) {
+
+    var c = obj_game.review.get_current_customer();
+
+    if (instance_exists(c)) {
+
+        var ui = obj_game.current_modal_ui
+        var cx = ui.customer_x;
+        var cy = ui.customer_y;
+
+        var spr = spr_customer_npc;
+        var w = sprite_get_width(spr);
+        var h = sprite_get_height(spr);
+
+        var left = cx - w * 0.5;
+        var right = cx + w * 0.5;
+        var top = cy - h * 0.5;
+        var bottom = cy + h * 0.5;
+
+        var over_customer =
+            mx >= left && mx <= right &&
+            my >= top && my <= bottom;
+
+        if (over_customer) {
+            show_debug_message("SERVE BOWL:" + string(bowl_index));
+
+            obj_game.review.try_serve_bowl(bowl_index);
+            return;
+        }
+    }
+}
 	
 	// ------- Intentar servir BROTH ------
 	if (obj_game.current_station == STATION.BROTH) {

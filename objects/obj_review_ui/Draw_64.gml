@@ -1,14 +1,14 @@
-// Fondo
+// -------- FONDO ---------
 draw_set_colour(c_dkgray);
 draw_rectangle(0, 0, display_get_gui_width(), display_get_gui_height(), false);
 
-// Personaje
-var c = obj_game.customers.current_review_customer;
+// -------- PERSONAJE ---------
+var c = obj_game.review.get_current_customer();
 if (instance_exists(c)) {
 	draw_sprite(spr_customer_npc, c.portrait_index_id, customer_x, customer_y);	
 }
 
-// Bowls
+// -------- BOWLS ---------
 draw_sprite(spr_review_tray, 0, tray_x, tray_y);
 for (var i = 0; i < array_length(bowls); i++) {
 	var bw = bowls[i];
@@ -16,7 +16,7 @@ for (var i = 0; i < array_length(bowls); i++) {
 	obj_game.bowls.draw(bw.bowl_index, bw.x, bw.y);
 }
 
-// Estrellas
+// -------- ESTRELLAS ---------
 if (review_ready) {
 	
 	var star_count = 5;
@@ -45,7 +45,7 @@ if (review_ready) {
 				spr_stars_review, 1,
 				0, 0,
 				sw * 0.5, sh,
-				starx, star_y
+				star_x, star_y
 			);
 		}
 		else {

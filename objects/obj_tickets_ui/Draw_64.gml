@@ -1,47 +1,39 @@
 var center_x = display_get_gui_width() * 0.5;
-var arr = obj_game.tickets.tickets;
+var arr = obj_game.orders.get_tickets();
+var count = array_length(arr);
 
-// -------- cuerda --------
+// -------- CUERDA --------
 draw_set_colour(c_black);
 draw_line(0, y_anchor - 20, display_get_gui_width(), y_anchor - 20);
 
-// -------- tickets pequeños--------
-var count = array_length(arr);
+if (count <= 0) exit;
+
+// -------- MINI TICKETS--------
 var start_x = center_x - (count - 1) * spacing * 0.5;
-var draw_i = 0;
 
-for (var i = 0; i < array_length(arr); i++) {
+for (var i = 0; i < count; i++) {
+    var t = arr[i];
+    if (!is_struct(t)) continue;
 
-	var t = arr[i];
-	if (t == noone) continue;
+    var tx = start_x + i * spacing;
+    var ty = y_anchor;
 
-	var tx = start_x + draw_i * spacing;
-	var ty = y_anchor;
+    t.draw_x = tx;
+    t.draw_y = ty;
 
-	// guardar posición REAL para hover
-	t.draw_x = tx;
-	t.draw_y = ty;
-
-	draw_sprite(spr_tk_stations, draw_i, tx, ty);
-
-	draw_i++;
+    draw_sprite(spr_tk_stations, i, tx, ty);
 }
 
-// -------- ticket grande (hover) --------
-if (hover_index != -1) {
+// -------- TICKETS ora sí --------
+if (hover_index != -1 && hover_index < count) {
+    var ticket = arr[hover_index];
+    if (is_struct(ticket)) {
+        var tx_big = ticket.draw_x;
+        var th = sprite_get_height(spr_tk_stations) * 0.5;
+        var tbh = sprite_get_height(spr_tk_base) * 0.5;
+        var base_y = ticket.draw_y + th + tbh + 10;
+        var ty_big = base_y + preview_offset;
 
-	var t = arr[hover_index];
-
-	if (t != noone) {
-
-		var tx = t.draw_x;
-
-		var th = sprite_get_height(spr_tk_stations) * 0.5;
-		var tbh = sprite_get_height(spr_tk_base) * 0.5;
-
-		var base_y = t.draw_y + th + tbh + 10;
-		var ty = base_y + preview_offset;
-
-		obj_game.tickets.draw(t, tx, ty);
-	}
+        draw_ticket_details(ticket, tx_big, ty_big);
+    }
 }

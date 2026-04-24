@@ -2,12 +2,11 @@ display_set_gui_size(640, 360);
 gpu_set_texfilter(false);
 camera_set_view_pos(view_camera[0], 0, 0);
 randomize();
+
 game_mode = GAME_MODE.WORLD;
 current_station = undefined;
 current_cooking_ui = noone;
 current_modal_ui = noone;
-
-// --------- TIEMPO --------- 
 time_scale_global = 1;
 
 // --------- FUNCIONES ---------
@@ -24,21 +23,20 @@ function request_open_station(_station_id) {
 }
 
 function close_station() {
-
     if (instance_exists(current_cooking_ui)) {
         instance_destroy(current_cooking_ui);
         current_cooking_ui = noone;
     }
 	
-	current_ticket = noone;
+	orders.clear_preview();
 	
-	customers.cancel_interaction();
+	customers.cancel_interacton();
 	
 	with (obj_tickets_ui) instance_destroy();
 	
 	current_customer = noone;
-    current_station = undefined;
-    game_mode = GAME_MODE.WORLD;
+	current_station = undefined;
+	game_mode = GAME_MODE.WORLD;
 }
 
 function get_cooking_state() {
@@ -97,6 +95,7 @@ function close_modal_ui() {
 		instance_destroy(current_modal_ui);
 		current_modal_ui = noone;
 	}
+	if (!is_undefined(review)) review.close_review();
 }
 
 
@@ -120,10 +119,8 @@ veggies.init();
 
 // ------------ SISTEMAS DE JUEGO -------------
 customers = new CustomerSystem();
-order_system = new QualitySystem();
-
-tickets = new TicketSystem();
-current_ticket = noone;
+orders = new OrderSystem();
+review = new ReviewSystem();
 
 customers.init();
 current_customer = noone;

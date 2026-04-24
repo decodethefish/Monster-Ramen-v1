@@ -1,12 +1,12 @@
 {
   "$GMScript":"v1",
-  "%Name":"scr_quality_system",
+  "%Name":"scr_review_system",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"scr_quality_system",
+  "name":"scr_review_system",
   "parent":{
-    "name":"order_systems",
-    "path":"folders/scripts/order_systems.yy",
+    "name":"customer_system",
+    "path":"folders/scripts/customer_system.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",
