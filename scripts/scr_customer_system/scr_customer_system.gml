@@ -142,7 +142,7 @@ function CustomerSystem() constructor {
 			}
 		}
 	
-		if (!instance_exists(active_customer) || active_customer.state != CUSTOMER_STATE.INTERACT)
+		if (!instance_exists(active_customer)) {
 			for (var i = 0; i < array_length(customers); i++) {
 				var c = customers[i]	;
 				if (!instance_exists(c)) continue;
@@ -152,6 +152,7 @@ function CustomerSystem() constructor {
 			
 				activate_customer(c);
 				break;
+			}
 		}
 	}
 	
