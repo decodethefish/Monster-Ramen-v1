@@ -47,9 +47,12 @@ function CustomerSystem() constructor {
         refresh_station_anchor();
         update_spawning(_dt);
         cleanup();
-        update_queue_targets();
+		
         update_active_customer();
+        update_queue_targets();  
+		
         update_foodwait_position();
+		update_state_transitions();
     }
 	
     function should_update(_current_station) {
@@ -126,16 +129,16 @@ function CustomerSystem() constructor {
 			}
 		}
 		
-		if (active_customer == noone) {
+		if (!instance_exists(active_customer) || active_customer.state != CUSTOMER_STATE.INTERACT)
 			for (var i = 0; i < array_length(customers); i++) {
 				var c = customers[i]	;
 				if (!instance_exists(c)) continue;
-				if (c.state == CUSTOMER_STATE.LEAVE || c.state == CUSTOMER_STATE.DONE || c.state == CUSTOMER_STATE.WAIT_FOOD) continue;
+				
+				if (c.state != CUSTOMER_STATE.QUEUE) continue;
 				if (c.locked) continue;
 				
 				activate_customer(c);
 				break;
-			}
 		}
 	}
 	
@@ -143,10 +146,10 @@ function CustomerSystem() constructor {
 		if (_c == noone || !instance_exists(_c)) return;
 		
 		active_customer = _c;
-		_c.wait_timer = customer_wait_time;
+
 		_c.target_x = station_x;
 		_c.target_y = station_y;
-		_c.state = CUSTOMER_STATE.WALK;
+		if (_c.state == CUSTOMER_STATE.QUEUE) _c.state = CUSTOMER_STATE.WALK;
 	}
 		
 	function get_active_customer() {
@@ -155,6 +158,34 @@ function CustomerSystem() constructor {
 		if (active_customer.locked) return noone;
 		return active_customer;
 	}
+	
+	function update_state_transitions() {
+		for (var i = 0; i < array_length(customers); i++) {
+			var c = customers[i];
+			if (!instance_exists(c)) continue;
+			
+			var dist = point_distance(c.x, c.y, c.target_x, c.target_y);
+			var at_target = (dist <= 2);
+			
+			switch (c.state) {
+				case CUSTOMER_STATE.WALK:
+					if (at_target) {
+						if (c.has_order) {
+							c.state = CUSTOMER_STATE.WAIT_FOOD;
+							c.food_wait_timer = 180;
+						} else {
+							c.state = CUSTOMER_STATE.WAIT;
+						}
+					}
+				break;
+				
+				case CUSTOMER_STATE.WAIT:
+					// aqui decidimos si sigue esperando o no
+				break;
+			}
+		}
+	}
+
 	
 	// --------- INTERACTIONS ----------
 	function get_current_interaction() {

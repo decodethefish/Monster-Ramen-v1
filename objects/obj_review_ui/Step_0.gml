@@ -1,4 +1,4 @@
-var c = obj_game.review.current_review_customer;
+var c = obj_game.review.current_customer;
 
 if (!instance_exists(c))  exit;
 

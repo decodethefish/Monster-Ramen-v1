@@ -48,7 +48,7 @@ function get_cooking_state() {
 	
 		var p = broth[i];
 		
-		if (p.broth_id = BROTH_ID.NONE) continue;
+		if (p.broth_id == BROTH_ID.NONE) continue;
 		
 		var data = obj_game.broth.broth_data[p.broth_id];
 		

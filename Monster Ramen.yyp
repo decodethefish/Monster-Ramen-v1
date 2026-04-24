@@ -23,8 +23,8 @@
     {"$GMFolder":"","%Name":"rooms","folderPath":"folders/rooms.yy","name":"rooms","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"scripts","folderPath":"folders/scripts.yy","name":"scripts","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"cook_stations","folderPath":"folders/scripts/cook_stations.yy","name":"cook_stations","resourceType":"GMFolder","resourceVersion":"2.0",},
-    {"$GMFolder":"","%Name":"master","folderPath":"folders/scripts/master.yy","name":"master","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"customer_system","folderPath":"folders/scripts/customer_system.yy","name":"customer_system","resourceType":"GMFolder","resourceVersion":"2.0",},
+    {"$GMFolder":"","%Name":"master","folderPath":"folders/scripts/master.yy","name":"master","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"sprites","folderPath":"folders/sprites.yy","name":"sprites","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"bowls","folderPath":"folders/sprites/bowls.yy","name":"bowls","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"broth","folderPath":"folders/sprites/broth.yy","name":"broth","resourceType":"GMFolder","resourceVersion":"2.0",},
@@ -47,6 +47,7 @@
   },
   "name":"Monster Ramen",
   "resources":[
+    {"id":{"name":"fnt_debug","path":"fonts/fnt_debug/fnt_debug.yy",},},
     {"id":{"name":"fnt_default","path":"fonts/fnt_default/fnt_default.yy",},},
     {"id":{"name":"obj_bowl_ui","path":"objects/obj_bowl_ui/obj_bowl_ui.yy",},},
     {"id":{"name":"obj_burning_eye","path":"objects/obj_burning_eye/obj_burning_eye.yy",},},

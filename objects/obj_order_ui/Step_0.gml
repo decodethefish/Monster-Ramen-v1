@@ -28,6 +28,10 @@ if (!order_generated) {
 
 // cerrar UI y terminar interacción al siguiente input
 if (keyboard_check_pressed(vk_space)) {
+	if (!instance_exists(interaction.customer)) {
+		obj_game.close_station();
+		exit;
+	}
 	obj_game.customers.finish_interaction();
 	obj_game.close_station();
 }

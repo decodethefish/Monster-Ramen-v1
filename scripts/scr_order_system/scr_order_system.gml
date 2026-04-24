@@ -70,6 +70,10 @@ function OrderSystem() constructor {
 		return active_tickets;	
 	}
 	
+    function clear_preview() {
+        preview_ticket = noone;
+    }
+	
 	function begin_preview(_order, _customer) {
 		preview_ticket = create_ticket(_order, _customer);
 	}
@@ -85,6 +89,8 @@ function OrderSystem() constructor {
 
         _customer.order = _order;
         _customer.has_order = true;
+		_customer.review_done = false;
+		_customer.review_starts = 0;
 
         add_ticket(_order, _customer);
         clear_preview();

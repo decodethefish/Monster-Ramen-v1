@@ -36,12 +36,6 @@ switch (state) {
 				food_wait_timer = 180;
 				
 			}
-			else if  (obj_game.customers.active_customer == id) {
-					state = CUSTOMER_STATE.WAIT;
-			}
-			else {
-				state = CUSTOMER_STATE.QUEUE;	
-			}
 		}
 
     break;
@@ -134,3 +128,5 @@ if (state == CUSTOMER_STATE.WAIT_FOOD) {
 		}
 	}
 }
+
+show_debug_message(string(state));
