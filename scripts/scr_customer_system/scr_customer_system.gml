@@ -52,7 +52,7 @@ function CustomerSystem() constructor {
         update_queue_targets();  
 		
         update_foodwait_position();
-		update_state_transitions();
+		update_state_transitions(_dt);
     }
 	
     function should_update(_current_station) {
@@ -67,23 +67,24 @@ function CustomerSystem() constructor {
         spawn_timer = spawn_interval;
     }
 		
-    function update_queue_targets() {
-        var queue_index = 0;
+	function update_queue_targets() {
+	    var queue_index = 0;
 
-        for (var i = 0; i < array_length(customers); i++) {
-            var c = customers[i];
-            if (!instance_exists(c)) continue;
-            if (c == active_customer) continue;
-            if (c.state == CUSTOMER_STATE.WALK && c.has_order) continue;
-            if (c.state == CUSTOMER_STATE.LEAVE || c.state == CUSTOMER_STATE.DONE || c.state == CUSTOMER_STATE.WAIT_FOOD) continue;
+	    for (var i = 0; i < array_length(customers); i++) {
+	        var c = customers[i];
+	        if (!instance_exists(c)) continue;
+	        if (c == active_customer) continue;
+	        if (c.has_order) continue;
+	        if (c.state == CUSTOMER_STATE.LEAVE || c.state == CUSTOMER_STATE.DONE) continue;
+	        if (c.state == CUSTOMER_STATE.WAIT || c.state == CUSTOMER_STATE.INTERACT || c.state == CUSTOMER_STATE.WAIT_FOOD) continue;
 
-            c.target_x = queue_start_x + queue_index * queue_spacing;
-            c.target_y = queue_start_y;
+	        c.target_x = queue_start_x + queue_index * queue_spacing;
+	        c.target_y = queue_start_y;
 
-            if (c.state == CUSTOMER_STATE.SPAWN) c.state = CUSTOMER_STATE.WALK;
-            queue_index++;
-        }
-    }	
+	        if (c.state == CUSTOMER_STATE.SPAWN || c.state == CUSTOMER_STATE.QUEUE) c.state = CUSTOMER_STATE.WALK;
+	        queue_index++;
+	    }
+	}
 	
 	function update_foodwait_position() {
 		var index = 0;
@@ -158,29 +159,61 @@ function CustomerSystem() constructor {
 		if (active_customer.locked) return noone;
 		return active_customer;
 	}
-	
-	function update_state_transitions() {
+		
+	function update_state_transitions(_dt) {
 		for (var i = 0; i < array_length(customers); i++) {
 			var c = customers[i];
 			if (!instance_exists(c)) continue;
-			
+		
 			var dist = point_distance(c.x, c.y, c.target_x, c.target_y);
 			var at_target = (dist <= 2);
-			
+		
 			switch (c.state) {
+				case CUSTOMER_STATE.SPAWN:
+				case CUSTOMER_STATE.QUEUE:
+					c.state = CUSTOMER_STATE.WALK;
+				break;
+
 				case CUSTOMER_STATE.WALK:
 					if (at_target) {
 						if (c.has_order) {
 							c.state = CUSTOMER_STATE.WAIT_FOOD;
 							c.food_wait_timer = 180;
-						} else {
+						} else if (c == active_customer) {
 							c.state = CUSTOMER_STATE.WAIT;
+						} else {
+							c.state = CUSTOMER_STATE.QUEUE;
 						}
 					}
 				break;
-				
+			
 				case CUSTOMER_STATE.WAIT:
-					// aqui decidimos si sigue esperando o no
+					if (c != active_customer && !c.locked) {
+						c.state = CUSTOMER_STATE.QUEUE;
+						break;
+					}
+
+					if (!c.locked) {
+						c.wait_timer -= _dt;
+						if (c.wait_timer <= 0) c.state = CUSTOMER_STATE.LEAVE;
+					}
+				break;
+
+				case CUSTOMER_STATE.WAIT_FOOD:
+					c.food_wait_timer -= _dt;
+					if (c.food_wait_timer <= 0) {
+						if (c.has_order) {
+							obj_game.orders.remove_ticket_for_customer(c);
+							c.has_order = false;
+						}
+
+						c.locked = false;
+						c.state = CUSTOMER_STATE.LEAVE;
+					}
+				break;
+
+				case CUSTOMER_STATE.DONE:
+					c.state = CUSTOMER_STATE.LEAVE;
 				break;
 			}
 		}
