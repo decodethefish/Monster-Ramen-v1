@@ -10,6 +10,7 @@ function CustomerSystem() constructor {
         max_customers = 2;
 
         customer_wait_time = 30;
+		customer_food_wait_time = 180;
 
         station_x = 0;
         station_y = 0;
@@ -172,7 +173,41 @@ function CustomerSystem() constructor {
 		if (active_customer.locked) return noone;
 		return active_customer;
 	}
-		
+	
+	function get_ui_timers() {
+		var timers = [];
+
+		for (var i = 0; i < array_length(customers); i++) {
+			var c = customers[i];
+			if (!instance_exists(c)) continue;
+
+			var max_time = 0;
+			var time_left = 0;
+			switch (c.state) {
+				case CUSTOMER_STATE.WAIT:
+					max_time = customer_wait_time;
+					time_left = max(0, c.wait_timer);
+				break;
+
+				case CUSTOMER_STATE.WAIT_FOOD:
+					max_time = customer_food_wait_time;
+					time_left = max(0, c.food_wait_timer);
+				break;
+			}
+
+			if (max_time <= 0) continue;
+
+			array_push(timers, {
+				customer: c,
+				time_left: time_left,
+				time_max: max_time,
+				ratio: clamp(time_left / max_time, 0, 1),
+			});
+		}
+
+		return timers;
+	}
+	
 	function update_state_transitions(_dt) {
 		for (var i = 0; i < array_length(customers); i++) {
 			var c = customers[i];
@@ -186,7 +221,7 @@ function CustomerSystem() constructor {
 					if (at_target) {
 						if (c.has_order) {
 							c.state = CUSTOMER_STATE.WAIT_FOOD;
-							c.food_wait_timer = 180;
+							c.food_wait_timer = customer_food_wait_time;
 						} else if (c == active_customer) {
 							c.state = CUSTOMER_STATE.WAIT;
 						} else {

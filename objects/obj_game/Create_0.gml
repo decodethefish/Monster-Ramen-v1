@@ -125,4 +125,8 @@ review = new ReviewSystem();
 customers.init();
 current_customer = noone;
 
+if (!instance_exists(obj_ui_customer_timer)) {
+	instance_create_layer(0, 0, "UI", obj_ui_customer_timer);
+}
+
 global.order_dialog_db = scr_ord_dialog_db();
