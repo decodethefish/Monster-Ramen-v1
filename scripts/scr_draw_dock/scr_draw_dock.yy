@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_draw_dock",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_draw_dock",
+  "parent":{
+    "name":"UI",
+    "path":"folders/scripts/UI.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

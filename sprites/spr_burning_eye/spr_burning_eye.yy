@@ -29,8 +29,8 @@
   "nineSlice":null,
   "origin":4,
   "parent":{
-    "name":"ui",
-    "path":"folders/sprites/ui.yy",
+    "name":"dock",
+    "path":"folders/sprites/ui/dock.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

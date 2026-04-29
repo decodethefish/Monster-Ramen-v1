@@ -141,15 +141,5 @@ for (var i = 0; i < array_length(bowls); i++) {
 }
 
 // Ojo
-var eye = obj_burning_eye;
-draw_sprite_ext(
-	spr_burning_eye,
-	obj_game.get_cooking_state(),
-	eye.x,
-	eye.y,
-	eye.eye_scale,
-	eye.eye_scale,
-	0,
-	c_white,
-	1
-);
+dock_y = sprite_get_height(spr_dock_base) * 0.5;
+draw_dock_for_station(display_get_gui_width() * 0.5, dock_y);

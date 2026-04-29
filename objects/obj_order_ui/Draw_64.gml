@@ -29,8 +29,6 @@ if (is_array(lines) && i < array_length(lines)) {
 
 // --------- TICKETS ---------
 var t = obj_game.orders.get_preview_ticket();
-if (is_struct(t) && instance_exists(obj_tickets_ui)) {
-    with (obj_tickets_ui) {
-        draw_ticket_details(t, other.ticket_bar_x, other.ticket_bar_y);
-    }
+if (is_struct(t)) {
+	draw_ticket_details(t, ticket_bar_x, ticket_bar_y);
 }
