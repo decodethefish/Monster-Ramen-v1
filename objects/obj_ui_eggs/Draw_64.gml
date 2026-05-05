@@ -103,5 +103,6 @@ if (station.station_state == EGG_STATION_STATE.CATCHING) {
 }
 draw_sprite(spr_egg_clear_button, 0, cl_button_x, cl_button_y);
 
-// Ojo
-draw_sprite(spr_burning_eye, obj_game.get_cooking_state(), obj_burning_eye.x, obj_burning_eye.y);
+// DOCK
+dock_y = sprite_get_height(spr_dock_base) * 0.5;
+draw_dock_for_station(display_get_gui_width() * 0.5, dock_y);

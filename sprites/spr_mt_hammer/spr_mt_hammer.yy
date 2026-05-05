@@ -23,7 +23,7 @@
   ],
   "name":"spr_mt_hammer",
   "nineSlice":null,
-  "origin":4,
+  "origin":9,
   "parent":{
     "name":"meat",
     "path":"folders/sprites/meat.yy",

@@ -47,8 +47,8 @@ function MeatSystem() constructor {
 		    board_y : 0,
 			board_w : 0,
 		    board_h : 0,
-			selector_spacing: 20,
-			selector_y: 44,
+			selector_spacing: 32,
+			selector_y: display_get_gui_height() - sprite_get_height(spr_mt_meats) * 0.5 - 6,
 		
 			has_meat: false,
 			type: MEAT_ID.NONE,
@@ -150,7 +150,7 @@ function MeatSystem() constructor {
 		s.board_h = h;
 		
 		s.board_x = _gui_w * 0.5;
-		s.board_y = _gui_h - h * 0.5 - 5;
+		s.board_y = _gui_h  * 0.5 + 16
 
 	}
 	

@@ -157,8 +157,9 @@ if (station.mode == MEAT_MODE.TENDER) {
 	// botón cook
 	draw_sprite(spr_mt_cook_button, 0, station.cook_b_x, station.cook_b_y);
 	
-	// Ojo
-	draw_sprite(spr_burning_eye, obj_game.get_cooking_state(), obj_burning_eye.x, obj_burning_eye.y);
+	// DOCK
+	dock_y = sprite_get_height(spr_dock_base) * 0.5;
+	draw_dock_for_station(display_get_gui_width() * 0.5, dock_y);
 }
 
 if (station.mode == MEAT_MODE.COOK) {
@@ -300,4 +301,7 @@ if (station.mode == MEAT_MODE.COOK) {
 		}
 	}
 	
+	// DOCK
+	dock_y = sprite_get_height(spr_dock_base) * 0.5;
+	draw_dock_for_station(display_get_gui_width() * 0.5, dock_y);
 }

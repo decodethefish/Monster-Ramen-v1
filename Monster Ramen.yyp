@@ -51,8 +51,8 @@
   "resources":[
     {"id":{"name":"fnt_debug","path":"fonts/fnt_debug/fnt_debug.yy",},},
     {"id":{"name":"fnt_default","path":"fonts/fnt_default/fnt_default.yy",},},
+    {"id":{"name":"fnt_titles","path":"fonts/fnt_titles/fnt_titles.yy",},},
     {"id":{"name":"obj_bowl_ui","path":"objects/obj_bowl_ui/obj_bowl_ui.yy",},},
-    {"id":{"name":"obj_burning_eye","path":"objects/obj_burning_eye/obj_burning_eye.yy",},},
     {"id":{"name":"obj_cx_npc","path":"objects/obj_cx_npc/obj_cx_npc.yy",},},
     {"id":{"name":"obj_game","path":"objects/obj_game/obj_game.yy",},},
     {"id":{"name":"obj_order_ui","path":"objects/obj_order_ui/obj_order_ui.yy",},},
@@ -153,6 +153,7 @@
     {"id":{"name":"spr_nd_choose_ritual","path":"sprites/spr_nd_choose_ritual/spr_nd_choose_ritual.yy",},},
     {"id":{"name":"spr_nd_cut","path":"sprites/spr_nd_cut/spr_nd_cut.yy",},},
     {"id":{"name":"spr_nd_dough","path":"sprites/spr_nd_dough/spr_nd_dough.yy",},},
+    {"id":{"name":"spr_nd_hover_dough","path":"sprites/spr_nd_hover_dough/spr_nd_hover_dough.yy",},},
     {"id":{"name":"spr_nd_ritual_circle","path":"sprites/spr_nd_ritual_circle/spr_nd_ritual_circle.yy",},},
     {"id":{"name":"spr_nd_ritual_runes","path":"sprites/spr_nd_ritual_runes/spr_nd_ritual_runes.yy",},},
     {"id":{"name":"spr_nd_ritual_symbols","path":"sprites/spr_nd_ritual_symbols/spr_nd_ritual_symbols.yy",},},

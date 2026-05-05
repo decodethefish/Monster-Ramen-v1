@@ -37,9 +37,9 @@ function draw_dock_for_station(_dock_x, _dock_y) {
 	// posiciones
 	var eye_offset_x = -53;
 	var eye_offset_y = -1;
-	var tickets_offset_x = 0;
-	var tickets_offset_y = -210;
-	var tickets_spacing = 16;
+	var tickets_offset_x = -10;
+	var tickets_offset_y = -1;
+	var tickets_spacing = 36;
 	var preview_gap = 16;
 	
 	static dock_eye_scale = 1;
@@ -105,6 +105,55 @@ function draw_dock_for_station(_dock_x, _dock_y) {
 			my >= ty - h * 0.5 && my <= ty + h * 0.5;
 
 		if (over) hover_index = i;
+		
+		// -------- barra de tiempo --------
+		var c = t.customer;
+		if (instance_exists(c)) {
+
+			var t_ratio = 1;
+
+			switch (c.state) {
+				case CUSTOMER_STATE.WAIT_FOOD:
+					t_ratio = c.food_wait_timer / obj_game.customers.customer_food_wait_time;
+				break;
+		
+				case CUSTOMER_STATE.WAIT:
+					t_ratio = c.wait_timer / obj_game.customers.customer_wait_time;
+				break;
+		
+				default:
+					t_ratio = 1;
+				break;
+			}
+
+			t_ratio = clamp(t_ratio, 0, 1);
+
+			var bar_w = sprite_get_width(spr_tk_stations);
+			var bar_h = 2;
+
+			var bar_x1 = tx - bar_w * 0.5;
+			var bar_y  = ty - sprite_get_height(spr_tk_stations) * 0.5 - 4;
+
+			// fondo gris oscuro
+			draw_set_colour(make_colour_rgb(40, 40, 40));
+			draw_rectangle(bar_x1, bar_y, bar_x1 + bar_w, bar_y + bar_h, false);
+
+			// ancho dinámico
+			var fill_w = bar_w * t_ratio;
+
+			// derecha fija → izquierda variable
+			var fill_x2 = bar_x1 + bar_w;
+			var fill_x1 = fill_x2 - fill_w;
+
+			// color por porcentaje
+			var col;
+			if (t_ratio > 0.5) col = c_lime;
+			else if (t_ratio > 0.15) col = c_yellow;
+			else col = c_red;
+
+			draw_set_colour(col);
+			draw_rectangle(fill_x1, bar_y, fill_x2, bar_y + bar_h, false);
+		}
 	}
 	
 	if (hover_index != preview_index) {

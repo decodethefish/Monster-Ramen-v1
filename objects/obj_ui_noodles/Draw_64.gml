@@ -1,7 +1,7 @@
  if (obj_game.game_mode != GAME_MODE.COOKING) exit;
 
 // Fondo
-draw_set_colour(c_white);
+draw_set_colour(c_dkgray);
 draw_rectangle(0, 0, display_get_gui_width(), display_get_gui_height(), false);
 
 // Tabla
@@ -121,7 +121,7 @@ if (show_ritual_visuals) {
 	draw_set_alpha(1);
 }
 
-// Masa
+// Sheet de masa
 if (station.has_sheet) {
 	
 	var spr = spr_nd_sheet; 
@@ -193,11 +193,15 @@ if (station.has_sheet) {
 	}
 }
 	
-// Masa arrastable
+// Masa
 for (var i = 0; i < array_length(dough); i++) {
 	var d = dough[i];
-	draw_sprite(d.sprite, 0, d.x, d.y);
-}	
+	draw_sprite(d.sprite, 0, d.x_start, d.y_start);
+	
+	if (d.dragging) {
+		draw_sprite(spr_nd_hover_dough, 0, d.x, d.y);
+	}
+}
 
 // Bowls
 for (var i = 0; i < array_length(bowls); i++) {
@@ -247,8 +251,10 @@ if (in_select) {
 		false
 		);
 	
-	draw_set_color(c_white);
-	draw_text(gw * 0.5 - 70, win_y + 10, "Choose Noodle Type");
+	draw_set_color(#B11D49);
+	draw_set_font(fnt_titles);
+	draw_set_halign(fa_center);
+	draw_text(gw * 0.5, win_y + 10, "Elige tu tipo de FIDEOS!");
 	
 	// symbols
 	var symbols = ritual_symbols;
@@ -270,5 +276,6 @@ if (in_select) {
 	}
 }
 
-// Ojo
-draw_sprite(spr_burning_eye, obj_game.get_cooking_state(), obj_burning_eye.x, obj_burning_eye.y);
+// DOCK
+dock_y = sprite_get_height(spr_dock_base) * 0.5;
+draw_dock_for_station(display_get_gui_width() * 0.5, dock_y);

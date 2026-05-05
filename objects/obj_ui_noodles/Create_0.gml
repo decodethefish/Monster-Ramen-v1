@@ -59,7 +59,6 @@ function update_ritual_select(_mx, _my) {
 		obj_game.noodles.close_ritual_ui();
 	}
 }
-	
 
 // Guías
 guide_active = false;
@@ -69,9 +68,9 @@ guide_x = 0;
 dough = [];
 var d = {
 	x_start: 77,
-	y_start: 45,
+	y_start: 68,
 	x: 77,
-	y: 45,
+	y: 68,
 	sprite: spr_nd_dough,
 	dragging: false
 };

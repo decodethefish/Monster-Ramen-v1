@@ -28,7 +28,7 @@ function VeggiesSystem() constructor {
 			lane_x: 0,
 			lane_w: 0,
 			lane_h: 0,
-			lane_spacing: 52,
+			lane_spacing: 48,
 			item_spawn_x: 0,
 			item_spawn_y: 0,
 			item_spawn_y_offset: -6,
@@ -48,7 +48,8 @@ function VeggiesSystem() constructor {
 			trash_y : 0,
 			trash_w : sprite_get_width(spr_vg_trash),
 			trash_h : sprite_get_height(spr_vg_trash),
-
+			
+			guide_frame : 0,
 			guide_x : 0,
 			guide_y : 0,
 			guide_w : sprite_get_width(spr_vg_guide),
@@ -198,7 +199,7 @@ function VeggiesSystem() constructor {
 
 		var board_top = s.board_y - s.board_h * 0.5;
 		
-		var gem_offset = 32;
+		var gem_offset = 38;
 		s.gem_lane_y = board_top - gem_offset;
 		
 		s.veg_lane_y = s.gem_lane_y - s.lane_spacing;
@@ -220,7 +221,7 @@ function VeggiesSystem() constructor {
 		var s = veggie_station;
 		var half = veggie_station.guide_w * 0.5;
 		var margin_x = 24;
-		var margin_y = 24 + veggie_station.guide_w * 2;
+		var margin_y =  veggie_station.guide_w * 2;
 		
 		s.guide_x = 0 + half + margin_x;
 		s.guide_y = _gui_h - half - margin_y;

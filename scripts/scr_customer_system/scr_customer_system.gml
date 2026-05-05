@@ -10,7 +10,7 @@ function CustomerSystem() constructor {
         max_customers = 2;
 
         customer_wait_time = 30;
-		customer_food_wait_time = 180;
+		customer_food_wait_time = 160;
 
         station_x = 0;
         station_y = 0;

@@ -8,7 +8,7 @@ function EggSystem() constructor {
 	active_chickens = 5;
 	chickens = [];
 	chicken_sprites = [];
-	chicken_y = 80;
+	chicken_y = 90;
 	
 	platform_width = sprite_get_width(spr_egg_platform);
 	platform_margin = 10;
@@ -36,7 +36,7 @@ function EggSystem() constructor {
         var start_x = center_x - group_width * 0.5;
 		
 		basket_x = center_x;
-		basket_y = display_get_gui_height() - 60;
+		basket_y = display_get_gui_height() - 40;
 
         for (var i = 0; i < max_chickens; i++) {
 

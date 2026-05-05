@@ -31,6 +31,26 @@ function in_guide(_mx, _my, _x, _y, _w, _h) {
 		_my < _y + _h*0.5
 	);
 }
+	
+// CLICK GUIDE
+block_exit = (s.open_guide);
+if (s.open_guide) {
+	s.guide_frame += 0.02;
+    if (keyboard_check_pressed(vk_escape)) {
+        s.open_guide = false;
+    }
+    exit;
+}
+if (mouse_check_button_pressed(mb_left)) {
+	
+	if (in_guide(mx, my, gx, gy, gw, gh)) {
+		
+		s.open_guide = true;
+		
+		exit;
+	}
+}
+
 
 // HITBOX
 function hit_sprite(_mx, _my, _x, _y, _spr) {
@@ -221,16 +241,5 @@ if (mouse_check_button_released(mb_left)) {
 		}
 
 		s.drag_item = noone;
-	}
-}
-
-// Click guía
-if (mouse_check_button_pressed(mb_left)) {
-	
-	if (in_guide(mx, my, gx, gy, gw, gh)) {
-		
-		obj_game.veggies.open_guide = true;
-		
-		exit;
 	}
 }

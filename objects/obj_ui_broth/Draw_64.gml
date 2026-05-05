@@ -80,3 +80,7 @@ for (var i = 0; i < array_length(bowls); i++) {
 	obj_game.bowls.draw(bw.bowl_index, bw.x, bw.y);
 			
 }
+
+// DOCK
+dock_y = sprite_get_height(spr_dock_base) * 0.5;
+draw_dock_for_station(display_get_gui_width() * 0.5, dock_y);

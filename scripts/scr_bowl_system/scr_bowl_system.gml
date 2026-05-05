@@ -108,6 +108,7 @@ function BowlSystem(_count) constructor {
 	
 		if (_bowl_index < 0) return;
 		if (_bowl_index >= array_length(bowls)) return;
+		if (_item.veg_type == -1) return;	
 		
 		var bowl = bowls[_bowl_index];
 		
@@ -183,13 +184,15 @@ function BowlSystem(_count) constructor {
 
 		// veggies
 		if (_data.has_veggie) {
-	
+
+			if (_data.veg_type == -1) return;
+
 			var spr = obj_game.veggies.get_bowl_sprite(_data.veg_type);
-	
+
 			var frame = (_data.veg_result != -1)
 				? _data.veg_result + 1
 				: 0;
-	
+
 			draw_sprite(spr, frame, _x, _y);
 		}
 		
