@@ -130,6 +130,7 @@ if (mouse_check_button_pressed(mb_left)) {
 			break;
 		}
 	}
+	
 	if (dragging_any) exit;
 	
 	var sheet_width = sprite_get_width(spr_nd_sheet);
@@ -152,7 +153,7 @@ if (mouse_check_button_pressed(mb_left)) {
 
 		
 		// limitar rango valido	
-		var min_distance = 0.2;
+		var min_distance = 0.1;
 		var too_close = false;
 		
 		var cuts = station.cuts;
